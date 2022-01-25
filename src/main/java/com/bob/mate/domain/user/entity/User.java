@@ -1,8 +1,11 @@
 package com.bob.mate.domain.user.entity;
 
+import com.bob.mate.global.audit.AuditListener;
+import com.bob.mate.global.audit.Auditable;
+import com.bob.mate.global.audit.TimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,7 +16,8 @@ import static lombok.AccessLevel.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class User {
+@EntityListeners(AuditListener.class)
+public class User implements Auditable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -28,10 +32,25 @@ public class User {
     @Enumerated(STRING)
     private Role role;
 
+    @Embedded
+    private TimeEntity timeEntity;
 
-    public User(String username, String password, Role role) {
+
+    @Builder
+    public User(String username, String password, Role role, TimeEntity timeEntity) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.timeEntity = timeEntity;
     }
+
+
+    /**
+     * AuditListener
+     */
+    public void setTimeEntity(TimeEntity timeEntity) {
+        this.timeEntity = timeEntity;
+    }
+
 }
+
