@@ -1,4 +1,4 @@
-package com.bob.mate.domain.chat.config;
+package com.bob.mate.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -24,16 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .authorizeRequests()
 //                .antMatchers("/", "/account/register", "/css/**", "/api/**").permitAll()
-                .anyRequest().permitAll();
-//                .and()
-//                .formLogin()
-//                .loginPage("/user/login")
-//                .loginProcessingUrl("/user/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/user/login")
+                .loginProcessingUrl("/user/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
 //        http
 //                .oauth2Login()
 //                .loginPage("/user/login")

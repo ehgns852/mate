@@ -1,4 +1,4 @@
-package com.bob.mate.chat.controller;
+package com.bob.mate.domain.chat.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

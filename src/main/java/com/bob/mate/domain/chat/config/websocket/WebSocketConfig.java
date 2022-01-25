@@ -1,6 +1,6 @@
-package com.bob.mate.chat.config.websocket;
+package com.bob.mate.domain.chat.config.websocket;
 
-import com.bob.mate.chat.handler.ChatHandler;
+import com.bob.mate.domain.chat.handler.ChatHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
