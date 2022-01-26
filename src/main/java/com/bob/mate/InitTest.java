@@ -5,6 +5,7 @@ import com.bob.mate.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -19,12 +20,19 @@ public class InitTest {
     private final UserService userService;
 
     @PostConstruct
+    @Transactional
     public void dataInit(){
-        User user1 = new User("123","123", ADMIN);
-        User user2 = new User("321","321", USER);
+        User user1 = User.builder().username("123")
+                .password("123")
+                .role(USER)
+                .build();
+        User user2 = User.builder().username("321")
+                .password("321")
+                .role(USER)
+                .build();
 
-        userService.saveUser(user1);
-        userService.saveUser(user2);
+        userService.save(user1);
+        userService.save(user2);
 
     }
 }
