@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequiredArgsConstructor
-public class TagController {
-    private final TagService tagService;
-
-    @GetMapping("/tags")
-    public ResponseEntity<List<TagResponse>> getAllTags() {
-        return tagService.getAllTags();
-    }
-}
+//@RestController
+//@RequiredArgsConstructor
+//public class TagController {
+//    private final TagService tagService;
+//
+//    @GetMapping("/tags")
+//    public ResponseEntity<List<TagResponse>> getAllTags() {
+//        return tagService.getAllTags();
+//    }
+//}
