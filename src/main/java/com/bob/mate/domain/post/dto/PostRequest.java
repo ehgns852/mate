@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +20,6 @@ public class PostRequest {
     @NotNull
     private String content;
 
-    @NotNull
-    private String tagName;
+    private List<String> tagName = new ArrayList<>();
 
 }

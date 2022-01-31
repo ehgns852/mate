@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,26 +25,29 @@ public class Tag {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "tag_name", nullable = false)
+    @Column(name = "tag_name")
     private String name;
 
-    @OneToMany(mappedBy = "tag")
-    private List<PostTag> postTags = new ArrayList<>();
+    @ManyToOne(fetch = LAZY,cascade =  ALL)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 
     public Tag(String name) {
         this.name = name;
     }
 
 
-
     /**
      * 생성 메서드
      */
-    public static Tag addTag(String name) {
-        return new Tag(name);
+    public static List<Tag> addTag(List<String> name) {
+
+        return name.stream().map(Tag::new).collect(Collectors.toList());
+
     }
 
-    public void setPostTag(PostTag postTag) {
-        this.postTags = postTags;
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

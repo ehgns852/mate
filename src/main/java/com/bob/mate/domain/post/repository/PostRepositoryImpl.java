@@ -1,7 +1,6 @@
 package com.bob.mate.domain.post.repository;
 
-import com.bob.mate.domain.post.domain.QPost;
-import com.bob.mate.domain.post.domain.QPostTag;
+import com.bob.mate.domain.post.domain.QTag;
 import com.bob.mate.domain.post.dto.PostQueryDto;
 import com.bob.mate.domain.post.dto.QPostQueryDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.bob.mate.domain.post.domain.QPost.*;
-import static com.bob.mate.domain.post.domain.QPostTag.*;
+import static com.bob.mate.domain.post.domain.QPost.post;
+import static com.bob.mate.domain.post.domain.QTag.*;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom{
@@ -27,9 +26,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                 .select(new QPostQueryDto(
                         post.title,
                         post.content,
-                        postTag.tag.name))
+                        tag.name))
                 .from(post)
-                .leftJoin(post.postTags, postTag)
+                .leftJoin(post.tags, tag)
                 .fetch();
 
     }
