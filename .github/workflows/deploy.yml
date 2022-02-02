@@ -4,7 +4,7 @@ name: Project Deploy to Heroku
 # event trigger
 on:
   push:
-    branches: [ main]
+    branches: [ master ]
     
 jobs:
   build:
