@@ -19,20 +19,9 @@ public class InitTest {
 
     private final UserService userService;
 
-    @PostConstruct
-    @Transactional
-    public void dataInit(){
-        User user1 = User.builder().username("123")
-                .password("123")
-                .role(USER)
-                .build();
-        User user2 = User.builder().username("321")
-                .password("321")
-                .role(USER)
-                .build();
-
-        userService.save(user1);
-        userService.save(user2);
-
-    }
+//    @PostConstruct
+//    @Transactional
+//    public void dataInit(){
+//
+//    }
 }
