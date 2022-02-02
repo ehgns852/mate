@@ -56,6 +56,32 @@ public class User implements Auditable {
     }
 
     /**
+     * 생성 메서드
+     */
+    public static User createUser(String email,String username, Address address, String phoneNumber, Gender gender, int age){
+
+        UserProfile profile = UserProfile.createProfile(username, address, phoneNumber, gender, age);
+
+        User user = User.builder()
+                .email(email)
+                .role(Role.USER)
+                .build();
+
+        user.addUserProfile(profile);
+
+        return user;
+    }
+
+    /**
+     * 연관관계 메서드
+     */
+    public void addUserProfile(UserProfile userProfile){
+        this.userProfile = userProfile;
+        userProfile.setUser(this);
+    }
+
+
+    /**
      * AuditListener
      */
     public void setTimeEntity(TimeEntity timeEntity) {

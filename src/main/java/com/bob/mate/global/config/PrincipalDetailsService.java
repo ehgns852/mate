@@ -11,27 +11,26 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-@Slf4j
-public class PrincipalDetailsService implements UserDetailsService {
-
-    private final UserService userService;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        log.info("userId = {}", username);
-        User userEntity = userService.findByUsername(username);
-
-
-        log.info("userEntity  = {}", userEntity);
-
-        if (userEntity != null) {
-            return new PrincipalDetails(userEntity);
-        }
-        return null;
-
-    }
-}
+//@Service
+//@RequiredArgsConstructor
+//@Transactional(readOnly = true)
+//@Slf4j
+//public class PrincipalDetailsService implements UserDetailsService {
+//
+//    private final UserService userService;
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//
+//        log.info("userId = {}", username);
+//
+//
+//        log.info("userEntity  = {}", userEntity);
+//
+//        if (userEntity != null) {
+//            return new PrincipalDetails(userEntity);
+//        }
+//        return null;
+//
+//    }
+//}

@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.entity;
 
 
+import com.bob.mate.domain.user.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class UserProfile {
 
     private int age;
 
+
     @Builder
     public UserProfile(String username, Address address, String phoneNumber, Gender gender, int age) {
         this.username = username;
@@ -46,4 +48,22 @@ public class UserProfile {
         this.gender = gender;
         this.age = age;
     }
+
+    /**
+     * 생성 메서드
+     */
+    public static UserProfile createProfile(String username, Address address, String phoneNumber, Gender gender, int age) {
+        return UserProfile.builder()
+                .username(username)
+                .address(address)
+                .phoneNumber(phoneNumber)
+                .gender(gender)
+                .age(age)
+                .build();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
