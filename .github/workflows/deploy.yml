@@ -19,12 +19,18 @@ jobs:
           node-version: '14'
       - name: checkout backend
         uses: actions/checkout@v2
+      - name: deploy back-end to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "sicksago"
+          heroku_email: "vel1024@naver.com"
       - name: checkout frontend
         uses: actions/checkout@v2
         with:
           repository: temp-portfolio-team/frontend
           path: ./
-      - name: deploy to heroku
+      - name: deploy front-end to heroku
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
