@@ -1,12 +1,13 @@
 package com.bob.mate.domain.post.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Setter
@@ -20,6 +21,5 @@ public class PostRequest {
     @NotNull
     private String content;
 
-    private List<String> tagName = new ArrayList<>();
-
+    private List<String> tagName;
 }
