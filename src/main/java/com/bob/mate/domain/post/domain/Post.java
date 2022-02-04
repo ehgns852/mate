@@ -1,6 +1,7 @@
 package com.bob.mate.domain.post.domain;
 
 import com.bob.mate.domain.post.dto.PostRequest;
+import com.bob.mate.domain.user.entity.User;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -32,6 +34,10 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = ALL)
     private List<Tag> tags = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
     @Builder

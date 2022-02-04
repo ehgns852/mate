@@ -23,6 +23,7 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+
     @PostMapping("/posts")
     public ResponseEntity<CustomResponse> createPost(@Valid @RequestBody PostRequest postRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

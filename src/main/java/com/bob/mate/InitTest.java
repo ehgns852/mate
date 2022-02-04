@@ -1,5 +1,7 @@
 package com.bob.mate;
 
+import com.bob.mate.domain.user.entity.Address;
+import com.bob.mate.domain.user.entity.Gender;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-
-import static com.bob.mate.domain.user.entity.Role.ADMIN;
-import static com.bob.mate.domain.user.entity.Role.USER;
 
 @Component
 @RequiredArgsConstructor
@@ -22,17 +21,11 @@ public class InitTest {
     @PostConstruct
     @Transactional
     public void dataInit(){
-        User user1 = User.builder().username("123")
-                .password("123")
-                .role(USER)
-                .build();
-        User user2 = User.builder().username("321")
-                .password("321")
-                .role(USER)
-                .build();
+        Address address = new Address("seoul", "songpa", "dsajdlkas");
 
-        userService.save(user1);
-        userService.save(user2);
+        User dohun = User.createUser("dsajklda@naver.com", "dohun", address, "123123231"
+                , Gender.MAN, 12);
 
+        userService.save(dohun);
     }
 }

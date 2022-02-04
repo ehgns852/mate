@@ -2,7 +2,9 @@ package com.bob.mate.domain.user.service;
 
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
+import com.bob.mate.global.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User findByUsername(String username){
-        return userRepository.findByUsername(username);
+
+    /**
+     * 회원 프로필 단건 조회
+     */
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("ID[%s] not found", id)));
     }
 
 }
+
+
