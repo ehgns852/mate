@@ -7,9 +7,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -18,7 +15,7 @@ public class Post {
 
     @Id
     @Column(name = "post_id")
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 50, nullable = false)
@@ -27,7 +24,7 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "post", cascade = ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
 
     @Embedded
