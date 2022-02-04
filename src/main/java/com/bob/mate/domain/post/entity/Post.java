@@ -1,4 +1,4 @@
-package com.bob.mate.domain.post.domain;
+package com.bob.mate.domain.post.entity;
 
 import com.bob.mate.domain.post.dto.PostRequest;
 import com.bob.mate.domain.user.entity.User;

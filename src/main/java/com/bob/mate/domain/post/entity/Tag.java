@@ -1,4 +1,4 @@
-package com.bob.mate.domain.post.domain;
+package com.bob.mate.domain.post.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
