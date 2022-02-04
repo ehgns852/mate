@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,5 +20,4 @@ public class PostRequest {
     private String content;
 
     private List<String> tagName = new ArrayList<>();
-
 }

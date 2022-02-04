@@ -1,10 +1,11 @@
 package com.bob.mate.domain.post.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class TagResponse {
     private String tagName;
 }
