@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ develop, feature/* ]
+    branches: [ develop, feature/*, feature ]
   pull_request:
-    branches: [ develop, feature/* ]
+    branches: [ develop, feature/*, feature ]
 
 jobs:
   build:
@@ -23,6 +23,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Change wrapper permissions
+      run: chmod +x ./gradlew
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bc3340afc5e3cc44f2321809ac090d731c13c514
       with:
