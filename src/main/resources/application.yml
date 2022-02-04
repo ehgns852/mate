@@ -1,9 +1,9 @@
 # postgreSQL & JPA
 spring:
   datasource:
-    url: ${{secrets.POSTGRES_DATABASE}}
-    username: ${{secrets.POSTGRES_USERNAME}}
-    password: ${{secrets.POSTGRES_PASSWORD}}
+    url: jdbc:postgresql://localhost:5432/mating
+    username: postgres
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
