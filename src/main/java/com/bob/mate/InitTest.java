@@ -11,21 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
-@Component
-@RequiredArgsConstructor
-@Slf4j
-public class InitTest {
-
-    private final UserService userService;
-
-    @PostConstruct
-    @Transactional
-    public void dataInit(){
-        Address address = new Address("seoul", "songpa", "dsajdlkas");
-
-        User dohun = User.createUser("dsajklda@naver.com", "dohun", address, "123123231"
-                , Gender.MAN, 12);
-
-        userService.save(dohun);
-    }
-}
+//@Component
+//@RequiredArgsConstructor
+//@Slf4j
+//public class InitTest {
+//
+//    private final UserService userService;
+//
+//    @PostConstruct
+//    @Transactional
+//    public void dataInit(){
+//        Address address = new Address("seoul", "songpa", "dsajdlkas");
+//
+//        User dohun = User.createUser("dsajklda@naver.com", "dohun", address, "123123231"
+//                , Gender.MAN, 12);
+//
+//        userService.save(dohun);
+//    }
+//}

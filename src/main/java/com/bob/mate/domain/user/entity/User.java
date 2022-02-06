@@ -7,6 +7,7 @@ import com.bob.mate.global.audit.TimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditListener.class)
+@ToString(of = {"id", "email"})
 @Table(name = "member")
 public class User implements Auditable {
 
@@ -59,9 +61,9 @@ public class User implements Auditable {
     /**
      * 생성 메서드
      */
-    public static User createUser(String email,String username, Address address, String phoneNumber, Gender gender, int age){
+    public static User createUser(String email,String nickName, Gender gender, String provider, String providerId){
 
-        UserProfile profile = UserProfile.createProfile(username, address, phoneNumber, gender, age);
+        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId);
 
         User user = User.builder()
                 .email(email)
