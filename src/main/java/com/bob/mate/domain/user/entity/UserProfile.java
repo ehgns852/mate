@@ -26,6 +26,8 @@ public class UserProfile {
     @Column(nullable = false)
     private String username;
 
+    private String nickName;
+
     @Embedded
     private Address address;
 

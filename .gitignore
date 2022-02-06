@@ -39,4 +39,5 @@ out/
 
 
 application.yml
+application-oauth.yml
 /src/main/generated
