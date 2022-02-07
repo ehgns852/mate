@@ -12,18 +12,10 @@ jobs:
     steps:
       - name: checkout backend
         uses: actions/checkout@v2
-      - name: checkout frontend
-        uses: actions/checkout@v2
-        with:
-          repository: temp-portfolio-team/frontend
-          path: ./frontend
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '11'
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
       - name: deploy two repo to heroku
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
