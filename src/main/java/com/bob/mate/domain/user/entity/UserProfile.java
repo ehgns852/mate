@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -35,7 +36,7 @@ public class UserProfile {
     @Enumerated(STRING)
     private Gender gender;
 
-    @OneToOne(mappedBy = "userProfile")
+    @OneToOne(mappedBy = "userProfile", fetch = LAZY)
     private User user;
 
     private Integer age;
