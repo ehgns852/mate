@@ -1,20 +1,21 @@
 package com.bob.mate.domain.user.entity;
 
 
-import com.bob.mate.domain.user.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@ToString(of = {"id", "nickName", "gender"})
 public class UserProfile {
 
 
@@ -24,7 +25,7 @@ public class UserProfile {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String nickName;
 
     @Embedded
     private Address address;
@@ -37,28 +38,33 @@ public class UserProfile {
     @OneToOne(mappedBy = "userProfile")
     private User user;
 
-    private int age;
+    private Integer age;
+
+    private String provider;
+    private String providerId;
+
 
 
     @Builder
-    public UserProfile(String username, Address address, String phoneNumber, Gender gender, int age) {
-        this.username = username;
+    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId) {
+        this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.age = age;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     /**
      * 생성 메서드
      */
-    public static UserProfile createProfile(String username, Address address, String phoneNumber, Gender gender, int age) {
+    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId) {
         return UserProfile.builder()
-                .username(username)
-                .address(address)
-                .phoneNumber(phoneNumber)
+                .nickName(nickName)
                 .gender(gender)
-                .age(age)
+                .provider(provider)
+                .providerId(providerId)
                 .build();
     }
 
