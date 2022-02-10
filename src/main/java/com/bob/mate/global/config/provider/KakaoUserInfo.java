@@ -10,14 +10,7 @@ public class KakaoUserInfo implements Oauth2UserInfo {
     private Map<String, Object> attributes;
 
 
-    public Map<String, Object> getKakaoAccount(){
-        return(Map<String, Object>) attributes.get("kakao_account");
-    }
 
-    public Map<String, Object> getProfile(){
-        Map<String, Object> kakaoAccount = getKakaoAccount();
-        return (Map<String, Object>) kakaoAccount.get("profile");
-    }
 
 
     public KakaoUserInfo(Map<String, Object> attributes) {
@@ -36,25 +29,30 @@ public class KakaoUserInfo implements Oauth2UserInfo {
 
     @Override
     public String getEmail() {
-        Map<String, Object> kakaoAccount = getKakaoAccount();
-        return (String) kakaoAccount.get("email");
+        return (String) getKakaoAccount().get("email");
     }
 
     @Override
     public String getNickName() {
-        Map<String, Object> profile = getProfile();
-        return (String) profile.get("nickname");
+        return (String) getProfile().get("nickname");
     }
 
     @Override
     public Gender getGender() {
-        Map<String, Object> kakaoAccount = getKakaoAccount();
-        String gender = (String) kakaoAccount.get("gender");
+        String gender = (String) getKakaoAccount().get("gender");
 
         if (gender.equals("male")) {
             return Gender.MAN;
         } else {
             return Gender.WOMAN;
         }
+    }
+
+    public Map<String, Object> getKakaoAccount(){
+        return(Map<String, Object>) attributes.get("kakao_account");
+    }
+
+    public Map<String, Object> getProfile(){
+        return (Map<String, Object>) getKakaoAccount().get("profile");
     }
 }

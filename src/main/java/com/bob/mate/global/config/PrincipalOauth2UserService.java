@@ -18,12 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 
     @Override
-    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         log.info("ClientRegistration = {}", userRequest.getClientRegistration());
         log.info("AccessToken = {}", userRequest.getAccessToken().getTokenValue());
@@ -59,7 +59,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
             log.info("userEntity = {}", userEntity);
         }
-            return new PrincipalOauth2Details(userEntity, oAuth2User.getAttributes());
+        return new PrincipalOauth2Details(userEntity, oAuth2User.getAttributes());
     }
 }
 
