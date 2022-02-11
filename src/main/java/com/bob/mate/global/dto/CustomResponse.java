@@ -1,11 +1,11 @@
 package com.bob.mate.global.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CustomResponse {
     private String message;
-    private int statusCode;
 }
