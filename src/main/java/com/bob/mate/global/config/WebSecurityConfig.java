@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 
 @Configuration
@@ -16,31 +17,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-
-//        http
-//                .authorizeRequests()
-//                .anyRequest().permitAll()
+        http.httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin()
+                .disable()
+//                .authorizeRequests().antMatchers("/token/**").permitAll()
 //                .and()
-//                .formLogin()
-//                .loginPage("/user/login")
-//                .loginProcessingUrl("/user/login") //login 주소가 호출이 되면 시큐리티가 낚아채 준다.
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
-        http
+//                .oauth2Login().loginPage("/token/expired")
+//                        .successHandler()
                 .oauth2Login()
                 .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+                .userService(principalOauth2UserService)
+                .and();
+//                .successHandler();
 
-//    }
-//
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
+//        http
+//                .oauth2Login()
+//                .userInfoEndpoint()
+//                .userService(principalOauth2UserService);
+
     }
 
 
