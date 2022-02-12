@@ -61,9 +61,9 @@ public class User implements Auditable {
     /**
      * 생성 메서드
      */
-    public static User createUser(String email,String nickName, Gender gender, String provider, String providerId){
+    public static User createUser(String email,String nickName, Gender gender, String provider, String providerId,String imageUrl){
 
-        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId);
+        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId,imageUrl);
 
         User user = User.builder()
                 .email(email)

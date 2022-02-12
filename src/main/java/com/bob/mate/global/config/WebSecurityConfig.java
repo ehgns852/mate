@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
+    private final CorsConfig corsConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -23,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .disable()
+                .addFilter(corsConfig.corsFilter())
 //                .authorizeRequests().antMatchers("/token/**").permitAll()
 //                .and()
 //                .oauth2Login().loginPage("/token/expired")
