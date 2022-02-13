@@ -67,16 +67,15 @@ public class OauthService {
                 .post()
                 .uri(provider.getProviderDetails().getTokenUri())
                 .headers(header -> {
-                    header.setBasicAuth(provider.getClientId(), provider.getClientSecret());
-                    log.info("getClientSecret = {}", provider.getClientSecret());
                     header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                    header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+                    log.info("header = {}", header);
                 })
                 .bodyValue(tokenRequest(code, provider))
                 .retrieve()
                 .bodyToMono(OauthTokenResponse.class)
                 .block();
+
     }
 
 
@@ -86,16 +85,21 @@ public class OauthService {
         formData.add("code", code);
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUri());
+        formData.add("client_secret",provider.getClientSecret());
+        formData.add("client_id",provider.getClientId());
+        log.info("redirectUri = {}", provider.getRedirectUri());
         return formData;
     }
 
     @Transactional
     private User getUserProfile(String providerName, OauthTokenResponse tokenResponse, ClientRegistration provider) {
         Map<String, Object> userAttributes = getUserAttributes(provider, tokenResponse);
+        log.info("userAttributes = {}", userAttributes);
         Oauth2UserInfo oauth2UserInfo = null;
         if (providerName.equals("kakao")) {
             log.info("카카오 로그인 요청");
             oauth2UserInfo = new KakaoUserInfo(userAttributes);
+            log.info("oauth2USer = {}", oauth2UserInfo);
         } else {
             log.info("허용되지 않은 접근 입니다.");
         }
@@ -120,6 +124,8 @@ public class OauthService {
     }
 
     private Map<String, Object> getUserAttributes(ClientRegistration provider, OauthTokenResponse tokenResponse) {
+        log.info("getUserAttributes In");
+        log.info("userinfoUri = {}", provider.getProviderDetails().getUserInfoEndpoint().getUri());
         return WebClient.create()
                 .get()
                 .uri(provider.getProviderDetails().getUserInfoEndpoint().getUri())

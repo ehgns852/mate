@@ -24,15 +24,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .disable()
-                .addFilter(corsConfig.corsFilter())
+                .cors().configurationSource(corsConfig.corsConfigurationSource())
+                .and()
 //                .authorizeRequests().antMatchers("/token/**").permitAll()
 //                .and()
 //                .oauth2Login().loginPage("/token/expired")
 //                        .successHandler()
                 .oauth2Login()
                 .userInfoEndpoint()
-                .userService(principalOauth2UserService)
-                .and();
+                .userService(principalOauth2UserService);
 //                .successHandler();
 
 //        http
