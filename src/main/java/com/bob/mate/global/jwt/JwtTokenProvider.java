@@ -23,6 +23,9 @@ public class JwtTokenProvider {
     private String secretKey;
 
     public String createAccessToken(String payload) {
+        log.info("createToken In accessToken = {}", accessTokenValidityInMilliseconds);
+        log.info("createToken In refreshToken = {}", refreshTokenValidityInMilliseconds);
+        log.info("createToken In secretKey = {}", secretKey);
         return createToken(payload, accessTokenValidityInMilliseconds);
     }
 
@@ -35,9 +38,10 @@ public class JwtTokenProvider {
 
     public String createToken(String payload, long expireLength) {
         Claims claims = Jwts.claims().setSubject(payload);
+        log.info("claims = {}", claims);
         Date now = new Date();
         Date validity = new Date(now.getTime() + expireLength);
-
+        log.info("validity = {}", validity);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

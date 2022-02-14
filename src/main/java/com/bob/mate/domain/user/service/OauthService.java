@@ -29,12 +29,20 @@ import java.util.Map;
 @Slf4j
 @Transactional(readOnly = true)
 public class OauthService {
+    private static final String BEARER_TYPE = "Bearer";
 
     private final InMemoryClientRegistrationRepository inMemoryRepository;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
 
+    /**
+     * @InMemoryRepository application-oauth properties 정보를 담고 있음
+     * @getToken() 넘겨받은 code 로 Oauth 서버에 Token 요청
+     * @getUserProfile 첫 로그인 시 회원가입
+     * 유저 인증 후 Jwt AccessToken, Refresh Token 생성
+     * TODO REDIS 에 Refresh Token 저장
+     */
     @Transactional
     public LoginResponse login(String providerName, String code) {
 
@@ -44,9 +52,12 @@ public class OauthService {
         OauthTokenResponse tokenResponse = getToken(code, provider);
         log.info("tokenResponse = {}", tokenResponse.getAccessToken());
         User user = getUserProfile(providerName,tokenResponse,provider);
+        log.info("user = {}", user);
 
         String accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
+        log.info("accessToken = {}", accessToken);
         String refreshToken = jwtTokenProvider.createRefreshToken();
+        log.info("refreshToken = {}", refreshToken);
 
         return LoginResponse.builder()
                 .id(user.getId())
@@ -54,7 +65,7 @@ public class OauthService {
                 .email(user.getEmail())
                 .imageUrl(user.getUserProfile().getImageUrl())
                 .role(user.getRole())
-                .tokenType("Bearer")
+                .tokenType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -91,7 +102,6 @@ public class OauthService {
         return formData;
     }
 
-    @Transactional
     private User getUserProfile(String providerName, OauthTokenResponse tokenResponse, ClientRegistration provider) {
         Map<String, Object> userAttributes = getUserAttributes(provider, tokenResponse);
         log.info("userAttributes = {}", userAttributes);

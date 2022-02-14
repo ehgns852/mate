@@ -17,11 +17,16 @@ public class OauthController {
 
     private final OauthService oauthService;
 
+    /**
+     * OAuth 로그인 시 인증 코드를 넘겨받은 후 첫 로그인 시 회원가입
+     */
     @GetMapping("/login/oauth/{provider}")
     public ResponseEntity<LoginResponse> login(@PathVariable String provider, @RequestParam String code) {
         log.info("In OauthController");
         log.info("code = {}", code);
         LoginResponse loginResponse = oauthService.login(provider, code);
+        log.info("loginResponse = {}", loginResponse.getAccessToken());
+
         return ResponseEntity.ok().body(loginResponse);
     }
 }
