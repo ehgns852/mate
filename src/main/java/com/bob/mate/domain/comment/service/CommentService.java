@@ -73,8 +73,7 @@ public class CommentService {
         else if (comment.getUser().equals(user))
             throw new CustomException(ErrorCode.BAD_REQUEST_LIKE);
 
-
-        return null;
+        return new LikeResponse(comment.getLikeCount(), comment.getLiked());
     }
 
     /**
