@@ -44,10 +44,12 @@ public class UserProfile {
     private String provider;
     private String providerId;
 
+    private String imageUrl;
+
 
 
     @Builder
-    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId) {
+    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId, String imageUrl) {
         this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -55,15 +57,17 @@ public class UserProfile {
         this.age = age;
         this.provider = provider;
         this.providerId = providerId;
+        this.imageUrl = imageUrl;
     }
 
     /**
      * 생성 메서드
      */
-    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId) {
+    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId,String imageUrl) {
         return UserProfile.builder()
                 .nickName(nickName)
                 .gender(gender)
+                .imageUrl(imageUrl)
                 .provider(provider)
                 .providerId(providerId)
                 .build();

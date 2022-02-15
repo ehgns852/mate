@@ -49,12 +49,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String nickName = oauth2UserInfo.getNickName();
         String email = oauth2UserInfo.getEmail();
         Gender gender = oauth2UserInfo.getGender();
+        String imageUrl = oauth2UserInfo.getImageUrl();
 
         User userEntity = userRepository.findByEmail(email);
 
         log.info("userEmail = {}", userEntity);
         if (userEntity == null) {
-            userEntity = User.createUser(email, nickName, gender, provider, providerId);
+            userEntity = User.createUser(email, nickName, gender, provider, providerId, imageUrl);
             userRepository.save(userEntity);
 
             log.info("userEntity = {}", userEntity);
