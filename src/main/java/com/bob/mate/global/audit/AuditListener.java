@@ -4,12 +4,10 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import java.time.LocalDateTime;
-
+import java.time.OffsetDateTime;
 
 @Configuration
 public class AuditListener {
-
     @PrePersist
     public void setCreateDate(Auditable auditable) {
         TimeEntity timeEntity = auditable.getTimeEntity();
@@ -18,17 +16,13 @@ public class AuditListener {
              timeEntity = new TimeEntity();
             auditable.setTimeEntity(timeEntity);
         }
-        timeEntity.setCreatedDate(LocalDateTime.now());
-
-
+        timeEntity.setCreatedDate(OffsetDateTime.now());
+        timeEntity.setUpdatedDate(OffsetDateTime.now());
     }
-
 
     @PreUpdate
     public void setUpdateDate(Auditable auditable){
         TimeEntity timeEntity = auditable.getTimeEntity();
-        timeEntity.setUpdatedDate(LocalDateTime.now());
-
+        timeEntity.setUpdatedDate(OffsetDateTime.now());
     }
-
 }
