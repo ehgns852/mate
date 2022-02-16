@@ -2,7 +2,9 @@ package com.bob.mate.global.util;
 
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Util {
     private final UserRepository userRepository;
     private final IAuthenticationFacade authenticationFacade;

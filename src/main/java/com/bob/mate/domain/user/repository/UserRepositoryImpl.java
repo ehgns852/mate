@@ -28,4 +28,5 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .where(user.email.eq(email))
                 .fetchOne();
     }
+
 }

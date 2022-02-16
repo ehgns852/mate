@@ -7,7 +7,9 @@ import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
 import com.bob.mate.global.config.provider.KakaoUserInfo;
 import com.bob.mate.global.config.provider.Oauth2UserInfo;
+import com.bob.mate.global.config.redis.RedisUtil;
 import com.bob.mate.global.jwt.JwtTokenProvider;
+import com.bob.mate.global.jwt.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,6 +36,7 @@ public class OauthService {
     private final InMemoryClientRegistrationRepository inMemoryRepository;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisUtil redisUtil;
 
 
     /**
@@ -54,10 +57,13 @@ public class OauthService {
         User user = getUserProfile(providerName,tokenResponse,provider);
         log.info("user = {}", user);
 
-        String accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
+        Token accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
         log.info("accessToken = {}", accessToken);
-        String refreshToken = jwtTokenProvider.createRefreshToken();
+        Token refreshToken = jwtTokenProvider.createRefreshToken();
         log.info("refreshToken = {}", refreshToken);
+
+        redisUtil.setDataExpire(String.valueOf(user.getId()), refreshToken.getValue(), refreshToken.getExpiredTime() );
+
 
         return LoginResponse.builder()
                 .id(user.getId())
@@ -66,8 +72,8 @@ public class OauthService {
                 .imageUrl(user.getUserProfile().getImageUrl())
                 .role(user.getRole())
                 .tokenType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(accessToken.getValue())
+                .refreshToken(refreshToken.getValue())
                 .build();
     }
 
