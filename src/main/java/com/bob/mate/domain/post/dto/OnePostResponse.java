@@ -1,6 +1,5 @@
 package com.bob.mate.domain.post.dto;
 
-import com.bob.mate.domain.comment.entity.Comment;
 import com.bob.mate.domain.user.entity.Address;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class OnePostResponse {
     private String username;
     private Address address;
     private OffsetDateTime createdAt;
-    private List<Comment> comments;
+    private List<String> comments;
     private Integer likeCount;
     private Integer viewCount;
     private Integer commentCount;
@@ -29,7 +28,7 @@ public class OnePostResponse {
     public OnePostResponse(
             String title, String content, String profileUrl,
             String username, Address address, OffsetDateTime createdAt,
-            List<Comment> comments, Integer likeCount, Integer viewCount,
+            List<String> comments, Integer likeCount, Integer viewCount,
             Integer commentCount
     ) {
         this.title = title;
