@@ -3,24 +3,20 @@ package com.bob.mate.domain.comment.repository;
 import com.bob.mate.domain.comment.dto.CommentResponse;
 import com.bob.mate.domain.comment.entity.Comment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.bob.mate.domain.comment.entity.QComment.comment;
 
-@Repository
+@RequiredArgsConstructor
 public class CommentCustomRepositoryImpl implements CommentCustomRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public CommentCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
-    }
 
     @Override
     public Page<CommentResponse> findAllComments(Pageable pageable) {

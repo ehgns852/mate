@@ -3,24 +3,20 @@ package com.bob.mate.domain.post.repository;
 import com.bob.mate.domain.post.dto.AllPostResponse;
 import com.bob.mate.domain.post.entity.Post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.bob.mate.domain.post.entity.QPost.post;
 
-@Repository
+@RequiredArgsConstructor
 public class PostCustomRepositoryImpl implements PostCustomRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public PostCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
-    }
 
     @Override
     public Page<AllPostResponse> findAllPosts(Pageable pageable) {
