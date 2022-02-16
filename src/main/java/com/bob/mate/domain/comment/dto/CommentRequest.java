@@ -1,4 +1,4 @@
-package com.bob.mate.domain.post.dto;
+package com.bob.mate.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +12,7 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostRequest {
-    @Size(min = 1)
-    @NotNull
-    private String title;
-
+public class CommentRequest {
     @Size(min = 1)
     @NotNull
     private String content;

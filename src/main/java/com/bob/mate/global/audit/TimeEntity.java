@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class TimeEntity {
 
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    private OffsetDateTime createdDate;
 
-    private LocalDateTime updatedDate;
+    private OffsetDateTime updatedDate;
 
 }

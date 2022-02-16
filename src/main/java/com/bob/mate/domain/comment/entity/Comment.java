@@ -1,32 +1,28 @@
-package com.bob.mate.domain.post.entity;
+package com.bob.mate.domain.comment.entity;
 
-import com.bob.mate.domain.comment.entity.Comment;
+import com.bob.mate.domain.post.entity.Post;
 import com.bob.mate.domain.user.entity.User;
+import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post")
-@ToString(of = {"id", "title", "content"})
-public class Post implements Auditable {
+@EntityListeners(AuditListener.class)
+public class Comment implements Auditable {
 
     @Id
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -38,19 +34,13 @@ public class Post implements Auditable {
     @ColumnDefault("false")
     private Boolean liked;
 
-    @Column(name = "view_count")
-    @ColumnDefault("0")
-    private Integer viewCount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostLike> postLikes;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments;
 
     @Embedded
     private TimeEntity timeEntity;
@@ -60,18 +50,16 @@ public class Post implements Auditable {
         this.timeEntity = timeEntity;
     }
 
-    public Post(String title, String content, User user) {
-        this.title = title;
+    public Comment(String content, User user) {
         this.content = content;
         this.user = user;
     }
 
-    public void updateTitleAndContent(String title, String content) {
-        this.title = title;
+    public void updateContent(String content) {
         this.content = content;
     }
 
-    public void likePost(Integer likeCount, Boolean liked) {
+    public void likeComment(Integer likeCount, Boolean liked) {
         this.likeCount = likeCount;
         this.liked = liked;
     }
