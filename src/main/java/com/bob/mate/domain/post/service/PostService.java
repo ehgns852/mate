@@ -23,18 +23,17 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
 
     private final Util util;
 
-    @Transactional(readOnly = true)
     public Page<AllPostResponse> getAllPosts(Pageable pageable) {
         return postRepository.findAllPosts(pageable);
     }
 
-    @Transactional(readOnly = true)
     public OnePostResponse getPost(Long postId) {
         Post post = postRepository.getById(postId);
 
