@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentService {
 
     private final CommentRepository commentRepository;
 
     private final Util util;
 
-    @Transactional(readOnly = true)
     public Page<CommentResponse> getAllComments(Pageable pageable) {
         return commentRepository.findAllComments(pageable);
     }
