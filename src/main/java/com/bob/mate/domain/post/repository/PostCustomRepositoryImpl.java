@@ -1,17 +1,19 @@
 package com.bob.mate.domain.post.repository;
 
 import com.bob.mate.domain.post.dto.AllPostResponse;
-import com.bob.mate.domain.post.entity.Post;
+import com.bob.mate.domain.post.dto.OnePostResponse;
+import com.bob.mate.domain.post.dto.QAllPostResponse;
+import com.bob.mate.domain.post.dto.QOnePostResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bob.mate.domain.post.entity.QPost.post;
+import static com.querydsl.core.group.GroupBy.list;
 
 @RequiredArgsConstructor
 public class PostCustomRepositoryImpl implements PostCustomRepository{
@@ -20,25 +22,33 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
 
     @Override
     public Page<AllPostResponse> findAllPosts(Pageable pageable) {
-        List<Post> posts = jpaQueryFactory.selectFrom(post).fetch();
+        List<AllPostResponse> posts = jpaQueryFactory
+                .select(new QAllPostResponse(
+                        post.title, post.content, post.user.userProfile.imageUrl,
+                        post.user.userProfile.nickName, post.user.userProfile.address,
+                        post.timeEntity.createdDate, post.comments.size(), post.likeCount,
+                        post.viewCount
+                ))
+                .from(post)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc())
+                .fetch();
 
-        List<AllPostResponse> res = new ArrayList<>();
+        return PageableExecutionUtils.getPage(posts, pageable, () -> (long) posts.size());
+    }
 
-        for (Post post : posts) {
-            AllPostResponse response = AllPostResponse.builder()
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .profileUrl(post.getUser().getUserProfile().getImageUrl())
-                    .address(post.getUser().getUserProfile().getAddress())
-                    .createdAt(post.getTimeEntity().getCreatedDate())
-                    .commentCount(post.getComments().size())
-                    .likeCount(post.getLikeCount())
-                    .viewCount(post.getViewCount())
-                    .build();
-
-            res.add(response);
-        }
-
-        return new PageImpl<>(res, pageable, res.size());
+    @Override
+    public OnePostResponse findPost(Long postId) {
+        return jpaQueryFactory
+                .select(new QOnePostResponse(
+                        post.title, post.content, post.user.userProfile.imageUrl,
+                        post.user.userProfile.nickName, post.user.userProfile.address,
+                        post.timeEntity.createdDate, list(post.comments.any().content),
+                        post.likeCount, post.viewCount, post.comments.size()
+                ))
+                .from(post)
+                .where(post.id.eq(postId))
+                .fetchOne();
     }
 }

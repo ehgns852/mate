@@ -1,6 +1,5 @@
 package com.bob.mate.domain.post.service;
 
-import com.bob.mate.domain.comment.entity.Comment;
 import com.bob.mate.domain.post.dto.AllPostResponse;
 import com.bob.mate.domain.post.dto.OnePostResponse;
 import com.bob.mate.domain.post.dto.PostRequest;
@@ -18,9 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,22 +31,7 @@ public class PostService {
     }
 
     public OnePostResponse getPost(Long postId) {
-        Post post = postRepository.getById(postId);
-
-        List<String> comments = post.getComments().stream().map(Comment::getContent).collect(Collectors.toList());
-
-        return OnePostResponse.builder()
-                .title(post.getTitle())
-                .content(post.getContent())
-                .profileUrl(post.getUser().getUserProfile().getImageUrl())
-                .username(post.getUser().getUserProfile().getNickName())
-                .address(post.getUser().getUserProfile().getAddress())
-                .createdAt(post.getTimeEntity().getCreatedDate())
-                .comments(comments)
-                .likeCount(post.getLikeCount())
-                .viewCount(post.getViewCount())
-                .commentCount(post.getComments().size())
-                .build();
+        return postRepository.findPost(postId);
     }
 
     @Transactional

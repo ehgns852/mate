@@ -1,7 +1,7 @@
 package com.bob.mate.domain.comment.dto;
 
 import com.bob.mate.domain.user.entity.Address;
-import lombok.Builder;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class CommentResponse {
     private Address address;
     private OffsetDateTime createdAt;
 
-    @Builder
+    @QueryProjection
     public CommentResponse(
             String content, String profileUrl, String username,
             Address address, OffsetDateTime createdAt

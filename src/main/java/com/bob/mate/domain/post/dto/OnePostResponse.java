@@ -1,7 +1,7 @@
 package com.bob.mate.domain.post.dto;
 
 import com.bob.mate.domain.user.entity.Address;
-import lombok.Builder;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class OnePostResponse {
     private Integer viewCount;
     private Integer commentCount;
 
-    @Builder
+    @QueryProjection
     public OnePostResponse(
             String title, String content, String profileUrl,
             String username, Address address, OffsetDateTime createdAt,

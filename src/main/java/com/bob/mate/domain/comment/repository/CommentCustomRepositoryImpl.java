@@ -1,14 +1,13 @@
 package com.bob.mate.domain.comment.repository;
 
 import com.bob.mate.domain.comment.dto.CommentResponse;
-import com.bob.mate.domain.comment.entity.Comment;
+import com.bob.mate.domain.comment.dto.QCommentResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bob.mate.domain.comment.entity.QComment.comment;
@@ -20,22 +19,18 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
 
     @Override
     public Page<CommentResponse> findAllComments(Pageable pageable) {
-        List<Comment> comments = jpaQueryFactory.selectFrom(comment).fetch();
+        List<CommentResponse> comments = jpaQueryFactory
+                .select(new QCommentResponse(
+                        comment.content, comment.user.userProfile.imageUrl,
+                        comment.user.userProfile.nickName, comment.user.userProfile.address,
+                        comment.timeEntity.createdDate
+                ))
+                .from(comment)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(comment.id.desc())
+                .fetch();
 
-        List<CommentResponse> res = new ArrayList<>();
-
-        for (Comment comment : comments) {
-            CommentResponse response = CommentResponse.builder()
-                    .content(comment.getContent())
-                    .profileUrl(comment.getUser().getUserProfile().getImageUrl())
-                    .username(comment.getUser().getUserProfile().getNickName())
-                    .address(comment.getUser().getUserProfile().getAddress())
-                    .createdAt(comment.getTimeEntity().getCreatedDate())
-                    .build();
-
-            res.add(response);
-        }
-
-        return new PageImpl<>(res, pageable, res.size());
+        return PageableExecutionUtils.getPage(comments, pageable, () -> (long) comments.size());
     }
 }
