@@ -4,7 +4,6 @@ import com.bob.mate.domain.comment.entity.Comment;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,11 +48,9 @@ public class Post implements Auditable {
     @JoinColumn(name = "member_id")
     private User user;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostLike> postLikes;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
