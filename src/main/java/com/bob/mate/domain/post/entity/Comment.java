@@ -1,6 +1,5 @@
-package com.bob.mate.domain.comment.entity;
+package com.bob.mate.domain.post.entity;
 
-import com.bob.mate.domain.post.entity.Post;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
@@ -15,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "post")
+@Table(name = "comment")
 @EntityListeners(AuditListener.class)
 public class Comment implements Auditable {
 
@@ -50,9 +49,10 @@ public class Comment implements Auditable {
         this.timeEntity = timeEntity;
     }
 
-    public Comment(String content, User user) {
+    public Comment(String content, User user, Post post) {
         this.content = content;
         this.user = user;
+        this.post = post;
     }
 
     public void updateContent(String content) {
@@ -62,5 +62,15 @@ public class Comment implements Auditable {
     public void likeComment(Integer likeCount, Boolean liked) {
         this.likeCount = likeCount;
         this.liked = liked;
+    }
+
+    /**
+     * 초기화 값이 DB 에 추가되지 않는 오류가 있어서
+     * persist 하기 전에 초기화
+     */
+    @PrePersist
+    public void prePersist() {
+        this.likeCount = this.likeCount == null ? 0 : this.likeCount;
+        this.liked = this.liked != null && this.liked;
     }
 }

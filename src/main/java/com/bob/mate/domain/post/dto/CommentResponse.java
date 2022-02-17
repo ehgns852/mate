@@ -1,6 +1,5 @@
-package com.bob.mate.domain.comment.dto;
+package com.bob.mate.domain.post.dto;
 
-import com.bob.mate.domain.user.entity.Address;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,20 +12,22 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 public class CommentResponse {
     private String content;
+    private Integer likeCount;
+    private Boolean liked;
     private String profileUrl;
     private String username;
-    private Address address;
     private OffsetDateTime createdAt;
 
     @QueryProjection
     public CommentResponse(
-            String content, String profileUrl, String username,
-            Address address, OffsetDateTime createdAt
+            String content, Integer likeCount, Boolean liked,
+            String profileUrl, String username, OffsetDateTime createdAt
     ) {
         this.content = content;
+        this.likeCount = likeCount;
+        this.liked = liked;
         this.profileUrl = profileUrl;
         this.username = username;
-        this.address = address;
         this.createdAt = createdAt;
     }
 }
