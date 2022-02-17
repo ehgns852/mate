@@ -1,9 +1,12 @@
 package com.bob.mate.domain.user.service;
 
+import com.bob.mate.domain.user.dto.AuthorizationRequest;
 import com.bob.mate.domain.user.dto.LoginResponse;
 import com.bob.mate.domain.user.dto.OauthTokenResponse;
 import com.bob.mate.domain.user.entity.Gender;
 import com.bob.mate.domain.user.entity.User;
+import com.bob.mate.domain.user.entity.UserProfile;
+import com.bob.mate.domain.user.oauth.OauthAttributes;
 import com.bob.mate.domain.user.repository.UserRepository;
 import com.bob.mate.global.config.provider.KakaoUserInfo;
 import com.bob.mate.global.config.provider.Oauth2UserInfo;
@@ -47,14 +50,15 @@ public class OauthService {
      * TODO REDIS 에 Refresh Token 저장
      */
     @Transactional
-    public LoginResponse login(String providerName, String code) {
+    public LoginResponse login(AuthorizationRequest authorizationRequest) {
 
         log.info("in OauthService");
-        ClientRegistration provider = inMemoryRepository.findByRegistrationId(providerName);
+        ClientRegistration provider = inMemoryRepository.findByRegistrationId(authorizationRequest.getProviderName());
         log.info("provider.getClientId = {}", provider.getClientId());
-        OauthTokenResponse tokenResponse = getToken(code, provider);
-        log.info("tokenResponse = {}", tokenResponse.getAccessToken());
-        User user = getUserProfile(providerName,tokenResponse,provider);
+
+        User findUser = getUserProfile(authorizationRequest, provider);
+
+        User user = saveOrUpdate(findUser);
         log.info("user = {}", user);
 
         Token accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
@@ -77,7 +81,32 @@ public class OauthService {
                 .build();
     }
 
-    private OauthTokenResponse getToken(String code, ClientRegistration provider) {
+    /**
+     * 저장, 변경 메서드
+     * Todo update 로직
+     */
+    private User saveOrUpdate(User user) {
+        User findUser = userRepository.findByOauthId(user.getUserProfile().getProviderId());
+        if (findUser == null) {
+            userRepository.save(findUser);
+        }
+        return findUser;
+
+    }
+
+
+
+
+
+    private User getUserProfile(AuthorizationRequest authorizationRequest, ClientRegistration provider) {
+        OauthTokenResponse token = getToken(authorizationRequest, provider);
+        Map<String, Object> userAttributes = getUserAttributes(provider, token);
+        return OauthAttributes.extract(authorizationRequest.getProviderName(),userAttributes);
+    }
+
+
+
+    private OauthTokenResponse getToken(AuthorizationRequest authorizationRequest, ClientRegistration provider) {
         log.info("OauthService.getToken In");
         log.info("provider.TokenUri = {}" , provider.getProviderDetails().getTokenUri());
         return WebClient.create()
@@ -88,18 +117,17 @@ public class OauthService {
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
                     log.info("header = {}", header);
                 })
-                .bodyValue(tokenRequest(code, provider))
+                .bodyValue(tokenRequest(authorizationRequest, provider))
                 .retrieve()
                 .bodyToMono(OauthTokenResponse.class)
                 .block();
 
     }
 
-
-    private MultiValueMap<String, String> tokenRequest(String code, ClientRegistration provider) {
+    private MultiValueMap<String, String> tokenRequest(AuthorizationRequest authorizationRequest, ClientRegistration provider) {
         log.info("tokenRequest In");
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("code", code);
+        formData.add("code", authorizationRequest.getCode());
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUri());
         formData.add("client_secret",provider.getClientSecret());
@@ -108,36 +136,6 @@ public class OauthService {
         return formData;
     }
 
-    private User getUserProfile(String providerName, OauthTokenResponse tokenResponse, ClientRegistration provider) {
-        Map<String, Object> userAttributes = getUserAttributes(provider, tokenResponse);
-        log.info("userAttributes = {}", userAttributes);
-        Oauth2UserInfo oauth2UserInfo = null;
-        if (providerName.equals("kakao")) {
-            log.info("카카오 로그인 요청");
-            oauth2UserInfo = new KakaoUserInfo(userAttributes);
-            log.info("oauth2USer = {}", oauth2UserInfo);
-        } else {
-            log.info("허용되지 않은 접근 입니다.");
-        }
-
-        String provide = oauth2UserInfo.getProvider();
-        String providerId = oauth2UserInfo.getProviderId();
-        String nickName = oauth2UserInfo.getNickName();
-        String email = oauth2UserInfo.getEmail();
-        Gender gender = oauth2UserInfo.getGender();
-        String imageUrl = oauth2UserInfo.getImageUrl();
-
-        User userEntity = userRepository.findByEmail(email);
-
-        log.info("userEmail = {}", userEntity);
-        if (userEntity == null) {
-            userEntity = User.createUser(email, nickName, gender, provide, providerId,imageUrl);
-            userRepository.save(userEntity);
-
-            log.info("userEntity = {}", userEntity);
-        }
-        return userEntity;
-    }
 
     private Map<String, Object> getUserAttributes(ClientRegistration provider, OauthTokenResponse tokenResponse) {
         log.info("getUserAttributes In");
@@ -150,5 +148,7 @@ public class OauthService {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .block();
     }
+
+
 
 }

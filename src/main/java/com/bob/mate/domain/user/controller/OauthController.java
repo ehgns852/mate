@@ -1,5 +1,6 @@
 package com.bob.mate.domain.user.controller;
 
+import com.bob.mate.domain.user.dto.AuthorizationRequest;
 import com.bob.mate.domain.user.dto.LoginResponse;
 import com.bob.mate.domain.user.service.OauthService;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,10 @@ public class OauthController {
      * OAuth 로그인 시 인증 코드를 넘겨받은 후 첫 로그인 시 회원가입
      */
     @GetMapping("/login/oauth/{provider}")
-    public ResponseEntity<LoginResponse> login(@PathVariable String provider, @RequestParam String code) {
+    public ResponseEntity<LoginResponse> login(AuthorizationRequest authorizationRequest) {
         log.info("In OauthController");
-        log.info("code = {}", code);
-        LoginResponse loginResponse = oauthService.login(provider, code);
+        log.info("code = {}", authorizationRequest.getCode());
+        LoginResponse loginResponse = oauthService.login(authorizationRequest);
         log.info("loginResponse = {}", loginResponse.getAccessToken());
 
         return ResponseEntity.ok().body(loginResponse);

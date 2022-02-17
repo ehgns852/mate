@@ -6,6 +6,8 @@ import com.bob.mate.domain.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 import static com.bob.mate.domain.user.entity.QUser.*;
 import static com.bob.mate.domain.user.entity.QUserProfile.*;
 
@@ -27,6 +29,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .fetchJoin()
                 .where(user.email.eq(email))
                 .fetchOne();
+    }
+
+    @Override
+    public User findByOauthId(String providerId) {
+      return queryFactory
+              .selectFrom(user)
+              .innerJoin(user.userProfile, userProfile)
+              .fetchJoin()
+              .where(userProfile.providerId.eq(providerId))
+              .fetchOne();
     }
 
 }
