@@ -1,12 +1,16 @@
 package com.bob.mate.global.config.redis;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RedisUtil {
 
     private final StringRedisTemplate stringRedisTemplate;
@@ -23,7 +27,8 @@ public class RedisUtil {
 
     public void setDataExpire(String key, String value, long duration) {
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
-        valueOperations.set(key, value, duration);
+        Duration expireDuration = Duration.ofSeconds(duration);
+        valueOperations.set(key, value, expireDuration);
     }
 
     public void deleteData(String key) {

@@ -56,9 +56,8 @@ public class OauthService {
         ClientRegistration provider = inMemoryRepository.findByRegistrationId(authorizationRequest.getProviderName());
         log.info("provider.getClientId = {}", provider.getClientId());
 
-        User findUser = getUserProfile(authorizationRequest, provider);
+        User user = getUserProfile(authorizationRequest, provider);
 
-        User user = saveOrUpdate(findUser);
         log.info("user = {}", user);
 
         Token accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
@@ -67,7 +66,6 @@ public class OauthService {
         log.info("refreshToken = {}", refreshToken);
 
         redisUtil.setDataExpire(String.valueOf(user.getId()), refreshToken.getValue(), refreshToken.getExpiredTime() );
-
 
         return LoginResponse.builder()
                 .id(user.getId())
@@ -81,18 +79,6 @@ public class OauthService {
                 .build();
     }
 
-    /**
-     * 저장, 변경 메서드
-     * Todo update 로직
-     */
-    private User saveOrUpdate(User user) {
-        User findUser = userRepository.findByOauthId(user.getUserProfile().getProviderId());
-        if (findUser == null) {
-            userRepository.save(findUser);
-        }
-        return findUser;
-
-    }
 
 
 
@@ -101,8 +87,23 @@ public class OauthService {
     private User getUserProfile(AuthorizationRequest authorizationRequest, ClientRegistration provider) {
         OauthTokenResponse token = getToken(authorizationRequest, provider);
         Map<String, Object> userAttributes = getUserAttributes(provider, token);
-        return OauthAttributes.extract(authorizationRequest.getProviderName(),userAttributes);
+        User extract = OauthAttributes.extract(authorizationRequest.getProviderName(), userAttributes);
+        return saveOrUpdate(extract);
     }
+
+    /**
+     * 저장, 변경 메서드
+     * Todo update 로직
+     */
+    private User saveOrUpdate(User user) {
+        User findUser = userRepository.findByOauthId(user.getUserProfile().getProviderId());
+        if (findUser == null) {
+            findUser = userRepository.save(user);
+        }
+        return findUser;
+
+    }
+
 
 
 

@@ -8,12 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class AuthorizationRequest {
 
     private String providerName;
 
     private String code;
 
-
+    public AuthorizationRequest(String providerName, String code) {
+        this.providerName = providerName;
+        this.code = code;
+    }
 }
