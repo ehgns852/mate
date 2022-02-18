@@ -7,7 +7,7 @@ import com.bob.mate.domain.post.entity.Post;
 import com.bob.mate.domain.post.repository.PostRepository;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.dto.CustomResponse;
-import com.bob.mate.global.dto.LikeResponse;
+import com.bob.mate.domain.post.dto.LikeResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.util.Util;

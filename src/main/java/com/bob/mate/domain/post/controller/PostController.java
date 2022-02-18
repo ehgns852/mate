@@ -1,11 +1,10 @@
 package com.bob.mate.domain.post.controller;
 
-import com.bob.mate.domain.post.dto.AllPostResponse;
-import com.bob.mate.domain.post.dto.OnePostResponse;
-import com.bob.mate.domain.post.dto.PostRequest;
+import com.bob.mate.domain.post.dto.*;
+import com.bob.mate.domain.post.service.CommentService;
 import com.bob.mate.domain.post.service.PostService;
 import com.bob.mate.global.dto.CustomResponse;
-import com.bob.mate.global.dto.LikeResponse;
+import com.bob.mate.domain.post.dto.LikeResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,7 @@ import javax.validation.Valid;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping
     public Page<AllPostResponse> getAllPosts(Pageable pageable) {
@@ -63,5 +63,45 @@ public class PostController {
     @PatchMapping("/{postId}/likes")
     public LikeResponse likePost(@PathVariable Long postId) {
         return postService.likePost(postId);
+    }
+
+    @GetMapping("/{postId}/comments")
+    public Page<CommentResponse> getAllComments(@PathVariable Long postId, Pageable pageable) {
+        return commentService.getAllComments(postId, pageable);
+    }
+
+    @PostMapping("/{postId}/comments")
+    public CustomResponse createComment(
+            @PathVariable Long postId,
+            @Valid @RequestBody CommentRequest commentRequest,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            throw new CustomException(ErrorCode.BAD_REQUEST_COMMENT);
+        }
+
+        return commentService.createComment(postId, commentRequest);
+    }
+
+    @PatchMapping("/{postId}/comments/{commentId}")
+    public CustomResponse updateComment(
+            @PathVariable Long postId, @PathVariable Long commentId,
+            @Valid @RequestBody CommentRequest commentRequest
+    ) {
+            return commentService.updateComment(postId, commentId, commentRequest);
+    }
+
+    @DeleteMapping("/{postId}/comments/{commentId}")
+    public CustomResponse deleteComment(
+        @PathVariable Long postId, @PathVariable Long commentId
+    ) {
+        return commentService.deleteComment(postId, commentId);
+    }
+
+    @PatchMapping("/{postId}/comments/{commentId}/likes")
+    public LikeResponse likeComment(
+            @PathVariable Long postId, @PathVariable Long commentId
+    ) {
+        return commentService.likeComment(postId, commentId);
     }
 }

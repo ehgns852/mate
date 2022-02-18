@@ -1,4 +1,4 @@
-package com.bob.mate.domain.comment.dto;
+package com.bob.mate.domain.post.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
