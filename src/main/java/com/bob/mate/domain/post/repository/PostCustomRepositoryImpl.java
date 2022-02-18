@@ -13,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
+import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
@@ -27,21 +28,20 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     public Page<AllPostResponse> findAllPosts(Pageable pageable) {
         List<AllPostResponse> posts = jpaQueryFactory
                 .select(new QAllPostResponse(
-                        post.title, post.content, post.user.userProfile.imageUrl, post.user.userProfile.nickName,
+                        post.title, post.content, userProfile.imageUrl, userProfile.nickName,
                         post.timeEntity.createdDate, post.comments.size(), post.likeCount,
                         post.viewCount
                 ))
                 .from(post)
+                .innerJoin(post.user, user)
+                .innerJoin(user.userProfile, userProfile)
+                .innerJoin(post.comments, comment)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc())
                 .fetch();
 
-        long countPosts = jpaQueryFactory
-                .selectFrom(post)
-                .fetch().size();
-
-        return PageableExecutionUtils.getPage(posts, pageable, () -> countPosts);
+        return PageableExecutionUtils.getPage(posts, pageable, () -> (long) posts.size());
     }
 
     @Override
@@ -53,8 +53,8 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
                         post.likeCount, post.viewCount
                 ))
                 .from(post)
-                .innerJoin(user).on(post.user.id.eq(user.id))
-                .innerJoin(userProfile).on(user.userProfile.id.eq(userProfile.id))
+                .innerJoin(post.user, user)
+                .innerJoin(user.userProfile, userProfile).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne();
     }

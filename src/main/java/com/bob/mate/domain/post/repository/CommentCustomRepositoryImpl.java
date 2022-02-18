@@ -13,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
+import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
@@ -28,11 +29,14 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
         List<CommentResponse> comments = jpaQueryFactory
                 .select(new QCommentResponse(
                         comment.content, comment.likeCount, comment.liked,
-                        comment.user.userProfile.imageUrl,
-                        comment.user.userProfile.nickName,
+                        userProfile.imageUrl,
+                        userProfile.nickName,
                         comment.timeEntity.createdDate
                 ))
                 .from(comment)
+                .innerJoin(comment.user, user)
+                .innerJoin(comment.post, post)
+                .innerJoin(user.userProfile, userProfile)
                 .where(post.id.eq(postId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -47,8 +51,8 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
         User currentUser = util.findCurrentUser();
 
         return jpaQueryFactory.selectFrom(comment)
-                .innerJoin(post).on(post.id.eq(comment.post.id))
-                .innerJoin(user).on(user.id.eq(comment.user.id))
+                .innerJoin(comment.post, post)
+                .innerJoin(comment.user, user)
                 .where(
                         post.id.eq(postId).and(comment.id.eq(commentId))
                                 .and(comment.user.id.eq(currentUser.getId()))

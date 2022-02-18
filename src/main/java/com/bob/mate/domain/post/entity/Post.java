@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "post")
+@Table
 @ToString(of = {"id", "title", "content"})
 public class Post implements Auditable {
 

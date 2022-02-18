@@ -55,7 +55,7 @@ VALUES (2, 4);
 
 
 INSERT INTO comment(content, like_count, liked, created_date, updated_date, post_id, user_id)
-VALUES ('first comment', 0, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 2, 1);
+VALUES ('first comment', 3, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 2, 1);
 
 INSERT INTO comment(content, like_count, liked, created_date, updated_date, post_id, user_id)
 VALUES ('second comment', 0, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 2, 2);
@@ -68,3 +68,14 @@ VALUES ('fourth comment', 0, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 3, 4);
 
 INSERT INTO comment(content, like_count, liked, created_date, updated_date, post_id, user_id)
 VALUES ('third comment2', 0, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 3);
+
+
+
+INSERT INTO comment_like(comment_id, user_id)
+VALUES (1, 2);
+
+INSERT INTO comment_like(comment_id, user_id)
+VALUES (1, 3);
+
+INSERT INTO comment_like(comment_id, user_id)
+VALUES (1, 4);

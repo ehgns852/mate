@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "comment")
+@Table
 @EntityListeners(AuditListener.class)
 public class Comment implements Auditable {
 
