@@ -10,9 +10,6 @@ public class KakaoUserInfo implements Oauth2UserInfo {
     private Map<String, Object> attributes;
 
 
-
-
-
     public KakaoUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }

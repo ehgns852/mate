@@ -14,8 +14,5 @@ public class MateApplication {
         SpringApplication.run(MateApplication.class, args);
     }
 
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
-        return new JPAQueryFactory(em);
-    }
+
 }
