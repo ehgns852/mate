@@ -4,7 +4,7 @@ import com.bob.mate.domain.post.dto.*;
 import com.bob.mate.domain.post.service.CommentService;
 import com.bob.mate.domain.post.service.PostService;
 import com.bob.mate.global.dto.CustomResponse;
-import com.bob.mate.global.dto.LikeResponse;
+import com.bob.mate.domain.post.dto.LikeResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
