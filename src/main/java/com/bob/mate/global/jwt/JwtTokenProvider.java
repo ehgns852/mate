@@ -22,18 +22,20 @@ public class JwtTokenProvider {
     @Value("${jwt.token.secret-key}")
     private String secretKey;
 
-    public String createAccessToken(String payload) {
+    public Token createAccessToken(String payload) {
         log.info("createToken In accessToken = {}", accessTokenValidityInMilliseconds);
         log.info("createToken In refreshToken = {}", refreshTokenValidityInMilliseconds);
         log.info("createToken In secretKey = {}", secretKey);
-        return createToken(payload, accessTokenValidityInMilliseconds);
+        String token = createToken(payload,accessTokenValidityInMilliseconds);
+        return new Token(token, accessTokenValidityInMilliseconds);
     }
 
-    public String createRefreshToken() {
+    public Token createRefreshToken() {
         byte[] array = new byte[7];
         new Random().nextBytes(array);
         String generatedString = new String(array, StandardCharsets.UTF_8);
-        return createToken(generatedString, refreshTokenValidityInMilliseconds);
+        String token = createToken(generatedString, refreshTokenValidityInMilliseconds);
+        return new Token(token, refreshTokenValidityInMilliseconds);
     }
 
     public String createToken(String payload, long expireLength) {
