@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PrincipalOauth2UserService principalOauth2UserService;
     private final CorsConfig corsConfig;
 
     @Override
@@ -24,22 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .disable()
-                .cors().configurationSource(corsConfig.corsConfigurationSource())
-                .and()
-//                .authorizeRequests().antMatchers("/token/**").permitAll()
-//                .and()
-//                .oauth2Login().loginPage("/token/expired")
-//                        .successHandler()
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
-//                .successHandler();
-
-//        http
-//                .oauth2Login()
-//                .userInfoEndpoint()
-//                .userService(principalOauth2UserService);
-
+                .cors().configurationSource(corsConfig.corsConfigurationSource());
     }
 
 

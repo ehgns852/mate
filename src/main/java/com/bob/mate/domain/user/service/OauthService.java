@@ -47,7 +47,7 @@ public class OauthService {
      * @getToken() 넘겨받은 code 로 Oauth 서버에 Token 요청
      * @getUserProfile 첫 로그인 시 회원가입
      * 유저 인증 후 Jwt AccessToken, Refresh Token 생성
-     * TODO REDIS 에 Refresh Token 저장
+     * RefreshToken Redis 저장 만료기간 2주일
      */
     @Transactional
     public LoginResponse login(AuthorizationRequest authorizationRequest) {

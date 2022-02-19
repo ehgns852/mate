@@ -1,5 +1,7 @@
 package com.bob.mate.global.jwt;
 
+import com.bob.mate.global.exception.CustomException;
+import com.bob.mate.global.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +65,7 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims().getSubject();
         } catch (JwtException e){
-            throw new RuntimeException("유효하지 않은 토큰 입니다");
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS_TOKEN);
         }
     }
 
@@ -78,6 +80,7 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
 
 
 
