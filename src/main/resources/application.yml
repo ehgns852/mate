@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: oauth
   datasource:
     url: ${{secrets.POSTGRES_DATABASE}}
     username: ${{secrets.POSTGRES_USERNAME}}
@@ -7,18 +9,9 @@ spring:
       maximum-pool-size: 4
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         use_sql_comments: true
-
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
