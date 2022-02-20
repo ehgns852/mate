@@ -1,25 +1,38 @@
-# github actions name
 name: Project Deploy to Heroku
 
-# event trigger
 on:
   push:
     branches: [ master ]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout backend
-        uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: deploy repo to heroku
-        uses: akhileshns/heroku-deploy@v3.12.12 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: checkout backend
+        uses: actions/checkout@v2
+      - name: checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: temp-portfolio-team/frontend
+          path: ./frontend
+      - name: build frontend to resources
+        run: |
+          cd frontend
+          rm package-lock.json
+          npm install
+          npm run build
+          cd ..
+          cp -r frontend/build/* src/main/resources/static/
+      - name: deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "sicksago"
-          heroku_email: "vel1024@naver.com"   
-      
+          heroku_email: "vel1024@naver.com"
