@@ -10,11 +10,13 @@ import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.jwt.JwtTokenProvider;
 import com.bob.mate.global.jwt.Token;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -48,23 +50,24 @@ public class AuthService {
      * refresh Token 으로 Access Token 이 만료 되었을 경우 재발급
      * Redis Server 에서 refresh Token 을 가져옴
      */
-
     public AccessTokenResponse accessTokenByRefreshToken(String accessToken, RefreshTokenRequest refreshTokenRequest) {
-        String refreshToken = refreshTokenRequest.getRefreshToken();
-        if (!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN);
-        }
+        refreshTokenExtractor(refreshTokenRequest);
         String id = jwtTokenProvider.getPayload(accessToken);
         String data = redisUtil.getData(id);
-
-        if (!data.equals(refreshToken)) {
+        log.info("id = {}", id);
+        log.info("data = {}", data);
+        if (!data.equals(refreshTokenRequest.getRefreshToken())) {
+            log.info("Exception!!");
             throw new CustomException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN);
         }
 
         Token newAccessToken = jwtTokenProvider.createAccessToken(id);
+        log.info("newAccessToken = {}", newAccessToken);
 
         return new AccessTokenResponse(newAccessToken.getValue());
     }
+
+
 
 
     /**
@@ -83,6 +86,15 @@ public class AuthService {
     private void accessTokenExtractor(String accessToken) {
         if (!jwtTokenProvider.validateToken(accessToken)) {
             throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS_TOKEN);
+        }
+    }
+
+    /**
+     * RefreshToken 검증 메서드
+     */
+    private void refreshTokenExtractor(RefreshTokenRequest refreshTokenRequest) {
+        if (!jwtTokenProvider.validateToken(refreshTokenRequest.getRefreshToken())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_REFRESH_TOKEN);
         }
     }
 

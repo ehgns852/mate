@@ -26,7 +26,6 @@ public class JwtTokenProvider {
 
     public Token createAccessToken(String payload) {
         log.info("createToken In accessToken = {}", accessTokenValidityInMilliseconds);
-        log.info("createToken In refreshToken = {}", refreshTokenValidityInMilliseconds);
         log.info("createToken In secretKey = {}", secretKey);
         String token = createToken(payload,accessTokenValidityInMilliseconds);
         return new Token(token, accessTokenValidityInMilliseconds);

@@ -61,9 +61,9 @@ public class OauthService {
         log.info("user = {}", user);
 
         Token accessToken = jwtTokenProvider.createAccessToken(String.valueOf(user.getId()));
-        log.info("accessToken = {}", accessToken);
+        log.info("accessToken = {}", accessToken.getValue());
         Token refreshToken = jwtTokenProvider.createRefreshToken();
-        log.info("refreshToken = {}", refreshToken);
+        log.info("refreshToken = {}", refreshToken.getValue());
 
         redisUtil.setDataExpire(String.valueOf(user.getId()), refreshToken.getValue(), refreshToken.getExpiredTime() );
 
