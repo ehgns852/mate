@@ -25,7 +25,7 @@ jobs:
       - name: build frontend to resources
         run: |
           cd frontend
-          rm package-lock.json
+          rm yarn.lock
           npm install
           npm run build
           cd ..
