@@ -26,8 +26,8 @@ jobs:
         run: |
           cd frontend
           rm yarn.lock
-          npm install
-          npm run build
+          yarn install
+          yarn build
           cd ..
           cp -r frontend/build/* src/main/resources/static/
       - name: deploy to heroku
