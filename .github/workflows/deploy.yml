@@ -30,6 +30,8 @@ jobs:
           yarn build
           cd ..
           cp -r frontend/build/* src/main/resources/static/
+        env:
+          CI: ""
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
