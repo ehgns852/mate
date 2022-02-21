@@ -1,5 +1,7 @@
 package com.bob.mate.global.jwt;
 
+import com.bob.mate.global.exception.CustomException;
+import com.bob.mate.global.exception.ErrorCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,16 +28,10 @@ public class AuthorizationExtractor {
             if ((value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase()))) {
                 String authHeaderValue = value.substring(BEARER_TYPE.length()).trim();
                 log.info("authHeaderValue = {}", authHeaderValue);
-                request.setAttribute(ACCESS_TOKEN_TYPE, value.substring(0, BEARER_TYPE.length()).trim());
-                int commaIndex = authHeaderValue.indexOf(',');
-                if (commaIndex > 0) {
-                    authHeaderValue = authHeaderValue.substring(0, commaIndex);
-                    log.info("authHeaderValue = {}", authHeaderValue);
-                }
                 return authHeaderValue;
             }
         }
-        return null;
+        throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS_TOKEN);
     }
 }
 
