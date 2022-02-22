@@ -33,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable();
 
-
         http
                 .httpBasic().disable()
                 .csrf().disable()
@@ -42,9 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .cors().configurationSource(corsConfig.corsConfigurationSource());
 
-        http
-                .addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), authService))
-                .antMatcher("/posts");
+//        http
+//                .addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), authService))
+//                .antMatcher("/posts");
     }
 
     @Bean

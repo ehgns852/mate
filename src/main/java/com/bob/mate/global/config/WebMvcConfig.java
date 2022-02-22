@@ -2,6 +2,7 @@ package com.bob.mate.global.config;
 
 import com.bob.mate.domain.user.service.AuthService;
 import com.bob.mate.global.util.AuthenticationInterceptor;
+import com.bob.mate.global.util.GetAuthenticationInterceptor;
 import com.bob.mate.global.util.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("in WebMvcConfig.addInterceptors");
         registry.addInterceptor(new AuthenticationInterceptor(authService))
-                .addPathPatterns("/**");
+                .addPathPatterns("/user/**","/posts/**");
+        registry.addInterceptor(new GetAuthenticationInterceptor(authService))
+                .addPathPatterns("");
     }
 
     @Override
