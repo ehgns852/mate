@@ -9,6 +9,8 @@ import java.util.List;
 
 public class UserAuthentication extends AbstractAuthenticationToken {
 
+    private static final String USER = "USER";
+
     private final Long userId;
 
     public UserAuthentication(Long userId) {
@@ -26,7 +28,7 @@ public class UserAuthentication extends AbstractAuthenticationToken {
         return userId;
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return userId;
     }
 
@@ -35,9 +37,9 @@ public class UserAuthentication extends AbstractAuthenticationToken {
         return true;
     }
 
-    private static List<GrantedAuthority> authorities(){
+    private static List<GrantedAuthority> authorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
+        authorities.add(new SimpleGrantedAuthority(USER));
         return authorities;
     }
 

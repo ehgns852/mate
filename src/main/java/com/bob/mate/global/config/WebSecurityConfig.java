@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -38,12 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin().disable()
-                .cors().configurationSource(corsConfig.corsConfigurationSource());
+                .formLogin().disable();
+//                .cors().configurationSource(corsConfig.corsConfigurationSource());
 
-//        http
-//                .addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), authService))
-//                .antMatcher("/posts");
+        http
+                .addFilterBefore(new JwtAuthenticationFilter(authService), UsernamePasswordAuthenticationFilter.class)
+                .antMatcher("/posts/**");
+
     }
 
     @Bean

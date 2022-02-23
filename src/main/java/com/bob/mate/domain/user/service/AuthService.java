@@ -75,8 +75,8 @@ public class AuthService {
      */
     @Transactional
     public void logout(String accessToken) {
-        String payload = jwtTokenProvider.getPayload(accessToken);
-        redisUtil.deleteData(payload);
+        String id = jwtTokenProvider.getPayload(accessToken);
+        redisUtil.deleteData(id);
     }
 
 

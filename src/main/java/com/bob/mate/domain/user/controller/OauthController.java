@@ -10,7 +10,6 @@ import com.bob.mate.global.jwt.AuthorizationExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class OauthController {
     @GetMapping("/login/oauth/{provider}")
     public LoginResponse login(@PathVariable String provider, @RequestParam String code) {
         log.info("In OauthController");
-        return oauthService.login(new AuthorizationRequest(provider,code));
+        return oauthService.login(new AuthorizationRequest(provider, code));
 
     }
 
@@ -42,5 +41,11 @@ public class OauthController {
         String accessToken = AuthorizationExtractor.extract(request);
         log.info("accessToken = {}", accessToken);
         return authService.accessTokenByRefreshToken(accessToken, refreshToken);
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request) {
+        String accessToken = AuthorizationExtractor.extract(request);
+        authService.logout(accessToken);
     }
 }

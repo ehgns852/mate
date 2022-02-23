@@ -5,9 +5,8 @@ import com.bob.mate.domain.user.service.AuthService;
 import com.bob.mate.global.jwt.AuthorizationExtractor;
 import com.bob.mate.global.util.UserAuthentication;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,14 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthService authService;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, AuthService authService) {
-        super(authenticationManager);
+    public JwtAuthenticationFilter(AuthService authService) {
         this.authService = authService;
     }
+
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
