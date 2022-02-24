@@ -46,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST, "/users")
+        web.ignoring().antMatchers(HttpMethod.GET, "/user/**")
+                .antMatchers(HttpMethod.GET, "/login/oauth/**")
                 .antMatchers(HttpMethod.GET, "/posts")
                 .antMatchers("/")
                 .antMatchers("/static/**")
