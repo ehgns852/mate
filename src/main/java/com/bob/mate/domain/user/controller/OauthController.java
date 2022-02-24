@@ -29,6 +29,7 @@ public class OauthController {
     public LoginResponse login(@PathVariable String provider, @RequestParam String code) {
         log.info("In OauthController");
         return oauthService.login(new AuthorizationRequest(provider, code));
+
     }
 
     /**
@@ -42,13 +43,9 @@ public class OauthController {
         return authService.accessTokenByRefreshToken(accessToken, refreshToken);
     }
 
-
     @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
         String accessToken = AuthorizationExtractor.extract(request);
         authService.logout(accessToken);
     }
-
-
-
 }
