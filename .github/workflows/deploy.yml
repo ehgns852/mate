@@ -12,11 +12,33 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: checkout backend
         uses: actions/checkout@v2
+      - name: checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: temp-portfolio-team/frontend
+          path: ./frontend
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: build frontend to resources
+        run: |
+          cd frontend
+          rm yarn.lock
+          yarn install
+          yarn build
+          cd ..
+          cp -r frontend/build/* src/main/resources/static/
+        env:
+          CI: ""
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "sicksago-api"
+          heroku_app_name: "sicksago"
           heroku_email: "vel1024@naver.com"
