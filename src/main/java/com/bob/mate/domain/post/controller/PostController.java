@@ -55,6 +55,7 @@ public class PostController {
         return postService.updatePost(postId, postRequest);
     }
 
+
     @DeleteMapping("/{postId}")
     public CustomResponse deletePost(@PathVariable Long postId) {
         return postService.deletePost(postId);

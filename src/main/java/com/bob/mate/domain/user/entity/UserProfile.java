@@ -77,4 +77,7 @@ public class UserProfile {
         this.user = user;
     }
 
+    public void createNickName(String nickName) {
+        this.nickName = nickName;
+    }
 }

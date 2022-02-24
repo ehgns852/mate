@@ -91,5 +91,12 @@ public class User implements Auditable {
         this.timeEntity = timeEntity;
     }
 
+
+    /**
+     * 닉네임 생성 및 변경
+     */
+    public void createNickName(String nickName) {
+        getUserProfile().createNickName(nickName);
+    }
 }
 
