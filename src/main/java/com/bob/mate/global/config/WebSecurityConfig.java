@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CorsConfig corsConfig;
     private final AuthService authService;
 
     @Override
@@ -40,13 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable();
-//                .cors().configurationSource(corsConfig.corsConfigurationSource());
 
         http
                 .addFilterBefore(new JwtAuthenticationFilter(authService), UsernamePasswordAuthenticationFilter.class)
                 .antMatcher("/posts/**");
 
     }
+
 
     @Bean
     @Override
