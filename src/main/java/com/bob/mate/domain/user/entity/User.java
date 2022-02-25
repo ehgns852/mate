@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.entity;
 
 import com.bob.mate.domain.post.entity.Post;
+import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
@@ -39,7 +40,7 @@ public class User implements Auditable {
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
 
@@ -97,6 +98,14 @@ public class User implements Auditable {
      */
     public void createNickName(String nickName) {
         getUserProfile().createNickName(nickName);
+    }
+
+    /**
+     * 회원 프로필 생성 및 변경
+     */
+    public void createProfile(Address address, Integer phoneNumber, String email, Gender gender, String imgUrl) {
+        this.email = email;
+        getUserProfile().addProfile(address, phoneNumber, gender, imgUrl);
     }
 }
 

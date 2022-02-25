@@ -2,6 +2,7 @@ package com.bob.mate.domain.user.controller;
 
 
 import com.bob.mate.domain.user.dto.UserDto;
+import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserRequest;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.service.UserService;
@@ -24,17 +25,19 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable Long id){
+    public UserDto getUser(@PathVariable Long id) {
         User findUser = userService.findById(id);
         return new UserDto(findUser);
     }
 
     @PostMapping("{userId}/nickname")
-    public CustomResponse createNickName(@PathVariable Long userId, @Valid @RequestBody UserRequest userRequest, BindingResult bindingResult) {
+    public CustomResponse createNickName(@PathVariable Long userId,
+                                         @Valid @RequestBody UserRequest userRequest,
+                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new CustomException(ErrorCode.BAD_REQUEST_NICKNAME);
         }
-        return userService.createNickName(userId,userRequest);
+        return userService.createNickName(userId, userRequest);
     }
 
 
@@ -44,8 +47,14 @@ public class UserController {
     }
 
 
+    @PostMapping("{userId}/profile")
+    public CustomResponse createProfile(@PathVariable Long userId,
+                                        @Valid @RequestBody UserProfileRequest userProfileRequest,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new CustomException(ErrorCode.BAD_REQUEST_PROFILE);
+        }
 
-
-
-
+        return userService.createProfile(userId,userProfileRequest);
+    }
 }

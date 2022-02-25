@@ -31,7 +31,7 @@ public class UserProfile {
     @Embedded
     private Address address;
 
-    private String phoneNumber;
+    private Integer phoneNumber;
 
     @Enumerated(STRING)
     private Gender gender;
@@ -49,7 +49,7 @@ public class UserProfile {
 
 
     @Builder
-    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId, String imageUrl) {
+    public UserProfile(String nickName, Address address, Integer phoneNumber, Gender gender, Integer age, String provider, String providerId, String imageUrl) {
         this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -79,5 +79,13 @@ public class UserProfile {
 
     public void createNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+
+    public void addProfile(Address address, Integer phoneNumber, Gender gender, String imgUrl) {
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.imageUrl = imgUrl;
     }
 }

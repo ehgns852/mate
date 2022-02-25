@@ -1,5 +1,6 @@
 package com.bob.mate.domain.user.service;
 
+import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserRequest;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
@@ -31,8 +32,7 @@ public class UserService {
      * 회원 프로필 단건 조회
      */
     public User findById(Long id){
-        return userRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+        return findGetId(id);
     }
 
 
@@ -55,13 +55,40 @@ public class UserService {
      */
     @Transactional
     public CustomResponse createNickName(Long userId, UserRequest userRequest) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+
+        User user = findGetId(userId);
 
         if (!user.getUserProfile().getNickName().equals(userRequest.getNickname())) {
             user.createNickName(userRequest.getNickname());
         }
         return new CustomResponse("닉네임이 저장 되었습니다.");
+    }
+
+
+    /**
+     * 회원 프로필 생성 및 변경
+     */
+    @Transactional
+    public CustomResponse createProfile(Long userId, UserProfileRequest userProfileRequest) {
+        User findUser = findGetId(userId);
+
+        findUser.createProfile(userProfileRequest.getAddress(),
+                userProfileRequest.getPhoneNumber(),
+                userProfileRequest.getEmail(),
+                userProfileRequest.getGender(),
+                userProfileRequest.getImgUrl());
+
+        return new CustomResponse("회원 프로필이 저장 되었습니다.");
+    }
+
+
+
+    /**
+     * 중복 로직 findById
+     */
+    private User findGetId(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 }
 
