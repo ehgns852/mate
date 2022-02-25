@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.GET, "/user/**")
                 .antMatchers(HttpMethod.GET, "/login/oauth/**")
-                .antMatchers(HttpMethod.GET, "/posts")
+                .antMatchers(HttpMethod.GET, "/posts", "/posts/**")
                 .antMatchers("/")
                 .antMatchers("/static/**")
                 .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png");
