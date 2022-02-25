@@ -4,10 +4,10 @@ spring:
       client:
         registration:
           kakao:
-            client-id: ${{secrets.KAKAO_CLIENT_ID}}
+            client-id: ${KAKAO_CLIENT_ID}
             redirect-uri: https://sicksago.herokuapp.com/oauth/kakao
             client-authentication-method: POST
-            client-secret: ${{secrets.KAKAO_CLIENT_SECRET}}
+            client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname

@@ -2,9 +2,9 @@ spring:
   profiles:
     include: oauth
   datasource:
-    url: ${{secrets.POSTGRES_DATABASE}}
-    username: ${{secrets.POSTGRES_USERNAME}}
-    password: ${{secrets.POSTGRES_PASSWORD}}
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     hikari:
       maximum-pool-size: 4
   jpa:
