@@ -22,10 +22,6 @@ jobs:
         with:
           repository: temp-portfolio-team/frontend
           path: ./frontend
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: build frontend to resources
         run: |
           cd frontend
