@@ -2,21 +2,22 @@ package com.bob.mate.global.util;
 
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
+import com.bob.mate.global.exception.CustomException;
+import com.bob.mate.global.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class Util {
-    private final UserRepository userRepository;
-    private final IAuthenticationFacade authenticationFacade;
 
-    public Util(UserRepository userRepository, IAuthenticationFacade authenticationFacade) {
-        this.userRepository = userRepository;
-        this.authenticationFacade = authenticationFacade;
-    }
+    private final UserRepository userRepository;
+
 
     public User findCurrentUser() {
-        return userRepository.findById(1L).get(); // 테스트 용
-        // 실제 사용시 : return userRepository.findByEmail(authenticationFacade.getPrincipalName());
+
+        return userRepository.findById(SecurityUtil.getCurrentUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
 

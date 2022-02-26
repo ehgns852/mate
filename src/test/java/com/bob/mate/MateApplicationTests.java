@@ -3,11 +3,11 @@ package com.bob.mate;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class MateApplicationTests {
+//@SpringBootTest
+//class MateApplicationTests {
+//
+//    @Test
+//    void contextLoads() {
+//    }
 
-    @Test
-    void contextLoads() {
-    }
-
-}
+//}
