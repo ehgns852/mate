@@ -54,8 +54,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
                 ))
                 .from(post)
                 .innerJoin(post.user, user)
-                .innerJoin(user.userProfile, userProfile).fetchJoin()
-                .fetchJoin()
+                .innerJoin(user.userProfile, userProfile)
                 .where(post.id.eq(postId))
                 .fetchOne();
     }

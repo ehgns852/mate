@@ -4,6 +4,8 @@ import com.bob.mate.domain.post.dto.AllPostResponse;
 import com.bob.mate.domain.post.dto.OnePostResponse;
 import com.bob.mate.domain.post.dto.PostRequest;
 import com.bob.mate.domain.post.entity.Post;
+import com.bob.mate.domain.post.entity.PostLike;
+import com.bob.mate.domain.post.repository.PostLikeRepository;
 import com.bob.mate.domain.post.repository.PostRepository;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.dto.CustomResponse;
@@ -17,12 +19,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
 
     private final Util util;
 
@@ -31,6 +36,11 @@ public class PostService {
     }
 
     public OnePostResponse getPost(Long postId) {
+        Optional<Post> post = postRepository.findById(postId);
+
+        if (post.isEmpty())
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+
         return postRepository.findPost(postId);
     }
 
@@ -75,14 +85,18 @@ public class PostService {
 
         User user = util.findCurrentUser();
 
-        if (!post.getLiked() && !post.getUser().equals(user))
-            post.likePost(post.getLikeCount() + 1, !post.getLiked());
-        else if (post.getLiked() && !post.getUser().equals(user))
-            post.likePost(post.getLikeCount() - 1, !post.getLiked());
-        else if (post.getUser().equals(user))
-            throw new CustomException(ErrorCode.BAD_REQUEST_LIKE);
+        Optional<PostLike> postLike = postLikeRepository.findByPostIdAndUserId(postId, user.getId());
 
-        return new LikeResponse(post.getLikeCount(), post.getLiked());
+        if (postLike.isPresent()) {
+            post.likePost(post.getLikeCount() - 1);
+            postLikeRepository.delete(postLike.get());
+            return new LikeResponse(post.getLikeCount(), false);
+        } else {
+            post.likePost(post.getLikeCount() + 1);
+            PostLike newPostLike = new PostLike(user, post);
+            postLikeRepository.save(newPostLike);
+            return new LikeResponse(post.getLikeCount(), true);
+        }
     }
 
     /**
