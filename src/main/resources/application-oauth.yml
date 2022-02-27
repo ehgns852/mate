@@ -4,17 +4,17 @@ spring:
       client:
         registration:
           kakao:
-            client-id: ${{secrets.KAKAO_CLIENT_ID}}
-            redirect-uri: /oauth/kakao
+            client-id: 9719a3774e9f6f5c36f7e5da3a2b4005
+            redirect-uri: http://localhost:3000/oauth/kakao
             client-authentication-method: POST
-            client-secret: ${{secrets.KAKAO_CLIENT_SECRET}}
+            client-secret: y6PhdneXqV6oXXyDPFqSiTLMsEDsnrkd
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
               - profile_image
               - account_email
               - gender
-              - age_range
+              - birthday
             client_name: kakao
         provider:
           kakao:
@@ -25,7 +25,7 @@ spring:
 
 jwt:
   token:
-    secret-key: secret
+    secret-key: dasjdklasjkldjlasasd12302180djlaj312321dsadajlsdsad
   access-token:
     expire-length: 1800000
   refresh-token:
