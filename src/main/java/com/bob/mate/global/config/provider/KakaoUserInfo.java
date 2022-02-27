@@ -36,13 +36,16 @@ public class KakaoUserInfo implements Oauth2UserInfo {
 
     @Override
     public Gender getGender() {
+
         String gender = (String) getKakaoAccount().get("gender");
 
-        if (gender.equals("male")) {
-            return Gender.MAN;
-        } else {
+        if (gender != null) {
+            if (gender.equals("male")) {
+                return Gender.MAN;
+            }
             return Gender.WOMAN;
         }
+        return null;
     }
 
     @Override
