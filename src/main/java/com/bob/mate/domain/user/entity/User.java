@@ -51,11 +51,11 @@ public class User implements Auditable {
 
 
     @Builder
-    public User(String email, UserProfile userProfile, Role role, TimeEntity timeEntity) {
+    public User(Long id, String email, UserProfile userProfile, Role role) {
+        this.id = id;
         this.email = email;
         this.userProfile = userProfile;
         this.role = role;
-        this.timeEntity = timeEntity;
     }
 
     /**

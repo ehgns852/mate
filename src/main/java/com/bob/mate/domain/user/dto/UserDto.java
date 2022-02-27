@@ -21,7 +21,7 @@ public class UserDto {
     private Address address;
     private Gender gender;
     private String phoneNumber;
-    private int age;
+    private Integer age;
 
 
     public UserDto(User user) {
