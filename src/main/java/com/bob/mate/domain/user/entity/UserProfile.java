@@ -77,11 +77,17 @@ public class UserProfile {
         this.user = user;
     }
 
+    /**
+     * 닉네임 변경
+     */
     public void createNickName(String nickName) {
         this.nickName = nickName;
     }
 
 
+    /**
+     * 프로필 변경
+     */
     public void addProfile(Address address, Integer phoneNumber, Gender gender, String imgUrl) {
         this.address = address;
         this.phoneNumber = phoneNumber;

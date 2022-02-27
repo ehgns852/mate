@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -30,8 +31,8 @@ public class UserController {
         return new UserDto(findUser);
     }
 
-    @PostMapping("{userId}/nickname")
-    public CustomResponse createNickName(@PathVariable Long userId,
+    @PatchMapping("{userId}/nickname")
+    public CustomResponse updateNickname(@PathVariable Long userId,
                                          @Valid @RequestBody UserRequest userRequest,
                                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -48,13 +49,13 @@ public class UserController {
 
 
     @PostMapping("{userId}/profile")
-    public CustomResponse createProfile(@PathVariable Long userId,
+    public CustomResponse updateProfile(@PathVariable Long userId,
+                                        @RequestParam(value = "profile",required = false) MultipartFile multipartFile,
                                         @Valid @RequestBody UserProfileRequest userProfileRequest,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PROFILE);
         }
-
-        return userService.createProfile(userId,userProfileRequest);
+        return userService.updateProfile(userId, multipartFile, userProfileRequest);
     }
 }

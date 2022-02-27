@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,7 +33,7 @@ public class UserService {
      * 회원 프로필 단건 조회
      */
     public User findById(Long id){
-        return findGetId(id);
+        return getFindById(id);
     }
 
 
@@ -56,7 +57,7 @@ public class UserService {
     @Transactional
     public CustomResponse createNickName(Long userId, UserRequest userRequest) {
 
-        User user = findGetId(userId);
+        User user = getFindById(userId);
 
         if (!user.getUserProfile().getNickName().equals(userRequest.getNickname())) {
             user.createNickName(userRequest.getNickname());
@@ -69,8 +70,8 @@ public class UserService {
      * 회원 프로필 생성 및 변경
      */
     @Transactional
-    public CustomResponse createProfile(Long userId, UserProfileRequest userProfileRequest) {
-        User findUser = findGetId(userId);
+    public CustomResponse updateProfile(Long userId, MultipartFile multipartFile, UserProfileRequest userProfileRequest) {
+        User findUser = getFindById(userId);
 
         findUser.createProfile(userProfileRequest.getAddress(),
                 userProfileRequest.getPhoneNumber(),
@@ -86,7 +87,7 @@ public class UserService {
     /**
      * 중복 로직 findById
      */
-    private User findGetId(Long userId) {
+    private User getFindById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
