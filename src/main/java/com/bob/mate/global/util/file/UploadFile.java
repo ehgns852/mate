@@ -1,18 +1,34 @@
 package com.bob.mate.global.util.file;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
-@RequiredArgsConstructor
+@Entity
+@NoArgsConstructor(access = PROTECTED)
 public class UploadFile {
 
-    private final MultipartFile multipartFile;
-    private final String fileName;
-    private final String contentType;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "upload_file_id")
+    private Long id;
 
-    public static UploadFile of(MultipartFile multipartFile, String fileName, String contentType) {
-        return new UploadFile(multipartFile, fileName, contentType);
+    private String uploadFilename;
+    private String storeFilename;
+    private String filePath;
+
+
+    public UploadFile(String uploadFilename, String storeFilename, String filePath) {
+        this.uploadFilename = uploadFilename;
+        this.storeFilename = storeFilename;
+        this.filePath = filePath;
     }
 }

@@ -1,10 +1,10 @@
 package com.bob.mate.domain.user.entity;
 
 import com.bob.mate.domain.post.entity.Post;
-import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
+import com.bob.mate.global.util.file.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -102,9 +102,9 @@ public class User implements Auditable {
     /**
      * 회원 프로필 생성 및 변경
      */
-    public void createProfile(Address address, Integer phoneNumber, String email, Gender gender, String imgUrl) {
+    public void createProfile(Address address, Integer phoneNumber, String email, Gender gender, UploadFile uploadFile) {
         this.email = email;
-        getUserProfile().addProfile(address, phoneNumber, gender, imgUrl);
+        getUserProfile().addProfile(address, phoneNumber, gender, uploadFile);
     }
 }
 

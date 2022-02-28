@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.entity;
 
 
+import com.bob.mate.global.util.file.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -45,6 +47,10 @@ public class UserProfile {
     private String providerId;
 
     private String imageUrl;
+
+    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "upload_file_id")
+    private UploadFile uploadFile;
 
 
 
@@ -88,10 +94,10 @@ public class UserProfile {
     /**
      * 프로필 변경
      */
-    public void addProfile(Address address, Integer phoneNumber, Gender gender, String imgUrl) {
+    public void addProfile(Address address, Integer phoneNumber, Gender gender, UploadFile uploadFile) {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
-        this.imageUrl = imgUrl;
+        this.uploadFile = uploadFile;
     }
 }

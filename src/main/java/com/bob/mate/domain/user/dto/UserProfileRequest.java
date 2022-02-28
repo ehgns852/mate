@@ -5,6 +5,7 @@ import com.bob.mate.domain.user.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,8 +15,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UserProfileRequest {
 
-
-    private String imgUrl;
 
     @NotNull
     private Gender gender;
