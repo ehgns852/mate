@@ -3,7 +3,9 @@ package com.bob.mate.domain.post.service;
 import com.bob.mate.domain.post.dto.CommentRequest;
 import com.bob.mate.domain.post.dto.CommentResponse;
 import com.bob.mate.domain.post.entity.Comment;
+import com.bob.mate.domain.post.entity.CommentLike;
 import com.bob.mate.domain.post.entity.Post;
+import com.bob.mate.domain.post.repository.CommentLikeRepository;
 import com.bob.mate.domain.post.repository.CommentRepository;
 import com.bob.mate.domain.post.repository.PostRepository;
 import com.bob.mate.domain.user.entity.User;
@@ -18,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,6 +29,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     private final Util util;
 
@@ -48,6 +53,9 @@ public class CommentService {
     public CustomResponse updateComment(Long postId, Long commentId, CommentRequest request) {
         Comment comment = commentRepository.checkCommentOwner(postId, commentId);
 
+        if (comment == null)
+            throw new CustomException(ErrorCode.NOT_FOUND_COMMENT);
+
         comment.updateContent(request.getContent());
 
         commentRepository.save(comment);
@@ -58,6 +66,9 @@ public class CommentService {
     @Transactional
     public CustomResponse deleteComment(Long postId, Long commentId) {
         Comment comment = commentRepository.checkCommentOwner(postId, commentId);
+
+        if (comment == null)
+            throw new CustomException(ErrorCode.NOT_FOUND_COMMENT);
 
         commentRepository.delete(comment);
 
@@ -70,14 +81,18 @@ public class CommentService {
 
         User user = util.findCurrentUser();
 
-        if (!comment.getLiked() && !comment.getUser().equals(user))
-            comment.likeComment(comment.getLikeCount() + 1, !comment.getLiked());
-        else if (comment.getLiked() && !comment.getUser().equals(user))
-            comment.likeComment(comment.getLikeCount() - 1, !comment.getLiked());
-        else if (comment.getUser().equals(user))
-            throw new CustomException(ErrorCode.BAD_REQUEST_LIKE);
+        Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, user.getId());
 
-        return new LikeResponse(comment.getLikeCount(), comment.getLiked());
+        if (commentLike.isPresent()) {
+            comment.likeComment(comment.getLikeCount() - 1);
+            commentLikeRepository.delete(commentLike.get());
+            return new LikeResponse(comment.getLikeCount(), false);
+        } else {
+            comment.likeComment(comment.getLikeCount() + 1);
+            CommentLike newCommentLike = new CommentLike(user, comment);
+            commentLikeRepository.save(newCommentLike);
+            return new LikeResponse(comment.getLikeCount(), true);
+        }
     }
 
     /**

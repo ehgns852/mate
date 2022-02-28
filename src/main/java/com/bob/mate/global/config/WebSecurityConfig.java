@@ -5,8 +5,11 @@ import com.bob.mate.global.config.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -41,11 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable();
 
         http
-                .addFilterBefore(new JwtAuthenticationFilter(authService), UsernamePasswordAuthenticationFilter.class)
-                .antMatcher("/posts/**");
+                .addFilterBefore(new JwtAuthenticationFilter(authService), UsernamePasswordAuthenticationFilter.class);
 
     }
-
 
     @Bean
     @Override
@@ -53,4 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.GET, "/login/oauth/**")
+                .antMatchers(HttpMethod.GET, "/posts/**")
+                .antMatchers("/")
+                .antMatchers("/static/**")
+                .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png")
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs");
+    }
 }

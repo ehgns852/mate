@@ -33,7 +33,6 @@ public class User implements Auditable {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
