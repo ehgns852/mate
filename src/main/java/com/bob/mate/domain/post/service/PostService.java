@@ -36,7 +36,7 @@ public class PostService {
     }
 
     public OnePostResponse getPost(Long postId) {
-        Post post = postRepository.findById(postId)
+        postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         return postRepository.findPost(postId);
