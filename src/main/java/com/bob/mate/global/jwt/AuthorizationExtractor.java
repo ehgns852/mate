@@ -30,6 +30,10 @@ public class AuthorizationExtractor {
                 return authHeaderValue;
             }
         }
+        // CustomException 클래스는 서비스 로직단에서만 먹히는 에러 클래스입니다.
+        // 필터 단에서 발생하는 예외 메시지를 정상적으로 보내기 위해서는
+        // AuthenticationEntryPoint (인증 관련) 이나
+        // AccessDeniedHandler (인가 관련) 을 사용해야 하므로 다른 방식을 쓰셔야 합니다.
         throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS_TOKEN);
     }
 }
