@@ -36,10 +36,8 @@ public class PostService {
     }
 
     public OnePostResponse getPost(Long postId) {
-        Optional<Post> post = postRepository.findById(postId);
-
-        if (post.isEmpty())
-            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         return postRepository.findPost(postId);
     }
