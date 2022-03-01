@@ -39,11 +39,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         );
 
         List<String> excludePathPattern = List.of(
-                ""
+                "/user/image/**"
         );
 
         registry.addInterceptor(new AuthenticationInterceptor(authService))
-                .addPathPatterns(addPathPattern);
+                .addPathPatterns(addPathPattern)
+                .excludePathPatterns(excludePathPattern);
     }
 
 }

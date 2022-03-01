@@ -81,7 +81,7 @@ public class UserService {
     public UserResponse updateProfile(Long userId, MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
         User findUser = getFindById(userId);
 
-        UploadFile uploadFile = fileStore.storeFile(multipartFile);
+            UploadFile uploadFile = fileStore.storeFile(multipartFile);
 
         findUser.createProfile(userProfileRequest.getAddress(),
                 userProfileRequest.getPhoneNumber(),

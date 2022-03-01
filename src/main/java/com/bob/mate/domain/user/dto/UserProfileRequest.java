@@ -5,6 +5,7 @@ import com.bob.mate.domain.user.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class UserProfileRequest {
 
 
@@ -28,4 +30,5 @@ public class UserProfileRequest {
 
     @NotNull
     private Integer phoneNumber;
+
 }

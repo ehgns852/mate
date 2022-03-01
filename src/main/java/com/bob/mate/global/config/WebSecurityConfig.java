@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/")
                 .antMatchers("/static/**")
                 .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png")
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs");
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs")
+                .antMatchers(HttpMethod.GET,"/user/image/**");
     }
 }

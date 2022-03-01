@@ -27,6 +27,6 @@ jwt:
   token:
     secret-key: dasjdklasjkldjlasasd12302180djlaj312321dsadajlsdsad
   access-token:
-    expire-length: 1800000
+    expire-length: 18000000
   refresh-token:
     expire-length: 1209600000
