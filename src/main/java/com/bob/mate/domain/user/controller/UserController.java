@@ -2,6 +2,7 @@ package com.bob.mate.domain.user.controller;
 
 
 import com.bob.mate.domain.user.dto.UserProfileRequest;
+import com.bob.mate.domain.user.dto.UserProfileResponse;
 import com.bob.mate.domain.user.dto.UserRequest;
 import com.bob.mate.domain.user.dto.UserResponse;
 import com.bob.mate.domain.user.entity.User;
@@ -9,14 +10,11 @@ import com.bob.mate.domain.user.service.UserService;
 import com.bob.mate.global.dto.CustomResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
-import com.bob.mate.global.util.file.FileStore;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 
 @RequestMapping("/user")
@@ -34,7 +31,6 @@ import java.net.MalformedURLException;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final FileStore fileStore;
 
     @Operation(summary = "유저 단건 조회 API", description = "유저 ID를 받아와서 유저 정보를 반환하는 API")
     @ApiResponses({
@@ -75,24 +71,22 @@ public class UserController {
     }
 
 
+    @Operation(summary = "유저 프로필 생성 및 수정 API", description = "유저 ID를 받아와서 프로필을 생성 및 수정 하는 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원 프로필이 정상적으로 저장된 경우"),
+            @ApiResponse(responseCode = "400", description = "Request Body 입력값이 잘못된 경우"),
+            @ApiResponse(responseCode = "404", description = "받아온 ID로 유저를 찾지 못한 경우")
+    })
     @PostMapping(value = "/{userId}/profile", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public UserResponse updateProfile(@PathVariable Long userId,
-                                      @RequestPart(value = "file", required = false) MultipartFile multipartFile,
-                                      @Validated @RequestPart(value = "json") UserProfileRequest userProfile,
-                                      BindingResult bindingResult) throws IOException {
+    public UserProfileResponse updateProfile(@PathVariable Long userId,
+                                             @RequestPart(value = "file", required = false) MultipartFile multipartFile,
+                                             @Validated @RequestPart(value = "json") UserProfileRequest userProfile,
+                                             BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PROFILE);
         }
         return userService.updateProfile(userId, multipartFile, userProfile);
     }
 
-    @GetMapping("/image/{filename}")
-    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
-        log.info("in Resource image");
-        if (!filename.equals("null")) {
-            return new UrlResource("file:" + fileStore.getFullPath(filename));
-        } else {
-            return new UrlResource("https://dummyimage.com/450x300/dee2e6/6c757d.jpg");
-        }
-    }
+
 }

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -63,7 +64,9 @@ public class User implements Auditable {
      */
     public static User createUser(String email,String nickName, Gender gender, String provider, String providerId,String imageUrl){
 
-        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId,imageUrl);
+        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId);
+        UploadFile uploadFile = UploadFile.createUploadFile(imageUrl);
+        profile.addImgUrl(uploadFile);
 
         User user = User.builder()
                 .email(email)
@@ -100,11 +103,19 @@ public class User implements Auditable {
     }
 
     /**
-     * 회원 프로필 생성 및 변경
+     * 회원 프로필 생성 및 변경 (이미지 파일 업로드)
      */
-    public void createProfile(Address address, Integer phoneNumber, String email, Gender gender, UploadFile uploadFile) {
+    public void addUploadImg(Address address, String phoneNumber, String email, Gender gender, UploadFile uploadFile) {
         this.email = email;
-        getUserProfile().addProfile(address, phoneNumber, gender, uploadFile);
+        getUserProfile().addUploadImg(address, phoneNumber, gender, uploadFile);
+    }
+
+    /**
+     * 회원 프로필 생성 및 변경 (이미지 파일 업로드 X)
+     */
+    public void updateUserProfile(Address address, String phoneNumber, String email, Gender gender) {
+        this.email = email;
+        getUserProfile().addProfile(address, phoneNumber, gender);
     }
 }
 

@@ -2,6 +2,7 @@ package com.bob.mate.domain.user.dto;
 
 import com.bob.mate.domain.user.entity.Address;
 import com.bob.mate.domain.user.entity.Gender;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 public class UserProfileRequest {
 
 
+    @Schema(description = "성별", example = "MAN")
     @NotNull
     private Gender gender;
 
@@ -29,6 +31,6 @@ public class UserProfileRequest {
     private String email;
 
     @NotNull
-    private Integer phoneNumber;
+    private String phoneNumber;
 
 }

@@ -1,5 +1,6 @@
 package com.bob.mate.global.util.file;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,9 +27,22 @@ public class UploadFile {
     private String filePath;
 
 
+    @Builder
     public UploadFile(String uploadFilename, String storeFilename, String filePath) {
         this.uploadFilename = uploadFilename;
         this.storeFilename = storeFilename;
         this.filePath = filePath;
+    }
+
+    public static UploadFile createUploadFile(String imgUrl) {
+        return UploadFile.builder()
+                .storeFilename(imgUrl)
+                .build();
+    }
+
+    public void addUploadFile(UploadFile uploadFile) {
+        this.uploadFilename = uploadFile.getUploadFilename();
+        this.storeFilename = uploadFile.getStoreFilename();
+        this.filePath = uploadFile.getFilePath();
     }
 }

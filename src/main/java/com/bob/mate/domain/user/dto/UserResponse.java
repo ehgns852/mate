@@ -20,10 +20,8 @@ public class UserResponse {
     private String nickName;
     private Address address;
     private Gender gender;
-    private Integer phoneNumber;
+    private String phoneNumber;
     private Integer age;
-    private String imgUrl;
-    private String message;
 
 
     public UserResponse(User user) {
@@ -37,12 +35,4 @@ public class UserResponse {
         this.age = user.getUserProfile().getAge();
     }
 
-    public UserResponse(String message, String imgUrl) {
-        this.message = message;
-        this.imgUrl = imgUrl;
-    }
-
-    public UserResponse(String message) {
-        this.message = message;
-    }
 }

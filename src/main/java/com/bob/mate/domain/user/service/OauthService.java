@@ -3,13 +3,9 @@ package com.bob.mate.domain.user.service;
 import com.bob.mate.domain.user.dto.AuthorizationRequest;
 import com.bob.mate.domain.user.dto.LoginResponse;
 import com.bob.mate.domain.user.dto.OauthTokenResponse;
-import com.bob.mate.domain.user.entity.Gender;
 import com.bob.mate.domain.user.entity.User;
-import com.bob.mate.domain.user.entity.UserProfile;
 import com.bob.mate.domain.user.oauth.OauthAttributes;
 import com.bob.mate.domain.user.repository.UserRepository;
-import com.bob.mate.global.config.provider.KakaoUserInfo;
-import com.bob.mate.global.config.provider.Oauth2UserInfo;
 import com.bob.mate.global.config.redis.RedisUtil;
 import com.bob.mate.global.jwt.JwtTokenProvider;
 import com.bob.mate.global.jwt.Token;
@@ -71,7 +67,7 @@ public class OauthService {
                 .id(user.getId())
                 .name(user.getUserProfile().getNickName())
                 .email(user.getEmail())
-                .imageUrl(user.getUserProfile().getImageUrl())
+                .imageUrl(user.getUserProfile().getUploadFile().getStoreFilename())
                 .role(user.getRole())
                 .tokenType(BEARER_TYPE)
                 .accessToken(accessToken.getValue())

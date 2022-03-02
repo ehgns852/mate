@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.service;
 
 import com.bob.mate.domain.user.dto.UserProfileRequest;
+import com.bob.mate.domain.user.dto.UserProfileResponse;
 import com.bob.mate.domain.user.dto.UserRequest;
 import com.bob.mate.domain.user.dto.UserResponse;
 import com.bob.mate.domain.user.entity.User;
@@ -78,21 +79,31 @@ public class UserService {
      * 회원 프로필 생성 및 변경
      */
     @Transactional
-    public UserResponse updateProfile(Long userId, MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
-        User findUser = getFindById(userId);
+    public UserProfileResponse updateProfile(Long userId, MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
 
-            UploadFile uploadFile = fileStore.storeFile(multipartFile);
+        User findUser = userRepository.findUserAllProfileById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
-        findUser.createProfile(userProfileRequest.getAddress(),
-                userProfileRequest.getPhoneNumber(),
-                userProfileRequest.getEmail(),
-                userProfileRequest.getGender(),
-                uploadFile);
+        UploadFile uploadFile = fileStore.storeFile(multipartFile);
 
         if (uploadFile != null) {
-            return new UserResponse("회원 프로필이 저장 되었습니다.", uploadFile.getStoreFilename());
+            findUser.addUploadImg(userProfileRequest.getAddress(),
+                    userProfileRequest.getPhoneNumber(),
+                    userProfileRequest.getEmail(),
+                    userProfileRequest.getGender(),
+                    uploadFile);
+
+            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", uploadFile.getStoreFilename());
+
+        } else {
+            findUser.updateUserProfile(userProfileRequest.getAddress(),
+                    userProfileRequest.getPhoneNumber(),
+                    userProfileRequest.getEmail(),
+                    userProfileRequest.getGender());
+
+            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", findUser.getUserProfile().getUploadFile().getStoreFilename());
         }
-        return new UserResponse("회원 프로필이 저장 되었습니다.");
+
     }
 
 
@@ -106,5 +117,4 @@ public class UserService {
     }
 
 }
-
 

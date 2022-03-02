@@ -33,7 +33,7 @@ public class UserProfile {
     @Embedded
     private Address address;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Enumerated(STRING)
     private Gender gender;
@@ -46,7 +46,6 @@ public class UserProfile {
     private String provider;
     private String providerId;
 
-    private String imageUrl;
 
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "upload_file_id")
@@ -55,7 +54,7 @@ public class UserProfile {
 
 
     @Builder
-    public UserProfile(String nickName, Address address, Integer phoneNumber, Gender gender, Integer age, String provider, String providerId, String imageUrl) {
+    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId) {
         this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -63,17 +62,15 @@ public class UserProfile {
         this.age = age;
         this.provider = provider;
         this.providerId = providerId;
-        this.imageUrl = imageUrl;
     }
 
     /**
      * 생성 메서드
      */
-    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId,String imageUrl) {
+    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId) {
         return UserProfile.builder()
                 .nickName(nickName)
                 .gender(gender)
-                .imageUrl(imageUrl)
                 .provider(provider)
                 .providerId(providerId)
                 .build();
@@ -94,10 +91,20 @@ public class UserProfile {
     /**
      * 프로필 변경
      */
-    public void addProfile(Address address, Integer phoneNumber, Gender gender, UploadFile uploadFile) {
+    public void addUploadImg(Address address, String phoneNumber, Gender gender, UploadFile uploadFile) {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.uploadFile.addUploadFile(uploadFile);
+    }
+
+    public void addImgUrl(UploadFile uploadFile) {
         this.uploadFile = uploadFile;
+    }
+
+    public void addProfile(Address address, String phoneNumber, Gender gender) {
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
     }
 }
