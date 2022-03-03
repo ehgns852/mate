@@ -95,27 +95,21 @@ public class User implements Auditable {
     }
 
 
-    /**
-     * 닉네임 생성 및 변경
-     */
-    public void createNickName(String nickName) {
-        getUserProfile().createNickName(nickName);
-    }
 
     /**
      * 회원 프로필 생성 및 변경 (이미지 파일 업로드)
      */
-    public void addUploadImg(Address address, String phoneNumber, String email, Gender gender, UploadFile uploadFile) {
+    public void addUploadImg(String nickname, Address address, String phoneNumber, String email, Gender gender, UploadFile uploadFile) {
         this.email = email;
-        getUserProfile().addUploadImg(address, phoneNumber, gender, uploadFile);
+        getUserProfile().addUploadImg(nickname, address, phoneNumber, gender, uploadFile);
     }
 
     /**
      * 회원 프로필 생성 및 변경 (이미지 파일 업로드 X)
      */
-    public void updateUserProfile(Address address, String phoneNumber, String email, Gender gender) {
+    public void updateUserProfile(String nickname, Address address, String phoneNumber, String email, Gender gender) {
         this.email = email;
-        getUserProfile().addProfile(address, phoneNumber, gender);
+        getUserProfile().addProfile(nickname, address, phoneNumber, gender);
     }
 }
 

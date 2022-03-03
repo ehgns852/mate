@@ -19,19 +19,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
 
-    /**
-     * UserEmail 조회
-     * User + UserProfile fetch join 한방 쿼리
-     */
-    @Override
-    public User findByEmail(String email) {
-        return queryFactory
-                .selectFrom(user)
-                .innerJoin(user.userProfile, userProfile)
-                .fetchJoin()
-                .where(user.email.eq(email))
-                .fetchOne();
-    }
 
     @Override
     public User findByOauthId(String providerId) {

@@ -80,18 +80,12 @@ public class UserProfile {
         this.user = user;
     }
 
-    /**
-     * 닉네임 변경
-     */
-    public void createNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
 
     /**
      * 프로필 변경
      */
-    public void addUploadImg(Address address, String phoneNumber, Gender gender, UploadFile uploadFile) {
+    public void addUploadImg(String nickName, Address address, String phoneNumber, Gender gender, UploadFile uploadFile) {
+        this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
@@ -102,7 +96,8 @@ public class UserProfile {
         this.uploadFile = uploadFile;
     }
 
-    public void addProfile(Address address, String phoneNumber, Gender gender) {
+    public void addProfile(String nickName, Address address, String phoneNumber, Gender gender) {
+        this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;

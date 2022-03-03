@@ -44,21 +44,6 @@ public class UserController {
     }
 
 
-    @Operation(summary = "유저 이름 수정 API", description = "Request Body 값을 받아와서 회원 이름을 수정하는 API")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "회원 이름이 정상적으로 수정된 경우"),
-            @ApiResponse(responseCode = "400", description = "Request Body 값이 잘못된 경우"),
-    })
-    @PatchMapping("/{userId}/nickname")
-    public CustomResponse updateNickname(@PathVariable Long userId,
-                                         @Valid @RequestBody UserRequest userRequest,
-                                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new CustomException(ErrorCode.BAD_REQUEST_NICKNAME);
-        }
-        return userService.createNickName(userId, userRequest);
-    }
-
 
     @Operation(summary = "유저 정보 삭제 API", description = "유저 ID를 받아와서 삭제하는 API")
     @ApiResponses({

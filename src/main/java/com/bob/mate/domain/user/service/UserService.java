@@ -61,21 +61,6 @@ public class UserService {
     }
 
     /**
-     * 회원 닉네임 생성 및 변경
-     */
-    @Transactional
-    public CustomResponse createNickName(Long userId, UserRequest userRequest) {
-
-        User user = getFindById(userId);
-
-        if (!user.getUserProfile().getNickName().equals(userRequest.getNickname())) {
-            user.createNickName(userRequest.getNickname());
-        }
-        return new CustomResponse("닉네임이 저장 되었습니다.");
-    }
-
-
-    /**
      * 회원 프로필 생성 및 변경
      */
     @Transactional
@@ -87,7 +72,9 @@ public class UserService {
         UploadFile uploadFile = fileStore.storeFile(multipartFile);
 
         if (uploadFile != null) {
-            findUser.addUploadImg(userProfileRequest.getAddress(),
+            findUser.addUploadImg(
+                    userProfileRequest.getNickName(),
+                    userProfileRequest.getAddress(),
                     userProfileRequest.getPhoneNumber(),
                     userProfileRequest.getEmail(),
                     userProfileRequest.getGender(),
@@ -96,7 +83,9 @@ public class UserService {
             return new UserProfileResponse("회원 프로필이 저장 되었습니다.", uploadFile.getStoreFilename());
 
         } else {
-            findUser.updateUserProfile(userProfileRequest.getAddress(),
+            findUser.updateUserProfile(
+                    userProfileRequest.getNickName(),
+                    userProfileRequest.getAddress(),
                     userProfileRequest.getPhoneNumber(),
                     userProfileRequest.getEmail(),
                     userProfileRequest.getGender());

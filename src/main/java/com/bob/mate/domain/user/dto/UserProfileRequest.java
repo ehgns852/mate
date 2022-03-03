@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +19,11 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class UserProfileRequest {
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 10)
+    private String nickName;
 
-    @Schema(description = "성별", example = "MAN")
     @NotNull
     private Gender gender;
 

@@ -1,13 +1,13 @@
 package com.bob.mate.global.util.file;
 
+import com.bob.mate.global.audit.AuditListener;
+import com.bob.mate.global.audit.Auditable;
+import com.bob.mate.global.audit.TimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -15,7 +15,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @Entity
 @NoArgsConstructor(access = PROTECTED)
-public class UploadFile {
+@EntityListeners(AuditListener.class)
+public class UploadFile implements Auditable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -25,6 +26,8 @@ public class UploadFile {
     private String uploadFilename;
     private String storeFilename;
     private String filePath;
+
+    private TimeEntity timeEntity;
 
 
     @Builder
@@ -44,5 +47,10 @@ public class UploadFile {
         this.uploadFilename = uploadFile.getUploadFilename();
         this.storeFilename = uploadFile.getStoreFilename();
         this.filePath = uploadFile.getFilePath();
+    }
+
+    @Override
+    public void setTimeEntity(TimeEntity timeEntity) {
+        this.timeEntity = timeEntity;
     }
 }

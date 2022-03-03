@@ -6,8 +6,6 @@ import java.util.Optional;
 
 public interface UserRepositoryCustom {
 
-    User findByEmail(String email);
-
     User findByOauthId(String providerId);
 
     Optional<User> findUserAllProfileById(Long id);
