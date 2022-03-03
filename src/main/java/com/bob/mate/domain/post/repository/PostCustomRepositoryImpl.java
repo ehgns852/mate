@@ -4,6 +4,7 @@ import com.bob.mate.domain.post.dto.AllPostResponse;
 import com.bob.mate.domain.post.dto.OnePostResponse;
 import com.bob.mate.domain.post.dto.QAllPostResponse;
 import com.bob.mate.domain.post.dto.QOnePostResponse;
+import com.bob.mate.global.util.file.QUploadFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
+import static com.bob.mate.global.util.file.QUploadFile.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     public Page<AllPostResponse> findAllPosts(Pageable pageable) {
         List<AllPostResponse> posts = jpaQueryFactory
                 .select(new QAllPostResponse(
-                        post.title, post.content, userProfile.imageUrl, userProfile.nickName,
+                        post.title, post.content, uploadFile.storeFilename , userProfile.nickName,
                         post.timeEntity.createdDate, post.comments.size(), post.likeCount,
                         post.viewCount
                 ))
@@ -36,6 +38,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
                 .innerJoin(post.user, user)
                 .innerJoin(user.userProfile, userProfile)
                 .innerJoin(post.comments, comment)
+                .innerJoin(userProfile.uploadFile, uploadFile)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc())
@@ -48,13 +51,14 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     public OnePostResponse findPost(Long postId) {
         return jpaQueryFactory
                 .select(new QOnePostResponse(
-                        post.title, post.content, userProfile.imageUrl,
+                        post.title, post.content, uploadFile.storeFilename,
                         userProfile.nickName, post.timeEntity.createdDate,
                         post.likeCount, post.viewCount
                 ))
                 .from(post)
                 .innerJoin(post.user, user)
                 .innerJoin(user.userProfile, userProfile)
+                .innerJoin(userProfile.uploadFile, uploadFile)
                 .where(post.id.eq(postId))
                 .fetchOne();
     }
