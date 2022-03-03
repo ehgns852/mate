@@ -4,17 +4,17 @@ spring:
       client:
         registration:
           kakao:
-            client-id: 9719a3774e9f6f5c36f7e5da3a2b4005
-            redirect-uri: http://localhost:3000/oauth/kakao
+            client-id: ${KAKAO_CLIENT_ID}
+            redirect-uri: https://sicksago.herokuapp.com/oauth/kakao
             client-authentication-method: POST
-            client-secret: y6PhdneXqV6oXXyDPFqSiTLMsEDsnrkd
+            client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             scope:
               - profile_nickname
               - profile_image
               - account_email
               - gender
-              - birthday
+              - age_range
             client_name: kakao
         provider:
           kakao:
@@ -25,8 +25,8 @@ spring:
 
 jwt:
   token:
-    secret-key: dasjdklasjkldjlasasd12302180djlaj312321dsadajlsdsad
+    secret-key: ${JWT_SECRET_KEY}
   access-token:
-    expire-length: 18000000
+    expire-length: 1800000
   refresh-token:
     expire-length: 1209600000

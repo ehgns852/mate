@@ -3,7 +3,6 @@ package com.bob.mate.domain.user.controller;
 
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
-import com.bob.mate.domain.user.dto.UserRequest;
 import com.bob.mate.domain.user.dto.UserResponse;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.service.UserService;
@@ -21,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 
 

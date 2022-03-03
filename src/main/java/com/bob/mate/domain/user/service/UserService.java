@@ -2,8 +2,6 @@ package com.bob.mate.domain.user.service;
 
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
-import com.bob.mate.domain.user.dto.UserRequest;
-import com.bob.mate.domain.user.dto.UserResponse;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
 import com.bob.mate.global.config.redis.RedisUtil;
