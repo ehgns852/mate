@@ -1,5 +1,6 @@
 package com.bob.mate.domain.user.service;
 
+import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
 import com.bob.mate.domain.user.entity.User;
@@ -90,7 +91,11 @@ public class UserService {
 
             return new UserProfileResponse("회원 프로필이 저장 되었습니다.", findUser.getUserProfile().getUploadFile().getStoreFilename());
         }
+    }
 
+    public UserProfileQueryDto findUserProfileById(Long id) {
+        return userRepository.findUserProfileById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
 

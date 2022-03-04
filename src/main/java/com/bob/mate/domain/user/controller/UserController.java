@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.controller;
 
 
+import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
 import com.bob.mate.domain.user.dto.UserResponse;
@@ -42,7 +43,6 @@ public class UserController {
     }
 
 
-
     @Operation(summary = "유저 정보 삭제 API", description = "유저 ID를 받아와서 삭제하는 API")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "회원 탈퇴가 정상적으로 성공된 경우"),
@@ -71,4 +71,14 @@ public class UserController {
         return userService.updateProfile(userId, multipartFile, userProfile);
     }
 
+
+    @Operation(summary = "유저 프로필 조회 API", description = "유저 ID를 받아와서 프로필을 조회하는 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원 프로필 조회가 정상적으로 리턴된 경우")
+            @ApiResponse(responseCode = "404", description = "회원 ID로 유저를 찾지 못한 경우")
+    })
+    @GetMapping("/{userId}/profile")
+    public UserProfileQueryDto getUserProfile(@PathVariable Long id) {
+        return userService.findUserProfileById(id);
+    }
 }
