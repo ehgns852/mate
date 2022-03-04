@@ -78,7 +78,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "회원 ID로 유저를 찾지 못한 경우")
     })
     @GetMapping("/{userId}/profile")
-    public UserProfileQueryDto getUserProfile(@PathVariable Long id) {
-        return userService.findUserProfileById(id);
+    public UserProfileQueryDto getUserProfile(@PathVariable Long userId) {
+        return userService.findUserProfileById(userId);
     }
 }
