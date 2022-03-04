@@ -74,7 +74,7 @@ public class UserController {
 
     @Operation(summary = "유저 프로필 조회 API", description = "유저 ID를 받아와서 프로필을 조회하는 API")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "회원 프로필 조회가 정상적으로 리턴된 경우")
+            @ApiResponse(responseCode = "200", description = "회원 프로필 조회가 정상적으로 리턴된 경우"),
             @ApiResponse(responseCode = "404", description = "회원 ID로 유저를 찾지 못한 경우")
     })
     @GetMapping("/{userId}/profile")
