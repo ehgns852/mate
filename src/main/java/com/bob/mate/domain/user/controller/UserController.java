@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Slf4j
 @RestController
@@ -48,7 +48,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "회원 탈퇴가 정상적으로 성공된 경우"),
             @ApiResponse(responseCode = "404", description = "입력받은 회원 ID를 찾지 못한경우")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public CustomResponse deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
@@ -70,6 +70,5 @@ public class UserController {
         }
         return userService.updateProfile(userId, multipartFile, userProfile);
     }
-
 
 }

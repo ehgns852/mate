@@ -1,5 +1,7 @@
 package com.bob.mate.domain.user.repository;
 
+import com.bob.mate.domain.user.dto.QUserProfileQueryDto;
+import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.entity.QUser;
 import com.bob.mate.domain.user.entity.QUserProfile;
 import com.bob.mate.domain.user.entity.User;
@@ -42,6 +44,23 @@ public class UserRepositoryImpl implements UserRepositoryCustom{
                 .fetchJoin()
                 .where(user.id.eq(id))
                 .fetchOne());
-
     }
+
+    @Override
+    public Optional<UserProfileQueryDto> findUserProfileById(Long id) {
+        return Optional.ofNullable(queryFactory
+                .select(new QUserProfileQueryDto(
+                        uploadFile.storeFilename,
+                        userProfile.nickName,
+                        userProfile.gender,
+                        userProfile.address,
+                        user.email,
+                        userProfile.phoneNumber))
+                .from(user)
+                .innerJoin(user.userProfile, userProfile)
+                .innerJoin(userProfile.uploadFile, uploadFile)
+                .where(user.id.eq(id))
+                .fetchOne());
+    }
+
 }
