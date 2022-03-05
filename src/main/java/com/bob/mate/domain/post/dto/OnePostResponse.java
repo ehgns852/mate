@@ -1,14 +1,11 @@
 package com.bob.mate.domain.post.dto;
 
-import com.bob.mate.domain.post.entity.Comment;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +19,6 @@ public class OnePostResponse {
     private Integer likeCount;
     private Integer viewCount;
 
-    @Builder
     @QueryProjection
     public OnePostResponse(
             String title, String content, String profileUrl,
