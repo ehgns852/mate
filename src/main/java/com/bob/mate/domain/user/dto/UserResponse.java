@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserDto {
+public class UserResponse {
 
     private Long id;
     private String email;
@@ -24,7 +24,7 @@ public class UserDto {
     private Integer age;
 
 
-    public UserDto(User user) {
+    public UserResponse(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.role = user.getRole();
@@ -34,4 +34,5 @@ public class UserDto {
         this.phoneNumber = user.getUserProfile().getPhoneNumber();
         this.age = user.getUserProfile().getAge();
     }
+
 }

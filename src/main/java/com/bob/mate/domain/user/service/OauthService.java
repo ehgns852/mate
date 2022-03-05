@@ -3,14 +3,13 @@ package com.bob.mate.domain.user.service;
 import com.bob.mate.domain.user.dto.AuthorizationRequest;
 import com.bob.mate.domain.user.dto.LoginResponse;
 import com.bob.mate.domain.user.dto.OauthTokenResponse;
-import com.bob.mate.domain.user.entity.Gender;
+import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.entity.User;
-import com.bob.mate.domain.user.entity.UserProfile;
 import com.bob.mate.domain.user.oauth.OauthAttributes;
 import com.bob.mate.domain.user.repository.UserRepository;
-import com.bob.mate.global.config.provider.KakaoUserInfo;
-import com.bob.mate.global.config.provider.Oauth2UserInfo;
 import com.bob.mate.global.config.redis.RedisUtil;
+import com.bob.mate.global.exception.CustomException;
+import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.jwt.JwtTokenProvider;
 import com.bob.mate.global.jwt.Token;
 import lombok.RequiredArgsConstructor;
@@ -67,15 +66,18 @@ public class OauthService {
 
         redisUtil.setDataExpire(String.valueOf(user.getId()), refreshToken.getValue(), refreshToken.getExpiredTime() );
 
+        boolean validateUser = validateProfileSaveUser(user.getId());
+
         return LoginResponse.builder()
                 .id(user.getId())
                 .name(user.getUserProfile().getNickName())
                 .email(user.getEmail())
-                .imageUrl(user.getUserProfile().getImageUrl())
+                .imageUrl(user.getUserProfile().getUploadFile().getStoreFilename())
                 .role(user.getRole())
                 .tokenType(BEARER_TYPE)
                 .accessToken(accessToken.getValue())
                 .refreshToken(refreshToken.getValue())
+                .profileSaveUser(validateUser)
                 .build();
     }
 
@@ -151,5 +153,18 @@ public class OauthService {
     }
 
 
+    private boolean validateProfileSaveUser(Long id) {
 
-}
+        UserProfileQueryDto findUser = userRepository.findUserProfileById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
+
+        if (findUser.getImgUrl() == null || findUser.getNickName() == null || findUser.getGender() == null || findUser.getAddress() == null ||
+            findUser.getEmail() == null || findUser.getPhoneNumber() == null) {
+            return false;
+        }
+         return true;
+        }
+
+
+    }
+

@@ -22,7 +22,6 @@ public class AuditListener {
 
     @PreUpdate
     public void setUpdateDate(Auditable auditable){
-        TimeEntity timeEntity = auditable.getTimeEntity();
-        timeEntity.setUpdatedDate(OffsetDateTime.now());
+        auditable.getTimeEntity().setUpdatedDate(OffsetDateTime.now());
     }
 }

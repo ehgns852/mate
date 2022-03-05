@@ -30,7 +30,7 @@ public class AuthorizationExtractor {
                 return authHeaderValue;
             }
         }
-        throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS_TOKEN);
+        return null;
     }
 }
 

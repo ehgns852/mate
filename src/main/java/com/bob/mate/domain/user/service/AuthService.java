@@ -5,6 +5,7 @@ import com.bob.mate.domain.user.dto.LoginMember;
 import com.bob.mate.domain.user.dto.RefreshTokenRequest;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.config.redis.RedisUtil;
+import com.bob.mate.global.dto.CustomResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.jwt.JwtTokenProvider;
@@ -74,9 +75,10 @@ public class AuthService {
      * 로그아웃 시 토큰도 같이 삭제
      */
     @Transactional
-    public void logout(String accessToken) {
+    public CustomResponse logout(String accessToken) {
         String id = jwtTokenProvider.getPayload(accessToken);
         redisUtil.deleteData(id);
+        return new CustomResponse("로그아웃이 완료 되었습니다.");
     }
 
 
