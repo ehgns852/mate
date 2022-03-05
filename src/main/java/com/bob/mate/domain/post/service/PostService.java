@@ -35,18 +35,12 @@ public class PostService {
         return postRepository.findAllPosts(pageable);
     }
 
+    @Transactional
     public OnePostResponse getPost(Long postId) {
-        Post post = findPostById(postId);
+        postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        return OnePostResponse.builder()
-                .title(post.getTitle())
-                .content(post.getContent())
-                .profileUrl(post.getUser().getUserProfile().getUploadFile().getStoreFilename())
-                .username(post.getUser().getUserProfile().getNickName())
-                .createdAt(post.getTimeEntity().getCreatedDate())
-                .likeCount(post.getLikeCount())
-                .viewCount(post.getViewCount() + 1)
-                .build();
+        return postRepository.findPost(postId);
     }
 
     @Transactional

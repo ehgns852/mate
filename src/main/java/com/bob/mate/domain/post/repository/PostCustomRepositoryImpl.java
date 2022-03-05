@@ -1,7 +1,9 @@
 package com.bob.mate.domain.post.repository;
 
 import com.bob.mate.domain.post.dto.AllPostResponse;
+import com.bob.mate.domain.post.dto.OnePostResponse;
 import com.bob.mate.domain.post.dto.QAllPostResponse;
+import com.bob.mate.domain.post.dto.QOnePostResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
-import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
@@ -41,5 +42,26 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
                 .fetch();
 
         return PageableExecutionUtils.getPage(posts, pageable, () -> (long) posts.size());
+    }
+
+    @Override
+    public OnePostResponse findPost(Long postId) {
+        jpaQueryFactory.update(post)
+                .set(post.viewCount, post.viewCount.add(1))
+                .where(post.id.eq(postId))
+                .execute();
+
+        return jpaQueryFactory
+                .select(new QOnePostResponse(
+                        post.title, post.content, uploadFile.storeFilename,
+                        userProfile.nickName, post.timeEntity.createdDate,
+                        post.likeCount, post.viewCount
+                ))
+                .from(post)
+                .innerJoin(post.user, user)
+                .innerJoin(user.userProfile, userProfile)
+                .innerJoin(userProfile.uploadFile, uploadFile)
+                .where(post.id.eq(postId))
+                .fetchOne();
     }
 }
