@@ -30,7 +30,7 @@ public class UserDummy {
         return User.builder()
                 .id(id)
                 .email(email)
-                .userProfile(UserProfile.createProfile(nickName, gender, provider, "djsakld", "dlksajldas"))
+                .userProfile(UserProfile.createProfile(nickName, gender, provider, "djsakld"))
                 .role(Role.USER)
                 .build();
     }

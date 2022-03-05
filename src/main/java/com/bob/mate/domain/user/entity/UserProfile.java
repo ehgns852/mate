@@ -1,6 +1,7 @@
 package com.bob.mate.domain.user.entity;
 
 
+import com.bob.mate.global.util.file.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -44,12 +46,15 @@ public class UserProfile {
     private String provider;
     private String providerId;
 
-    private String imageUrl;
+
+    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "upload_file_id")
+    private UploadFile uploadFile;
 
 
 
     @Builder
-    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId, String imageUrl) {
+    public UserProfile(String nickName, Address address, String phoneNumber, Gender gender, Integer age, String provider, String providerId) {
         this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -57,17 +62,15 @@ public class UserProfile {
         this.age = age;
         this.provider = provider;
         this.providerId = providerId;
-        this.imageUrl = imageUrl;
     }
 
     /**
      * 생성 메서드
      */
-    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId,String imageUrl) {
+    public static UserProfile createProfile(String nickName, Gender gender,String provider,String providerId) {
         return UserProfile.builder()
                 .nickName(nickName)
                 .gender(gender)
-                .imageUrl(imageUrl)
                 .provider(provider)
                 .providerId(providerId)
                 .build();
@@ -77,4 +80,26 @@ public class UserProfile {
         this.user = user;
     }
 
+
+    /**
+     * 프로필 변경
+     */
+    public void addUploadImg(String nickName, Address address, String phoneNumber, Gender gender, UploadFile uploadFile) {
+        this.nickName = nickName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.uploadFile.addUploadFile(uploadFile);
+    }
+
+    public void addImgUrl(UploadFile uploadFile) {
+        this.uploadFile = uploadFile;
+    }
+
+    public void addProfile(String nickName, Address address, String phoneNumber, Gender gender) {
+        this.nickName = nickName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+    }
 }

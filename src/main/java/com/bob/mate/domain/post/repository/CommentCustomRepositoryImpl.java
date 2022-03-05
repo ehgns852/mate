@@ -5,6 +5,7 @@ import com.bob.mate.domain.post.dto.QCommentResponse;
 import com.bob.mate.domain.post.entity.Comment;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.util.Util;
+import com.bob.mate.global.util.file.QUploadFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
+import static com.bob.mate.global.util.file.QUploadFile.*;
 
 @RequiredArgsConstructor
 public class CommentCustomRepositoryImpl implements CommentCustomRepository{
@@ -29,7 +31,7 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
         List<CommentResponse> comments = jpaQueryFactory
                 .select(new QCommentResponse(
                         comment.content, comment.likeCount, comment.liked,
-                        userProfile.imageUrl,
+                        uploadFile.storeFilename,
                         userProfile.nickName,
                         comment.timeEntity.createdDate
                 ))
@@ -37,6 +39,7 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
                 .innerJoin(comment.user, user)
                 .innerJoin(comment.post, post)
                 .innerJoin(user.userProfile, userProfile)
+                .innerJoin(userProfile.uploadFile, uploadFile)
                 .where(post.id.eq(postId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

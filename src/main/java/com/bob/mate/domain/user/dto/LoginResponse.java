@@ -16,9 +16,10 @@ public class LoginResponse {
     private String tokenType;
     private String accessToken;
     private String refreshToken;
+    boolean ProfileSaveUser;
 
     @Builder
-    public LoginResponse(Long id, String name, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken) {
+    public LoginResponse(Long id, String name, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken, boolean profileSaveUser) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -27,5 +28,6 @@ public class LoginResponse {
         this.tokenType = tokenType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.ProfileSaveUser = profileSaveUser;
     }
 }

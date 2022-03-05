@@ -56,11 +56,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.GET, "/login/oauth/**")
+        web.ignoring()
+                .antMatchers(HttpMethod.GET, "/login/oauth/**")
+                .antMatchers("/oauth/**")
                 .antMatchers(HttpMethod.GET, "/posts/**")
                 .antMatchers("/")
                 .antMatchers("/static/**")
                 .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png")
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs");
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs")
+                .antMatchers(HttpMethod.GET, "/image/**")
+                .antMatchers("/users/**")
+                .antMatchers(HttpMethod.POST, "/token");
     }
 }

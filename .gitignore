@@ -37,3 +37,6 @@ out/
 .vscode/
 
 /src/main/generated
+application-redis-dev.yml
+application-oauth-dev.yml
+application-dev.yml

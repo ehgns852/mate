@@ -4,6 +4,7 @@ import com.bob.mate.domain.post.entity.Post;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
+import com.bob.mate.global.util.file.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,7 @@ public class User implements Auditable {
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
 
@@ -62,7 +63,9 @@ public class User implements Auditable {
      */
     public static User createUser(String email,String nickName, Gender gender, String provider, String providerId,String imageUrl){
 
-        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId,imageUrl);
+        UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId);
+        UploadFile uploadFile = UploadFile.createUploadFile(imageUrl);
+        profile.addImgUrl(uploadFile);
 
         User user = User.builder()
                 .email(email)
@@ -90,5 +93,22 @@ public class User implements Auditable {
         this.timeEntity = timeEntity;
     }
 
+
+
+    /**
+     * 회원 프로필 생성 및 변경 (이미지 파일 업로드)
+     */
+    public void addUploadImg(String nickname, Address address, String phoneNumber, String email, Gender gender, UploadFile uploadFile) {
+        this.email = email;
+        getUserProfile().addUploadImg(nickname, address, phoneNumber, gender, uploadFile);
+    }
+
+    /**
+     * 회원 프로필 생성 및 변경 (이미지 파일 업로드 X)
+     */
+    public void updateUserProfile(String nickname, Address address, String phoneNumber, String email, Gender gender) {
+        this.email = email;
+        getUserProfile().addProfile(nickname, address, phoneNumber, gender);
+    }
 }
 
