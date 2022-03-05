@@ -7,5 +7,4 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostCustomRepository {
     Page<AllPostResponse> findAllPosts(Pageable pageable);
-    OnePostResponse findPost(Long postId);
 }

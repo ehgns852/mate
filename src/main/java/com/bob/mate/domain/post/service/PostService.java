@@ -36,10 +36,17 @@ public class PostService {
     }
 
     public OnePostResponse getPost(Long postId) {
-        postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        Post post = findPostById(postId);
 
-        return postRepository.findPost(postId);
+        return OnePostResponse.builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .profileUrl(post.getUser().getUserProfile().getUploadFile().getStoreFilename())
+                .username(post.getUser().getUserProfile().getNickName())
+                .createdAt(post.getTimeEntity().getCreatedDate())
+                .likeCount(post.getLikeCount())
+                .viewCount(post.getViewCount() + 1)
+                .build();
     }
 
     @Transactional

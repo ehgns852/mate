@@ -1,14 +1,28 @@
-INSERT INTO user_profile(city, street, zipcode, age, gender, image_url, nick_name, phone_number, provider, provider_id)
-VALUES ('seoul', 'gangnam-ro', 12345, 22, 'MAN', 'http://www.test.com', 'choi', '010-1234-5678', 'kakao', '12345');
+-- upload file
+INSERT INTO upload_file(file_path, store_filename, upload_filename)
+VALUES ('abcdefdafdf', 'vcxvuzivgusdif', 'vzxcviohsdofhodsfn');
 
-INSERT INTO user_profile(city, street, zipcode, age, gender, image_url, nick_name, phone_number, provider, provider_id)
-VALUES ('incheon', 'yeonsu-ro', 23456, 30, 'MAN', 'http://www.test2.com', 'park', '010-2345-5678', 'google', '23456');
+INSERT INTO upload_file(file_path, store_filename, upload_filename)
+VALUES ('vocxivhoihox', 'dsoivhosvoinvozv', 'cxohvoxhovoicv');
 
-INSERT INTO user_profile(city, street, zipcode, age, gender, image_url, nick_name, phone_number, provider, provider_id)
-VALUES ('daegu', 'dalseo-ro', 77895, 25, 'WOMAN', 'http://www.test3.com', 'kim', '010-9999-9999', 'kakao', '13457');
+INSERT INTO upload_file(file_path, store_filename, upload_filename)
+VALUES ('vxcmvxpcvisiodf', 'voixcnovxniocnv', 'vioohioihsiodhfidsf');
 
-INSERT INTO user_profile(city, street, zipcode, age, gender, image_url, nick_name, phone_number, provider, provider_id)
-VALUES ('busan', 'haeun-ro', 14552, 35, 'WOMAN', 'http://www.test4.com', 'seo', '010-4567-7895', 'facebook', '51281');
+INSERT INTO upload_file(file_path, store_filename, upload_filename)
+VALUES ('dspfmodisfiojfd', 'xcviuxcbivbdsf', 'vosouvhdshoifsofdso');
+
+
+INSERT INTO user_profile(city, street, zipcode, age, gender, nick_name, phone_number, provider, provider_id, upload_file_id)
+VALUES ('seoul', 'gangnam-ro', 12345, 22, 'MAN', 'choi', '010-1234-5678', 'kakao', '12345', 1);
+
+INSERT INTO user_profile(city, street, zipcode, age, gender, nick_name, phone_number, provider, provider_id, upload_file_id)
+VALUES ('incheon', 'yeonsu-ro', 23456, 30, 'MAN', 'park', '010-2345-5678', 'google', '23456', 2);
+
+INSERT INTO user_profile(city, street, zipcode, age, gender, nick_name, phone_number, provider, provider_id, upload_file_id)
+VALUES ('daegu', 'dalseo-ro', 77895, 25, 'WOMAN', 'kim', '010-9999-9999', 'kakao', '13457', 3);
+
+INSERT INTO user_profile(city, street, zipcode, age, gender, nick_name, phone_number, provider, provider_id, upload_file_id)
+VALUES ('busan', 'haeun-ro', 14552, 35, 'WOMAN', 'seo', '010-4567-7895', 'facebook', '51281', 4);
 
 
 
