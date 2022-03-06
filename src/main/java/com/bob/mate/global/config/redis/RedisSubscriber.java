@@ -1,0 +1,36 @@
+package com.bob.mate.global.config.redis;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class RedisSubscriber implements MessageListener {
+
+    private final ObjectMapper objectMapper;
+    private final RedisTemplate redisTemplate;
+    private final SimpMessageSendingOperations messageTemplate;
+
+
+    /**
+     * Redis에서 메시지가 발행(publish)되면 대기하고 있던 onMessage가 해당 메시지를 받아 처리한다.
+     */
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        try {
+            // redis 에서 발행된 데이터를 받아 deserialize
+            String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
+            // RedisChat 객체로 매핑
+            RedisChat redisChat = objectMapper.readValue(publishMessage, RedisChat.class);
+            // WebSocket 구독자에게 채팅 메시지 Send
+            messageTemplate.convertAndSend("/sub/chat/rooms" + redisChat.getRoomId(), redisChat.getMessage());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("파싱 에러");
+        }
+    }
+}
