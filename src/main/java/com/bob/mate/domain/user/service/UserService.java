@@ -10,7 +10,7 @@ import com.bob.mate.global.dto.CustomResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.util.file.FileStore;
-import com.bob.mate.global.util.file.UploadFile;
+import com.bob.mate.domain.user.entity.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

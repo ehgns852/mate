@@ -1,5 +1,6 @@
 package com.bob.mate.global.util.file;
 
+import com.bob.mate.domain.user.entity.UploadFile;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

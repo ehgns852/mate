@@ -35,8 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
-
 /src/main/generated
-application-redis-dev.yml
-application-oauth-dev.yml
-application-dev.yml
+application-oauth-local.yml
+application-local.yml

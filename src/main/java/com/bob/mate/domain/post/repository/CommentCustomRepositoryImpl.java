@@ -5,7 +5,6 @@ import com.bob.mate.domain.post.dto.QCommentResponse;
 import com.bob.mate.domain.post.entity.Comment;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.util.Util;
-import com.bob.mate.global.util.file.QUploadFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,11 +13,11 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
-import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
-import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.post.entity.QComment.comment;
 import static com.bob.mate.domain.post.entity.QPost.post;
-import static com.bob.mate.global.util.file.QUploadFile.*;
+import static com.bob.mate.domain.user.entity.QUploadFile.uploadFile;
+import static com.bob.mate.domain.user.entity.QUser.user;
+import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
 
 @RequiredArgsConstructor
 public class CommentCustomRepositoryImpl implements CommentCustomRepository{
