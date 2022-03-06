@@ -1,13 +1,11 @@
 package com.bob.mate.domain.post.dto;
 
-import com.bob.mate.domain.post.entity.Comment;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Getter
 @Setter
