@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.bob.mate.domain.post.entity.QPost.post;
 import static com.bob.mate.domain.user.entity.QUser.user;
@@ -45,13 +46,13 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     }
 
     @Override
-    public OnePostResponse findPost(Long postId) {
+    public Optional<OnePostResponse> findPost(Long postId) {
         jpaQueryFactory.update(post)
                 .set(post.viewCount, post.viewCount.add(1))
                 .where(post.id.eq(postId))
                 .execute();
 
-        return jpaQueryFactory
+        return Optional.ofNullable(jpaQueryFactory
                 .select(new QOnePostResponse(
                         post.title, post.content, uploadFile.storeFilename,
                         userProfile.nickName, post.timeEntity.createdDate,
@@ -62,6 +63,6 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
                 .innerJoin(user.userProfile, userProfile)
                 .innerJoin(userProfile.uploadFile, uploadFile)
                 .where(post.id.eq(postId))
-                .fetchOne();
+                .fetchOne());
     }
 }

@@ -37,10 +37,7 @@ public class PostService {
 
     @Transactional
     public OnePostResponse getPost(Long postId) {
-        postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-
-        return postRepository.findPost(postId);
+        return postRepository.findPost(postId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
     }
 
     @Transactional
