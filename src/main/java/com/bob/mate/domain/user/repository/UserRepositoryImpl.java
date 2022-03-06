@@ -2,18 +2,15 @@ package com.bob.mate.domain.user.repository;
 
 import com.bob.mate.domain.user.dto.QUserProfileQueryDto;
 import com.bob.mate.domain.user.dto.UserProfileQueryDto;
-import com.bob.mate.domain.user.entity.QUser;
-import com.bob.mate.domain.user.entity.QUserProfile;
 import com.bob.mate.domain.user.entity.User;
-import com.bob.mate.global.util.file.QUploadFile;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static com.bob.mate.domain.user.entity.QUser.*;
-import static com.bob.mate.domain.user.entity.QUserProfile.*;
-import static com.bob.mate.global.util.file.QUploadFile.*;
+import static com.bob.mate.domain.user.entity.QUploadFile.uploadFile;
+import static com.bob.mate.domain.user.entity.QUser.user;
+import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom{

@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.bob.mate.domain.post.entity.QPost.post;
+import static com.bob.mate.domain.user.entity.QUploadFile.uploadFile;
 import static com.bob.mate.domain.user.entity.QUser.user;
 import static com.bob.mate.domain.user.entity.QUserProfile.userProfile;
-import static com.bob.mate.global.util.file.QUploadFile.uploadFile;
 
 @Slf4j
 @RequiredArgsConstructor
