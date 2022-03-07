@@ -6,7 +6,6 @@ import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -14,10 +13,9 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+@Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@RequiredArgsConstructor
-@Entity
 @EntityListeners(AuditListener.class)
 public class Chat implements Auditable {
 

@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserProfileResponse {
 
+    @Schema(description = "성공 메시지")
+    private String message;
+
     @Schema(description = "회원 프로필에 저장된 이미지 URI")
     private String imgUrl;
 
-    @Schema(description = "성공 메시지")
-    private String message;
+
 }

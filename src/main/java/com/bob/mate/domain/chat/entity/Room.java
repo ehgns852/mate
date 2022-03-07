@@ -4,24 +4,21 @@ import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.FetchType.*;
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
-@RequiredArgsConstructor
-@NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditListener.class)
 @Entity
+@NoArgsConstructor(access = PROTECTED)
 public class Room implements Auditable {
 
     @Id
@@ -29,8 +26,12 @@ public class Room implements Auditable {
     @Column(name = "room_id")
     private Long id;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
     private User sender;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
     private User receiver;
 
     @Embedded

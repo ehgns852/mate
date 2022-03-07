@@ -6,12 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
 @NoArgsConstructor
-@Builder
 public class LatestChatResponse {
 
     private Long roomId;
@@ -25,6 +23,16 @@ public class LatestChatResponse {
     private String latestMessage;
 
     private OffsetDateTime createDate;
+
+    @Builder
+    public LatestChatResponse(Long roomId, Long id, String name, String imageUrl, String latestMessage, OffsetDateTime createDate) {
+        this.roomId = roomId;
+        this.id = id;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.latestMessage = latestMessage;
+        this.createDate = createDate;
+    }
 
     public static LatestChatResponse of(User partner, Chat latestChat) {
         return LatestChatResponse.builder()
