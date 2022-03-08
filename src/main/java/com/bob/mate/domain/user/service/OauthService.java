@@ -78,6 +78,7 @@ public class OauthService {
                 .accessToken(accessToken.getValue())
                 .refreshToken(refreshToken.getValue())
                 .profileSaveUser(validateUser)
+                .gender(user.getUserProfile().getGender())
                 .build();
     }
 

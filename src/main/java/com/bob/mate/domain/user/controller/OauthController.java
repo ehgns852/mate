@@ -56,7 +56,7 @@ public class OauthController {
                                                  @Validated RefreshTokenRequest refreshToken,
                                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new CustomException(ErrorCode.BAD_REQUEST_Token);
+            throw new CustomException(ErrorCode.BAD_REQUEST_TOKEN);
         }
         String accessToken = AuthorizationExtractor.extract(request);
         log.info("accessToken = {}", accessToken);

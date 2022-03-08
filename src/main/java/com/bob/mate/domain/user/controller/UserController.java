@@ -60,15 +60,14 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Request Body 입력값이 잘못된 경우"),
             @ApiResponse(responseCode = "404", description = "받아온 ID로 유저를 찾지 못한 경우")
     })
-    @PostMapping(value = "/{userId}/profile", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public UserProfileResponse updateProfile(@PathVariable Long userId,
-                                             @RequestPart(value = "file", required = false) MultipartFile multipartFile,
+    @PostMapping(value = "/profile/me", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public UserProfileResponse updateProfile(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
                                              @Validated @RequestPart(value = "json") UserProfileRequest userProfile,
                                              BindingResult bindingResult) throws IOException {
         if (bindingResult.hasErrors()) {
             throw new CustomException(ErrorCode.BAD_REQUEST_PROFILE);
         }
-        return userService.updateProfile(userId, multipartFile, userProfile);
+        return userService.updateProfile(multipartFile, userProfile);
     }
 
 
@@ -77,8 +76,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "회원 프로필 조회가 정상적으로 리턴된 경우"),
             @ApiResponse(responseCode = "404", description = "회원 ID로 유저를 찾지 못한 경우")
     })
-    @GetMapping("/{userId}/profile")
-    public UserProfileQueryDto getUserProfile(@PathVariable Long userId) {
+    @GetMapping("/profile/me")
+    public UserProfileQueryDto getUserProfile(@RequestBody Long userId) {
         return userService.findUserProfileById(userId);
     }
 }

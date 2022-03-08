@@ -28,7 +28,7 @@ public class RedisSubscriber implements MessageListener {
             // RedisChat 객체로 매핑
             RedisChat redisChat = objectMapper.readValue(publishMessage, RedisChat.class);
             // WebSocket 구독자에게 채팅 메시지 Send
-            messageTemplate.convertAndSend("/sub/chat/rooms" + redisChat.getRoomId(), redisChat.getMessage());
+            messageTemplate.convertAndSend("/sub/rooms/" + redisChat.getRoomId(), redisChat.getMessage());
         } catch (Exception e) {
             throw new IllegalArgumentException("파싱 에러");
         }

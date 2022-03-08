@@ -4,6 +4,7 @@ import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,15 +26,15 @@ public class Chat implements Auditable {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(nullable = false, name = "room_id")
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_chat_to_room"))
     private Room room;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_chat_to_sender"))
     private User sender;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "fk_chat_to_receiver"))
     private User receiver;
 
     @Lob
@@ -43,6 +44,7 @@ public class Chat implements Auditable {
     @Embedded
     private TimeEntity timeEntity;
 
+    @Builder
     public Chat(Room room, User sender, User receiver, String content) {
         this.room = room;
         this.sender = sender;

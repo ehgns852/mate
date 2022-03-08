@@ -20,6 +20,9 @@ import javax.validation.constraints.Size;
 public class UserProfileRequest {
 
     @NotNull
+    private Long id;
+
+    @NotNull
     @NotBlank
     @Size(min = 2, max = 10)
     private String nickName;

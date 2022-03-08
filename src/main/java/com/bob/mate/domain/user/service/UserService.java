@@ -63,9 +63,9 @@ public class UserService {
      * 회원 프로필 생성 및 변경
      */
     @Transactional
-    public UserProfileResponse updateProfile(Long userId, MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
+    public UserProfileResponse updateProfile(MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
 
-        User findUser = userRepository.findUserAllProfileById(userId)
+        User findUser = userRepository.findUserAllProfileById(userProfileRequest.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
 
         UploadFile uploadFile = fileStore.storeFile(multipartFile);
