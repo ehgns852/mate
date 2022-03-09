@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 public class AllPostResponse {
+    private Long postId;
     private String title;
     private String profileUrl;
     private String username;
@@ -23,10 +24,11 @@ public class AllPostResponse {
 
     @QueryProjection
     public AllPostResponse(
-            String title, String profileUrl, String username,
-            OffsetDateTime createdAt, Integer commentCount, Integer likeCount,
-            Integer viewCount, Address address
+            Long postId, String title, String profileUrl,
+            String username, OffsetDateTime createdAt, Integer commentCount,
+            Integer likeCount, Integer viewCount, Address address
     ) {
+        this.postId = postId;
         this.title = title;
         this.profileUrl = profileUrl;
         this.username = username;

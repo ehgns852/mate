@@ -53,8 +53,8 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
         User currentUser = util.findCurrentUser();
 
         return jpaQueryFactory.selectFrom(comment)
-                .innerJoin(comment.post, post)
-                .innerJoin(comment.user, user)
+                .innerJoin(comment.post, post).fetchJoin()
+                .innerJoin(comment.user, user).fetchJoin()
                 .where(
                         post.id.eq(postId).and(comment.id.eq(commentId))
                                 .and(comment.user.id.eq(currentUser.getId()))
