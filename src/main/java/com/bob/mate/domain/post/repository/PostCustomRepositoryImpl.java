@@ -54,9 +54,9 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
 
         return Optional.ofNullable(jpaQueryFactory
                 .select(new QOnePostResponse(
-                        post.title, post.content, uploadFile.storeFilename,
+                        post.id, post.title, post.content, uploadFile.storeFilename,
                         userProfile.nickName, post.timeEntity.createdDate,
-                        post.likeCount, post.viewCount
+                        post.likeCount, post.viewCount, userProfile.address
                 ))
                 .from(post)
                 .innerJoin(post.user, user)

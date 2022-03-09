@@ -1,5 +1,6 @@
 package com.bob.mate.domain.post.dto;
 
+import com.bob.mate.domain.user.entity.Address;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 public class OnePostResponse {
+    private Long postId;
     private String title;
     private String content;
     private String profileUrl;
@@ -18,13 +20,15 @@ public class OnePostResponse {
     private OffsetDateTime createdAt;
     private Integer likeCount;
     private Integer viewCount;
+    private Address address;
 
     @QueryProjection
     public OnePostResponse(
-            String title, String content, String profileUrl,
-            String username, OffsetDateTime createdAt,
-            Integer likeCount, Integer viewCount
+            Long postId, String title, String content,
+            String profileUrl, String username, OffsetDateTime createdAt,
+            Integer likeCount, Integer viewCount, Address address
     ) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.profileUrl = profileUrl;
@@ -32,5 +36,6 @@ public class OnePostResponse {
         this.createdAt = createdAt;
         this.likeCount = likeCount;
         this.viewCount = viewCount;
+        this.address = address;
     }
 }
