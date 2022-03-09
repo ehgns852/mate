@@ -29,10 +29,9 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
     public Page<CommentResponse> findAllComments(Long postId, Pageable pageable) {
         List<CommentResponse> comments = jpaQueryFactory
                 .select(new QCommentResponse(
-                        comment.content, comment.likeCount, comment.liked,
-                        uploadFile.storeFilename,
-                        userProfile.nickName,
-                        comment.timeEntity.createdDate
+                        comment.id, comment.content, comment.likeCount, comment.liked,
+                        uploadFile.storeFilename, userProfile.nickName,
+                        comment.timeEntity.createdDate, userProfile.address
                 ))
                 .from(comment)
                 .innerJoin(comment.user, user)
