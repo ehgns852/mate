@@ -29,7 +29,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository{
     public Page<AllPostResponse> findAllPosts(Pageable pageable) {
         List<AllPostResponse> posts = jpaQueryFactory
                 .select(new QAllPostResponse(
-                        post.title, uploadFile.storeFilename , userProfile.nickName,
+                        post.id, post.title, uploadFile.storeFilename , userProfile.nickName,
                         post.timeEntity.createdDate, post.comments.size(), post.likeCount,
                         post.viewCount, userProfile.address
                 ))
