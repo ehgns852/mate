@@ -23,6 +23,7 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다"),
     NOT_FOUND_TAG(HttpStatus.NOT_FOUND, "해당 태그를 찾을 수 없습니다"),
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
+    NOT_FOUND_CHATROOM(HttpStatus.NOT_FOUND, "해당 채팅방을 찾을 수 없습니다."),
 
 
     UNAUTHORIZED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "access token이 유효하지 않습니다."),
