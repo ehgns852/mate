@@ -1,7 +1,6 @@
 spring:
   profiles:
-    active: local  #배포 서버에서는 삭제
-    include: oauth-local #배포 서버 oauth 로 변경
+    include: oauth
   datasource:
     url: ${DATABASE_URL}
     username: ${POSTGRES_USERNAME}
