@@ -1,7 +1,6 @@
 package com.bob.mate.domain.user.entity;
 
 
-import com.bob.mate.global.util.file.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

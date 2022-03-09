@@ -5,7 +5,9 @@ import com.bob.mate.domain.post.dto.OnePostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface PostCustomRepository {
     Page<AllPostResponse> findAllPosts(Pageable pageable);
-    OnePostResponse findPost(Long postId);
+    Optional<OnePostResponse> findPost(Long postId);
 }

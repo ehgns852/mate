@@ -1,4 +1,4 @@
-package com.bob.mate.global.util.file;
+package com.bob.mate.domain.user.entity;
 
 import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
