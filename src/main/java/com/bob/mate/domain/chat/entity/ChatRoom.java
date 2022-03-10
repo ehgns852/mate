@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -20,8 +21,9 @@ import static lombok.AccessLevel.PROTECTED;
 public class ChatRoom implements Auditable {
 
     @Id
-    @Column(name = "room_subscribe_id")
-    private String roomSubscribeId;
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "chat_room_id")
+    private Long id;
 
     private String title;
 
@@ -39,7 +41,6 @@ public class ChatRoom implements Auditable {
 
     @Builder
     public ChatRoom(User host, String title) {
-        this.roomSubscribeId = UUID.randomUUID().toString();
         this.title = title;
         this.host = host;
         this.isActive = true;

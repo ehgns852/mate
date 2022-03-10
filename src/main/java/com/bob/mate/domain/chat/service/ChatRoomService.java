@@ -33,11 +33,13 @@ public class ChatRoomService {
                 .title(chatRequest.getTitle())
                 .build();
          chatRoomRepository.save(chatRoom);
+
          return ChatRoomResponse.builder()
-                 .roomSubscribeId(chatRoom.getRoomSubscribeId())
+                 .roomId(chatRoom.getId())
                  .hostId(chatRoom.getHost().getId())
                  .title(chatRoom.getTitle())
                  .isActive(chatRoom.isActive())
+                 .message("방 생성 완료")
                  .build();
 
     }
@@ -47,17 +49,17 @@ public class ChatRoomService {
 //        User user = util.findCurrentUser();
         User guest = userService.findById(chatRoomRequest.getUserId());
 
-        ChatRoom chatRoom = chatRoomRepository.findByRoomSubscribeId(chatRoomRequest.getRoomSubscribeId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
+        ChatRoom chatRoom = findById(chatRoomRequest.getRoomSubscribeId());
 
         chatRoom.enter(guest);
 
             return ChatRoomResponse.builder()
-                    .roomSubscribeId(chatRoom.getRoomSubscribeId())
+                    .roomId(chatRoom.getId())
                     .guestId(chatRoom.getGuest().getId())
                     .hostId(chatRoom.getHost().getId())
                     .isActive(chatRoom.isActive())
                     .title(chatRoom.getTitle())
+                    .message("방 입장 완료")
                     .build();
     }
 
@@ -65,8 +67,7 @@ public class ChatRoomService {
     public ChatRoomResponse exitRoom(ChatRoomRequest chatRoomRequest) {
 //        User user = util.findCurrentUser();
         User user = userService.findById(chatRoomRequest.getUserId());
-        ChatRoom chatRoom = chatRoomRepository.findByRoomSubscribeId(chatRoomRequest.getRoomSubscribeId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
+        ChatRoom chatRoom = findById(chatRoomRequest.getRoomSubscribeId());
 
         chatRoom.exit(user);
         if (!chatRoom.isActive()) {
@@ -74,7 +75,12 @@ public class ChatRoomService {
         }
         return ChatRoomResponse.builder()
                 .message("방 나가기 완료")
-                .roomSubscribeId(chatRoom.getRoomSubscribeId())
+                .roomId(chatRoom.getId())
                 .build();
+    }
+
+    public ChatRoom findById(Long id){
+        return  chatRoomRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
     }
 }

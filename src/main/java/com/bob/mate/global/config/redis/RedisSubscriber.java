@@ -1,13 +1,17 @@
 package com.bob.mate.global.config.redis;
 
+import com.bob.mate.domain.chat.entity.Notice;
+import com.bob.mate.domain.chat.entity.NoticeType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RedisSubscriber implements MessageListener {
@@ -26,9 +30,14 @@ public class RedisSubscriber implements MessageListener {
             // redis 에서 발행된 데이터를 받아 deserialize
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
             // RedisChat 객체로 매핑
-            RedisChat redisChat = objectMapper.readValue(publishMessage, RedisChat.class);
+            Notice notice = objectMapper.readValue(publishMessage, Notice.class);
+            log.info("redisChat = {}", notice.toString());
+            if (notice.getType() == NoticeType.MESSAGE) {
+                Long roomSubscribeId = notice.getChatRoom().getId();
+                messageTemplate.convertAndSend("/sub/chat/" + roomSubscribeId, notice);
+            }
             // WebSocket 구독자에게 채팅 메시지 Send
-            messageTemplate.convertAndSend("/sub/rooms/" + redisChat.getRoomId(), redisChat.getMessage());
+            messageTemplate.convertAndSend("/sub/chat/" + notice.getId(), notice);
         } catch (Exception e) {
             throw new IllegalArgumentException("파싱 에러");
         }

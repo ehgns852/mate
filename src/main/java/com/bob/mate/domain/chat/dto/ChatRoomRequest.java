@@ -10,7 +10,7 @@ import lombok.ToString;
 public class ChatRoomRequest {
     private Long userId;
     private String userSubscribeId;
-    private String roomSubscribeId;
+    private Long roomSubscribeId;
     private String title;
     private String content;
     private boolean isActive;

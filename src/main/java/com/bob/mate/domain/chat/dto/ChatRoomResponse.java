@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatRoomResponse {
 
-    private String roomSubscribeId;
+    private Long roomId;
 
     private String title;
 
