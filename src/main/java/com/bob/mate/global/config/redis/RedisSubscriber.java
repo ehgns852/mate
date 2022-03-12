@@ -34,10 +34,10 @@ public class RedisSubscriber implements MessageListener {
             log.info("redisChat = {}", notice.toString());
             if (notice.getType() == NoticeType.MESSAGE) {
                 Long roomSubscribeId = notice.getChatRoom().getId();
-                messageTemplate.convertAndSend("/sub/chat/" + roomSubscribeId, notice);
+                messageTemplate.convertAndSend("/sub/chat/rooms/" + roomSubscribeId, notice);
             }
             // WebSocket 구독자에게 채팅 메시지 Send
-            messageTemplate.convertAndSend("/sub/chat/" + notice.getId(), notice);
+//            messageTemplate.convertAndSend("/sub/chat/" + notice.getId(), notice);
         } catch (Exception e) {
             throw new IllegalArgumentException("파싱 에러");
         }

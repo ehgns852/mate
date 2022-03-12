@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -82,5 +85,14 @@ public class ChatRoomService {
     public ChatRoom findById(Long id){
         return  chatRoomRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CHATROOM));
+    }
+
+
+    public List<ChatRoomResponse> findAll() {
+        List<ChatRoom> chatRooms = chatRoomRepository.findAll();
+
+         return chatRooms.stream()
+                .map(chatRoom -> ChatRoomResponse.builder().roomId(chatRoom.getId()).build())
+                .collect(Collectors.toList());
     }
 }

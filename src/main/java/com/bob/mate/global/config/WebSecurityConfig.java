@@ -69,6 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/token")
                 .antMatchers("/ws-stomp/**")
                 .antMatchers("/sub/**")
-                .antMatchers("/pub/**");
+                .antMatchers("/pub/**")
+                .antMatchers("/chat/**")
+                .antMatchers("/room/**")
+                .antMatchers("/rooms/**");
     }
 }

@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 
 @Configuration
 public class AuditListener {
+
     @PrePersist
     public void setCreateDate(Auditable auditable) {
         TimeEntity timeEntity = auditable.getTimeEntity();

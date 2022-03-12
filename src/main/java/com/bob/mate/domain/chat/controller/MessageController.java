@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -18,6 +19,7 @@ public class MessageController {
 
     private final MessageService messageService;
     private final RedisPublisher redisPublisher;
+    private final SimpMessageSendingOperations messagingTemplate;
 
     @Operation(description = "채팅방 메세지 보내기", method = "MESSAGE")
     @MessageMapping("/chat/messages")
@@ -30,4 +32,13 @@ public class MessageController {
         redisPublisher.publish(topic, message);
     }
 
+    @Operation(description = "유저에게 알림보내기")
+    @MessageMapping("/new/notices")
+    public void chatNotifications(ChatRoomRequest chatRoomRequest) {
+        log.debug("/new/notices");
+        Long userId = chatRoomRequest.getTargetId();
+        Notice notice = messageService.chatNotifications(chatRoomRequest);
+        messagingTemplate.convertAndSend("/sub/notice/user" + userId, notice);
+
+    }
 }

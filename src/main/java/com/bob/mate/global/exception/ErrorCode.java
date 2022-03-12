@@ -15,6 +15,7 @@ public enum ErrorCode {
     BAD_REQUEST_PROFILE(HttpStatus.BAD_REQUEST, "글 입력값을 다시 확인하세요."),
     BAD_REQUEST_TOKEN(HttpStatus.BAD_REQUEST, "토큰 입력값을 다시 확인하세요."),
     BAD_REQUEST_ROOM(HttpStatus.BAD_REQUEST, "회원 아이디 입력값을 다시 확인하세요."),
+    BAD_REQUEST_CHAT(HttpStatus.BAD_REQUEST, "유효하지 않은 대화 요청입니다."),
 
     UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다"),
     FORBIDDEN_USER(HttpStatus.FORBIDDEN, "권한이 없는 요청입니다"),
