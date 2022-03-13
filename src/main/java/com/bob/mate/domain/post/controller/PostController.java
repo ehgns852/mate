@@ -92,7 +92,7 @@ public class PostController {
             @ApiResponse(responseCode = "404", description = "회원 가입된 유저가 아니어서 그 유저를 찾지 못하는 경우")
     })
     @PatchMapping("/{postId}/likes")
-    public LikeResponse likePost(@PathVariable Long postId) {
-        return postService.likePost(postId);
+    public LikeResponse likePost(@PathVariable Long postId, @RequestBody LikeRequest likeRequest) {
+        return postService.likePost(postId, likeRequest);
     }
 }
