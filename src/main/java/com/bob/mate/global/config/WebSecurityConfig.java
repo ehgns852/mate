@@ -59,13 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(HttpMethod.GET, "/login/oauth/**")
                 .antMatchers("/oauth/**")
-                .antMatchers(HttpMethod.GET, "/posts/**")
-                .antMatchers("/")
-                .antMatchers("/static/**")
-                .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png")
+                .antMatchers(HttpMethod.GET, "/posts")
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs")
                 .antMatchers(HttpMethod.GET, "/image/**")
                 .antMatchers("/users/**")
-                .antMatchers(HttpMethod.POST, "/token");
+                .antMatchers(HttpMethod.POST, "/token")
+                .antMatchers("/chat/**");
     }
 }
