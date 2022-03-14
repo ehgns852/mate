@@ -2,6 +2,7 @@ package com.bob.mate.domain.post.controller;
 
 import com.bob.mate.domain.post.dto.CommentRequest;
 import com.bob.mate.domain.post.dto.CommentResponse;
+import com.bob.mate.domain.post.dto.LikeRequest;
 import com.bob.mate.domain.post.dto.LikeResponse;
 import com.bob.mate.domain.post.service.CommentService;
 import com.bob.mate.global.dto.CustomResponse;
@@ -88,8 +89,8 @@ public class CommentController {
     })
     @PatchMapping("/{postId}/comments/{commentId}/likes")
     public LikeResponse likeComment(
-            @PathVariable Long postId, @PathVariable Long commentId
-    ) {
-        return commentService.likeComment(postId, commentId);
+            @PathVariable Long postId, @PathVariable Long commentId, @RequestBody LikeRequest likeRequest
+            ) {
+        return commentService.likeComment(postId, commentId, likeRequest);
     }
 }

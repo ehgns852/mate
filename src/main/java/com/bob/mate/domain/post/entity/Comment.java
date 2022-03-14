@@ -59,8 +59,12 @@ public class Comment implements Auditable {
         this.content = content;
     }
 
-    public void likeComment(Integer likeCount) {
-        this.likeCount = likeCount;
+    public void likeComment() {
+        this.likeCount += 1;
+    }
+
+    public void unLikeComment() {
+        this.likeCount -= 1;
     }
 
     /**

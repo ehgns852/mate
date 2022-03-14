@@ -24,13 +24,12 @@ public class CommentResponse {
     @QueryProjection
     public CommentResponse(
             Long commentId, String content, Integer likeCount,
-            Boolean liked, String profileUrl, String username,
+            String profileUrl, String username,
             OffsetDateTime createdAt, Address address
     ) {
         this.commentId = commentId;
         this.content = content;
         this.likeCount = likeCount;
-        this.liked = liked;
         this.profileUrl = profileUrl;
         this.username = username;
         this.createdAt = createdAt;
