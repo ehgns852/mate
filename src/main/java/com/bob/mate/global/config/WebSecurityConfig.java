@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -59,13 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers(HttpMethod.GET, "/login/oauth/**")
                 .antMatchers("/oauth/**")
-                .antMatchers(HttpMethod.GET, "/posts/**")
-                .antMatchers("/")
-                .antMatchers("/static/**")
-                .antMatchers("/favicon.ico", "/manifest.json", "/logo*.png")
+                .antMatchers(HttpMethod.GET, "/posts")
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs")
                 .antMatchers(HttpMethod.GET, "/image/**")
                 .antMatchers("/users/**")
-                .antMatchers(HttpMethod.POST, "/token");
+                .antMatchers(HttpMethod.POST, "/token")
+                .antMatchers("/chat/**");
     }
 }

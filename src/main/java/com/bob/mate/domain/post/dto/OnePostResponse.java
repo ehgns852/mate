@@ -21,6 +21,7 @@ public class OnePostResponse {
     private Integer likeCount;
     private Integer viewCount;
     private Address address;
+    private Boolean liked;
 
     @QueryProjection
     public OnePostResponse(

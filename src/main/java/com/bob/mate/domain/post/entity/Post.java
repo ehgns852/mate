@@ -70,8 +70,12 @@ public class Post implements Auditable {
         this.content = content;
     }
 
-    public void likePost(Integer likeCount) {
-        this.likeCount = likeCount;
+    public void likePost() {
+        this.likeCount += 1;
+    }
+
+    public void unLikePost() {
+        this.likeCount -= 1;
     }
 
     /**

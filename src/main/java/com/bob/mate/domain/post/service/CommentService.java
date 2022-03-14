@@ -2,6 +2,7 @@ package com.bob.mate.domain.post.service;
 
 import com.bob.mate.domain.post.dto.CommentRequest;
 import com.bob.mate.domain.post.dto.CommentResponse;
+import com.bob.mate.domain.post.dto.LikeRequest;
 import com.bob.mate.domain.post.entity.Comment;
 import com.bob.mate.domain.post.entity.CommentLike;
 import com.bob.mate.domain.post.entity.Post;
@@ -34,7 +35,7 @@ public class CommentService {
     private final Util util;
 
     public Page<CommentResponse> getAllComments(Long postId, Pageable pageable) {
-        return commentRepository.findAllComments(postId, pageable);
+        return commentRepository.findAllComments(postId, pageable, util.findCurrentUser());
     }
 
     @Transactional
@@ -76,23 +77,25 @@ public class CommentService {
     }
 
     @Transactional
-    public LikeResponse likeComment(Long postId, Long commentId) {
+    public LikeResponse likeComment(Long postId, Long commentId, LikeRequest likeRequest) {
         Comment comment = findCommentById(commentId);
 
         User user = util.findCurrentUser();
 
         Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(commentId, user.getId());
 
-        if (commentLike.isPresent()) {
-            comment.likeComment(comment.getLikeCount() - 1);
-            commentLikeRepository.delete(commentLike.get());
-            return new LikeResponse(comment.getLikeCount(), false);
-        } else {
-            comment.likeComment(comment.getLikeCount() + 1);
+        if (likeRequest.getLiked() && commentLike.isEmpty()) {
+            comment.likeComment();
             CommentLike newCommentLike = new CommentLike(user, comment);
             commentLikeRepository.save(newCommentLike);
-            return new LikeResponse(comment.getLikeCount(), true);
+            return new LikeResponse(comment.getLikeCount());
+        } else if (!likeRequest.getLiked() && commentLike.isPresent()) {
+            comment.unLikeComment();
+            commentLikeRepository.delete(commentLike.get());
+            return new LikeResponse(comment.getLikeCount());
         }
+
+        return null;
     }
 
     /**

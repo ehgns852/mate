@@ -1,15 +1,12 @@
 package com.bob.mate.domain.post.service;
 
-import com.bob.mate.domain.post.dto.AllPostResponse;
-import com.bob.mate.domain.post.dto.OnePostResponse;
-import com.bob.mate.domain.post.dto.PostRequest;
+import com.bob.mate.domain.post.dto.*;
 import com.bob.mate.domain.post.entity.Post;
 import com.bob.mate.domain.post.entity.PostLike;
 import com.bob.mate.domain.post.repository.PostLikeRepository;
 import com.bob.mate.domain.post.repository.PostRepository;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.global.dto.CustomResponse;
-import com.bob.mate.domain.post.dto.LikeResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
 import com.bob.mate.global.util.Util;
@@ -37,7 +34,7 @@ public class PostService {
 
     @Transactional
     public OnePostResponse getPost(Long postId) {
-        return postRepository.findPost(postId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        return postRepository.findPost(postId, util.findCurrentUser()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
     }
 
     @Transactional
@@ -76,23 +73,25 @@ public class PostService {
     }
 
     @Transactional
-    public LikeResponse likePost(Long postId) {
+    public LikeResponse likePost(Long postId, LikeRequest likeRequest) {
         Post post = findPostById(postId);
 
         User user = util.findCurrentUser();
 
         Optional<PostLike> postLike = postLikeRepository.findByPostIdAndUserId(postId, user.getId());
 
-        if (postLike.isPresent()) {
-            post.likePost(post.getLikeCount() - 1);
-            postLikeRepository.delete(postLike.get());
-            return new LikeResponse(post.getLikeCount(), false);
-        } else {
-            post.likePost(post.getLikeCount() + 1);
+        if (likeRequest.getLiked() && postLike.isEmpty()) {
+            post.likePost();
             PostLike newPostLike = new PostLike(user, post);
             postLikeRepository.save(newPostLike);
-            return new LikeResponse(post.getLikeCount(), true);
+            return new LikeResponse(post.getLikeCount());
+        } else if (!likeRequest.getLiked() && postLike.isPresent()) {
+            post.unLikePost();
+            postLikeRepository.delete(postLike.get());
+            return new LikeResponse(post.getLikeCount());
         }
+
+        return null;
     }
 
     /**
