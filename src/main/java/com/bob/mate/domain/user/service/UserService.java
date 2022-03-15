@@ -1,18 +1,23 @@
 package com.bob.mate.domain.user.service;
 
+import com.bob.mate.domain.post.dto.MyCommentResponse;
+import com.bob.mate.domain.post.dto.MyPostResponse;
 import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
+import com.bob.mate.domain.user.entity.UploadFile;
 import com.bob.mate.domain.user.entity.User;
 import com.bob.mate.domain.user.repository.UserRepository;
 import com.bob.mate.global.config.redis.RedisUtil;
 import com.bob.mate.global.dto.CustomResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
+import com.bob.mate.global.util.SecurityUtil;
 import com.bob.mate.global.util.file.FileStore;
-import com.bob.mate.domain.user.entity.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,6 +97,25 @@ public class UserService {
             return new UserProfileResponse("회원 프로필이 저장 되었습니다.", findUser.getUserProfile().getUploadFile().getStoreFilename());
         }
     }
+
+    /**
+     * 현재 유저가 작성한 모든 글 반환
+     * @param pageable 페이지 정보 담는 변수
+     * @return 현재 유저가 작성한 모든 글 반환
+     */
+    public Page<MyPostResponse> getAllMyPosts(Pageable pageable) {
+        return userRepository.findAllMyPosts(pageable, getFindById(SecurityUtil.getCurrentUserId()));
+    }
+
+    /**
+     * 현재 유저가 작성한 모든 댓글 반환
+     * @param pageable 페이지 정보 담는 변수
+     * @return 현재 유저가 작성한 모든 댓글 반환
+     */
+    public Page<MyCommentResponse> getAllMyComments(Pageable pageable) {
+        return userRepository.findAllMyComments(pageable, getFindById(SecurityUtil.getCurrentUserId()));
+    }
+
 
     public UserProfileQueryDto findUserProfileById(Long id) {
         return userRepository.findUserProfileById(id)
