@@ -72,6 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/pub/**")
                 .antMatchers("/chat/**")
                 .antMatchers("/room/**")
-                .antMatchers("/rooms/**");
+                .antMatchers("/rooms/**")
+                .antMatchers("/alarm/**");
     }
 }
