@@ -1,6 +1,8 @@
 package com.bob.mate.domain.user.controller;
 
 
+import com.bob.mate.domain.post.dto.MyCommentResponse;
+import com.bob.mate.domain.post.dto.MyPostResponse;
 import com.bob.mate.domain.user.dto.UserProfileQueryDto;
 import com.bob.mate.domain.user.dto.UserProfileRequest;
 import com.bob.mate.domain.user.dto.UserProfileResponse;
@@ -15,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -80,5 +84,25 @@ public class UserController {
     @GetMapping("/{userId}/profile")
     public UserProfileQueryDto getUserProfile(@PathVariable Long userId) {
         return userService.findUserProfileById(userId);
+    }
+
+    @Operation(summary = "현재 유저가 작성한 모든 글 조회", description = "로그인된 사용자에 한해서 자신이 쓴 글 모두 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "현재 유저가 작성한 모든 글들을 page 로 리턴함"),
+            @ApiResponse(responseCode = "404", description = "로그인된 유저가 DB에 없을때")
+    })
+    @GetMapping("/me/posts")
+    public Page<MyPostResponse> getAllMyPosts(Pageable pageable) {
+        return userService.getAllMyPosts(pageable);
+    }
+
+    @Operation(summary = "현재 유저가 작성한 모든 댓글 조회", description = "로그인된 사용자에 한해서 자신이 쓴 댓글 모두 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "현재 유저가 작성한 모든 댓글 들을 page 로 리턴함"),
+            @ApiResponse(responseCode = "404", description = "로그인된 유저가 DB에 없을때")
+    })
+    @GetMapping("/me/comments")
+    public Page<MyCommentResponse> getAllMyComments(Pageable pageable) {
+        return userService.getAllMyComments(pageable);
     }
 }

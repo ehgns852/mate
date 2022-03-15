@@ -14,8 +14,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .allowedOrigins("*")
-                .exposedHeaders("*");
+                .allowedOriginPatterns("*")
+                .exposedHeaders("*")
+                .allowCredentials(true);
 
         WebMvcConfigurer.super.addCorsMappings(registry);
     }
