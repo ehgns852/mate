@@ -1,6 +1,7 @@
 package com.bob.mate.domain.post.entity;
 
 import com.bob.mate.domain.user.entity.User;
+import com.bob.mate.global.audit.AuditListener;
 import com.bob.mate.global.audit.Auditable;
 import com.bob.mate.global.audit.TimeEntity;
 import lombok.AccessLevel;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @Table
 @ToString(of = {"id", "title", "content"})
+@EntityListeners(AuditListener.class)
 public class Post implements Auditable {
 
     @Id
