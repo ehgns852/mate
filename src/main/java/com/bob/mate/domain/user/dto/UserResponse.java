@@ -4,7 +4,7 @@ package com.bob.mate.domain.user.dto;
 import com.bob.mate.domain.user.entity.Address;
 import com.bob.mate.domain.user.entity.Gender;
 import com.bob.mate.domain.user.entity.Role;
-import com.bob.mate.domain.user.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,17 +22,18 @@ public class UserResponse {
     private Gender gender;
     private String phoneNumber;
     private Integer age;
+    private Boolean saveUser;
 
-
-    public UserResponse(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.role = user.getRole();
-        this.nickName = user.getUserProfile().getNickName();
-        this.address = user.getUserProfile().getAddress();
-        this.gender = user.getUserProfile().getGender();
-        this.phoneNumber = user.getUserProfile().getPhoneNumber();
-        this.age = user.getUserProfile().getAge();
+    @Builder
+    public UserResponse(Long id, String email, Role role, String nickName, Address address, Gender gender, String phoneNumber, Integer age, Boolean saveUser) {
+        this.id = id;
+        this.email = email;
+        this.role = role;
+        this.nickName = nickName;
+        this.address = address;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
+        this.saveUser = saveUser;
     }
-
 }
