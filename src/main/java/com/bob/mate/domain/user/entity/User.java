@@ -60,7 +60,9 @@ public class User implements Auditable {
     /**
      * 생성 메서드
      */
-    public static User createUser(String email,String nickName, Gender gender, String provider, String providerId,String imageUrl){
+    public static User createUser(String email,String nickName, Gender gender, String provider, String providerId){
+
+        final String imageUrl = "af766592-38bc-4d1f-9cf7-663ecf43b82213.png";
 
         UserProfile profile = UserProfile.createProfile(nickName,gender,provider, providerId);
         UploadFile uploadFile = UploadFile.createUploadFile(imageUrl);
