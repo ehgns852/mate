@@ -20,9 +20,9 @@ public class LoginResponse {
     boolean ProfileSaveUser;
 
     @Builder
-    public LoginResponse(Long id, String name, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken, boolean profileSaveUser) {
+    public LoginResponse(Long id, String nickName, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken, boolean profileSaveUser) {
         this.id = id;
-        this.nickName = name;
+        this.nickName = nickName;
         this.email = email;
         this.imageUrl = imageUrl;
         this.role = role;

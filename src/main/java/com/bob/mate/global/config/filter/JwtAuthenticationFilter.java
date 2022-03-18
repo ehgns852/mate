@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("JwtAuthentication CustomException");
             request.setAttribute("CustomException", e);
         }
-        chain.doFilter(request,response);
-    }
+            chain.doFilter(request,response);
+        }
+
 }
