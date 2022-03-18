@@ -68,4 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/token")
                 .antMatchers("/chat/**");
     }
+
 }

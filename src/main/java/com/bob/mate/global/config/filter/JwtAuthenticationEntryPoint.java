@@ -1,8 +1,6 @@
 package com.bob.mate.global.config.filter;
 
-import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
-import com.bob.mate.global.exception.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

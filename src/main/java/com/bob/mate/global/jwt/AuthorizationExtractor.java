@@ -1,15 +1,12 @@
 package com.bob.mate.global.jwt;
 
-import com.bob.mate.global.exception.CustomException;
-import com.bob.mate.global.exception.ErrorCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Enumeration;
 
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 @Slf4j

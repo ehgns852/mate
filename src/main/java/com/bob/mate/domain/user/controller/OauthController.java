@@ -68,7 +68,7 @@ public class OauthController {
             @ApiResponse(responseCode = "200", description = "유저가 정상적으로 로그아웃이 된 경우"),
             @ApiResponse(responseCode = "401", description = "토큰 검증이 실패한 경우")
     })
-    @PostMapping("/logout")
+    @PostMapping("/logout/me")
     public CustomResponse logout(HttpServletRequest request) {
         String accessToken = AuthorizationExtractor.extract(request);
         return authService.logout(accessToken);
