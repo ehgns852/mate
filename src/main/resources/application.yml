@@ -25,4 +25,4 @@ spring:
     port: ${REDIS_PORT}
 
 file:
-  dir: /Users/gimdohun/Desktop/myProject/uploadFile/
+  dir: ${FILE_DIR}
