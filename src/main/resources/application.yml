@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: oauth
+    include: oauth, aws
   datasource:
     url: ${DATABASE_URL}
     username: ${POSTGRES_USERNAME}

@@ -70,7 +70,7 @@ public class OauthService {
 
         return LoginResponse.builder()
                 .id(user.getId())
-                .name(user.getUserProfile().getNickName())
+                .nickName(user.getUserProfile().getNickName())
                 .email(user.getEmail())
                 .imageUrl(user.getUserProfile().getUploadFile().getStoreFilename())
                 .role(user.getRole())

@@ -1,5 +1,6 @@
 package com.bob.mate.domain.user.dto;
 
+import com.bob.mate.domain.user.entity.Gender;
 import com.bob.mate.domain.user.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginResponse {
     private Long id;
-    private String name;
+    private String nickName;
     private String email;
     private String imageUrl;
     private Role role;
@@ -19,9 +20,9 @@ public class LoginResponse {
     boolean ProfileSaveUser;
 
     @Builder
-    public LoginResponse(Long id, String name, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken, boolean profileSaveUser) {
+    public LoginResponse(Long id, String nickName, String email, String imageUrl, Role role, String tokenType, String accessToken, String refreshToken, boolean profileSaveUser) {
         this.id = id;
-        this.name = name;
+        this.nickName = nickName;
         this.email = email;
         this.imageUrl = imageUrl;
         this.role = role;

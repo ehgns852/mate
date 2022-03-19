@@ -1,6 +1,6 @@
 package com.bob.mate.global.config;
 
-import com.bob.mate.domain.user.service.AuthService;
+import com.bob.mate.global.config.filter.JwtAuthenticationEntryPoint;
 import com.bob.mate.global.config.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,30 +20,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthService authService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll();
-
-        http
+                .httpBasic()
+                .disable()
+                .csrf()
+                .disable()
                 .headers()
                 .frameOptions()
                 .disable();
 
         http
-                .httpBasic().disable()
-                .csrf().disable()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable();
 
         http
-                .addFilterBefore(new JwtAuthenticationFilter(authService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 
@@ -64,4 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/token")
                 .antMatchers("/chat/**");
     }
+
 }
