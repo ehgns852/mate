@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class S3Service {
     public String bucket;
 
     public CustomResponse upload(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+        String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
 
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.BucketOwnerRead));
