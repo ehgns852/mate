@@ -57,6 +57,7 @@ public class UserService {
         boolean validateProfileSaveUser = validateProfileSaveUser(findUser.getId());
         return UserResponse.builder()
                 .id(findUser.getId())
+                .nickName(findUser.getUserProfile().getNickName())
                 .email(findUser.getEmail())
                 .role(findUser.getRole())
                 .address(findUser.getUserProfile().getAddress())
