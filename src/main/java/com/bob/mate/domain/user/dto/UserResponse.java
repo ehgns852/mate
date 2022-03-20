@@ -19,21 +19,27 @@ public class UserResponse {
     private Role role;
     private String nickName;
     private Address address;
+    private String imageUrl;
     private Gender gender;
     private String phoneNumber;
     private Integer age;
-    private Boolean saveUser;
+    private Boolean profileSaveUser;
 
     @Builder
-    public UserResponse(Long id, String email, Role role, String nickName, Address address, Gender gender, String phoneNumber, Integer age, Boolean saveUser) {
+    public UserResponse(
+            Long id, String email, Role role,
+            String nickName, Address address, String imageUrl,
+            Gender gender, String phoneNumber, Integer age,
+            Boolean profileSaveUser) {
         this.id = id;
         this.email = email;
         this.role = role;
         this.nickName = nickName;
         this.address = address;
+        this.imageUrl = imageUrl;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.age = age;
-        this.saveUser = saveUser;
+        this.profileSaveUser = profileSaveUser;
     }
 }

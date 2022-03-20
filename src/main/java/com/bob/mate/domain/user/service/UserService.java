@@ -60,10 +60,11 @@ public class UserService {
                 .email(findUser.getEmail())
                 .role(findUser.getRole())
                 .address(findUser.getUserProfile().getAddress())
+                .imageUrl("https://d3afymv2nzz1pw.cloudfront.net/doji.png")
                 .gender(findUser.getUserProfile().getGender())
                 .phoneNumber(findUser.getUserProfile().getPhoneNumber())
                 .age(findUser.getUserProfile().getAge())
-                .saveUser(validateProfileSaveUser)
+                .profileSaveUser(validateProfileSaveUser)
                 .build();
     }
 
