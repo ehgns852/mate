@@ -25,16 +25,14 @@ public class UploadFile implements Auditable {
 
     private String uploadFilename;
     private String storeFilename;
-    private String filePath;
 
     private TimeEntity timeEntity;
 
 
     @Builder
-    public UploadFile(String uploadFilename, String storeFilename, String filePath) {
+    public UploadFile(String uploadFilename, String storeFilename) {
         this.uploadFilename = uploadFilename;
         this.storeFilename = storeFilename;
-        this.filePath = filePath;
     }
 
     public static UploadFile createUploadFile(String imgUrl) {
@@ -46,7 +44,6 @@ public class UploadFile implements Auditable {
     public void addUploadFile(UploadFile uploadFile) {
         this.uploadFilename = uploadFile.getUploadFilename();
         this.storeFilename = uploadFile.getStoreFilename();
-        this.filePath = uploadFile.getFilePath();
     }
 
     @Override
