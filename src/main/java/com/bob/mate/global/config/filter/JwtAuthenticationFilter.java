@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("in JwtAuthenticationFilter");
         if (request.getMethod().equals("OPTIONS")) {
-            chain.doFilter(request,response);
             return;
         }
         try {
