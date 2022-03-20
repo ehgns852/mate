@@ -111,7 +111,7 @@ public class UserService {
                     userProfileRequest.getGender(),
                     uploadFile);
 
-            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", uploadFile.getStoreFilename());
+            return new UserProfileResponse("https://d3afymv2nzz1pw.cloudfront.net/doji.png", "회원 프로필이 저장 되었습니다.");
 
         } else {
             findUser.updateUserProfile(
@@ -121,7 +121,7 @@ public class UserService {
                     userProfileRequest.getEmail(),
                     userProfileRequest.getGender());
 
-            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", findUser.getUserProfile().getUploadFile().getStoreFilename());
+            return new UserProfileResponse("https://d3afymv2nzz1pw.cloudfront.net/doji.png", "회원 프로필이 저장 되었습니다.");
         }
     }
 
