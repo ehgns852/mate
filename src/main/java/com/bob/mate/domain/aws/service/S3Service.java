@@ -2,6 +2,7 @@ package com.bob.mate.domain.aws.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.bob.mate.domain.user.entity.UploadFile;
 import com.bob.mate.global.util.file.FileStore;
@@ -46,7 +47,7 @@ public class S3Service {
         String filename = StringUtils.getFilename(storeFilename);
         if (!Objects.equals(storeFilename, DEFAULT_IMAGE) && amazonS3Client.doesObjectExist(bucket, filename)) {
             log.info("S3Uploader, S3에서 이미지(이미지명: {})를 삭제했습니다.", storeFilename);
-            amazonS3Client.deleteObject(bucket, storeFilename);
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket,storeFilename));
         }
     }
 
