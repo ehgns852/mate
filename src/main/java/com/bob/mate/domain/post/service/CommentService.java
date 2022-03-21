@@ -88,11 +88,11 @@ public class CommentService {
             comment.likeComment();
             CommentLike newCommentLike = new CommentLike(user, comment);
             commentLikeRepository.save(newCommentLike);
-            return new LikeResponse(comment.getLikeCount());
+            return new LikeResponse(comment.getLikeCount(), true);
         } else if (!likeRequest.getLiked() && commentLike.isPresent()) {
             comment.unLikeComment();
             commentLikeRepository.delete(commentLike.get());
-            return new LikeResponse(comment.getLikeCount());
+            return new LikeResponse(comment.getLikeCount(), false);
         }
 
         return null;

@@ -11,4 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LikeResponse {
     private Integer likeCount;
+    private Boolean liked;
 }
