@@ -1,5 +1,6 @@
 package com.bob.mate.domain.user.service;
 
+import com.bob.mate.domain.aws.service.S3Service;
 import com.bob.mate.domain.post.dto.MyCommentResponse;
 import com.bob.mate.domain.post.dto.MyPostResponse;
 import com.bob.mate.domain.user.dto.UserProfileQueryDto;
@@ -13,9 +14,7 @@ import com.bob.mate.global.config.redis.RedisUtil;
 import com.bob.mate.global.dto.CustomResponse;
 import com.bob.mate.global.exception.CustomException;
 import com.bob.mate.global.exception.ErrorCode;
-import com.bob.mate.global.util.SecurityUtil;
 import com.bob.mate.global.util.Util;
-import com.bob.mate.global.util.file.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,8 +33,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RedisUtil redisUtil;
-    private final FileStore fileStore;
     private final Util util;
+    private final S3Service s3Service;
 
     @Transactional
     public void save(User user){
@@ -57,13 +56,15 @@ public class UserService {
         boolean validateProfileSaveUser = validateProfileSaveUser(findUser.getId());
         return UserResponse.builder()
                 .id(findUser.getId())
+                .nickName(findUser.getUserProfile().getNickName())
                 .email(findUser.getEmail())
                 .role(findUser.getRole())
                 .address(findUser.getUserProfile().getAddress())
+                .imageUrl(findUser.getUserProfile().getUploadFile().getStoreFilename())
                 .gender(findUser.getUserProfile().getGender())
                 .phoneNumber(findUser.getUserProfile().getPhoneNumber())
                 .age(findUser.getUserProfile().getAge())
-                .saveUser(validateProfileSaveUser)
+                .profileSaveUser(validateProfileSaveUser)
                 .build();
     }
 
@@ -99,10 +100,10 @@ public class UserService {
     public UserProfileResponse updateProfile(MultipartFile multipartFile, UserProfileRequest userProfileRequest) throws IOException {
 
         User findUser = findCurrentUserId();
-
-        UploadFile uploadFile = fileStore.storeFile(multipartFile);
-
-        if (uploadFile != null) {
+        String storeFilename = findUser.getUserProfile().getUploadFile().getStoreFilename();
+        if (multipartFile != null) {
+            s3Service.deleteImage(storeFilename);
+            UploadFile uploadFile = s3Service.upload(multipartFile);
             findUser.addUploadImg(
                     userProfileRequest.getNickName(),
                     userProfileRequest.getAddress(),
@@ -111,9 +112,11 @@ public class UserService {
                     userProfileRequest.getGender(),
                     uploadFile);
 
-            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", uploadFile.getStoreFilename());
-
-        } else {
+            return new UserProfileResponse(uploadFile.getStoreFilename(), "회원 프로필이 저장 되었습니다.");
+        }
+        //파일이 들어있다면 저장되어있던 파일을 삭제하고
+        //S3에 파일을 업로드 한다.
+         else {
             findUser.updateUserProfile(
                     userProfileRequest.getNickName(),
                     userProfileRequest.getAddress(),
@@ -121,7 +124,7 @@ public class UserService {
                     userProfileRequest.getEmail(),
                     userProfileRequest.getGender());
 
-            return new UserProfileResponse("회원 프로필이 저장 되었습니다.", findUser.getUserProfile().getUploadFile().getStoreFilename());
+            return new UserProfileResponse(storeFilename,"회원 프로필이 저장 되었습니다.");
         }
     }
 
