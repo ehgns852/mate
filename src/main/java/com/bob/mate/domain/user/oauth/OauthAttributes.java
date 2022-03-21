@@ -17,7 +17,8 @@ public enum OauthAttributes {
                     kakaoUserInfo.getNickName(),
                     kakaoUserInfo.getGender(),
                     kakaoUserInfo.getProvider(),
-                    kakaoUserInfo.getProviderId()
+                    kakaoUserInfo.getProviderId(),
+                    kakaoUserInfo.getImageUrl()
             );
         }
     };

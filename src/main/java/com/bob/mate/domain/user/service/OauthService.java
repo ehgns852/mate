@@ -72,7 +72,7 @@ public class OauthService {
                 .id(user.getId())
                 .nickName(user.getUserProfile().getNickName())
                 .email(user.getEmail())
-                .imageUrl("https://d3afymv2nzz1pw.cloudfront.net/doji.png")
+                .imageUrl(user.getUserProfile().getUploadFile().getStoreFilename())
                 .role(user.getRole())
                 .tokenType(BEARER_TYPE)
                 .accessToken(accessToken.getValue())
