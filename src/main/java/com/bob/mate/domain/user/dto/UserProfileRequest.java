@@ -37,4 +37,6 @@ public class UserProfileRequest {
     @NotNull
     private String phoneNumber;
 
+    private String imageUrl;
+
 }

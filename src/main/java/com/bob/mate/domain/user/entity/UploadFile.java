@@ -46,6 +46,10 @@ public class UploadFile implements Auditable {
         this.storeFilename = uploadFile.getStoreFilename();
     }
 
+    public void addBaseImage(String imageUrl) {
+        this.storeFilename = imageUrl;
+    }
+
     @Override
     public void setTimeEntity(TimeEntity timeEntity) {
         this.timeEntity = timeEntity;

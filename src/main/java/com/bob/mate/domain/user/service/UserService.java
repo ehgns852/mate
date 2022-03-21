@@ -113,18 +113,16 @@ public class UserService {
                     uploadFile);
 
             return new UserProfileResponse(uploadFile.getStoreFilename(), "회원 프로필이 저장 되었습니다.");
-        }
-        //파일이 들어있다면 저장되어있던 파일을 삭제하고
-        //S3에 파일을 업로드 한다.
-         else {
+        } else {
             findUser.updateUserProfile(
                     userProfileRequest.getNickName(),
                     userProfileRequest.getAddress(),
                     userProfileRequest.getPhoneNumber(),
                     userProfileRequest.getEmail(),
-                    userProfileRequest.getGender());
+                    userProfileRequest.getGender(),
+                    userProfileRequest.getImageUrl());
 
-            return new UserProfileResponse(storeFilename,"회원 프로필이 저장 되었습니다.");
+            return new UserProfileResponse(findUser.getUserProfile().getUploadFile().getStoreFilename(),"회원 프로필이 저장 되었습니다.");
         }
     }
 

@@ -95,10 +95,11 @@ public class UserProfile {
         this.uploadFile = uploadFile;
     }
 
-    public void addProfile(String nickName, Address address, String phoneNumber, Gender gender) {
+    public void addProfile(String nickName, Address address, String phoneNumber, Gender gender,String imageUrl) {
         this.nickName = nickName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.uploadFile.addBaseImage(imageUrl);
     }
 }
