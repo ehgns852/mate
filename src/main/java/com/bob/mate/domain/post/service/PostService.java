@@ -84,11 +84,11 @@ public class PostService {
             post.likePost();
             PostLike newPostLike = new PostLike(user, post);
             postLikeRepository.save(newPostLike);
-            return new LikeResponse(post.getLikeCount());
+            return new LikeResponse(post.getLikeCount(), true);
         } else if (!likeRequest.getLiked() && postLike.isPresent()) {
             post.unLikePost();
             postLikeRepository.delete(postLike.get());
-            return new LikeResponse(post.getLikeCount());
+            return new LikeResponse(post.getLikeCount(), false);
         }
 
         return null;
