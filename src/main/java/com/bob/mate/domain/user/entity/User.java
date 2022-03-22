@@ -106,9 +106,9 @@ public class User implements Auditable {
     /**
      * 회원 프로필 생성 및 변경 (이미지 파일 업로드 X)
      */
-    public void updateUserProfile(String nickname, Address address, String phoneNumber, String email, Gender gender) {
+    public void updateUserProfile(String nickname, Address address, String phoneNumber, String email, Gender gender,String imageUrl) {
         this.email = email;
-        getUserProfile().addProfile(nickname, address, phoneNumber, gender);
+        getUserProfile().addProfile(nickname, address, phoneNumber, gender, imageUrl);
     }
 }
 
