@@ -4,11 +4,9 @@ import com.bob.mate.domain.user.entity.UploadFile;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -16,24 +14,18 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FileStore {
+    public static String CLOUD_FRONT_DOMAIN_NAME = "d3afymv2nzz1pw.cloudfront.net";
 
-    @Value("${file.dir}")
-    private String fileDir;
-
-    public String getFullPath(String filename) {
-        return fileDir + filename;
-    }
 
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
 
-        if (multipartFile == null || multipartFile.isEmpty()) {
-            return null;
-        }
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFileName)));
 
-        return new UploadFile(originalFilename, storeFileName, fileDir);
+        return UploadFile.builder()
+                .uploadFilename(originalFilename)
+                .storeFilename(storeFileName)
+                .build();
     }
 
     /**
@@ -42,7 +34,8 @@ public class FileStore {
     private String createStoreFileName(String originalFilename){
         String ext = extracted(originalFilename);
         String uuid = UUID.randomUUID().toString();
-        return uuid + "." + ext;
+        String filename = uuid + "." + ext;
+        return "https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + filename;
     }
 
     /**

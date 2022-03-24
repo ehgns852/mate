@@ -50,7 +50,11 @@ public class KakaoUserInfo implements Oauth2UserInfo {
 
     @Override
     public String getImageUrl() {
-        return (String)getProfile().get("profile_image_url");
+        String imageUrl = (String) getProfile().get("profile_image_url");
+        if (imageUrl == null) {
+            imageUrl = "https://d3afymv2nzz1pw.cloudfront.net/doji.png";
+        }
+        return imageUrl;
     }
 
     public Map<String, Object> getKakaoAccount(){
