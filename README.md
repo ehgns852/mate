@@ -1,5 +1,5 @@
 <br>
-<p><img src="https://user-images.githubusercontent.com/47293759/159876207-a9daad97-609e-46a3-a06b-84f102b2cb71.png" alt="logo"></p>
+<p><img src="https://user-images.githubusercontent.com/47293759/159876886-91cb8251-a198-4f2a-be19-cba71251b1f9.png" alt="logo"></p>
 
 # 혼밥 메이팅 플랫폼 - **Sicksago -** 🍱  (BE)
 
