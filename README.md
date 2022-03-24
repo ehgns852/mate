@@ -31,6 +31,13 @@
 
 <br>
 
+## 🧙 맴버 구성 및 맡은 역할
+이름|역할
+---|---
+`공통` | Spring Security/exception 처리/swagger 문서화/DB 모델링
+김도훈 | User관련 API(JWT/Oauth/Redis)
+신동윤 | 게시글 API(게시글/댓글/좋아요)/배포 자동화
+
 <br>
 
 ## 🛠️ 개발 환경
