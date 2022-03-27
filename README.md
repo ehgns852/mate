@@ -1,12 +1,8 @@
-<br>
-<p><img src="https://user-images.githubusercontent.com/47293759/159876886-91cb8251-a198-4f2a-be19-cba71251b1f9.png" alt="logo"></p>
-
 # 혼밥 메이팅 플랫폼 - **Sicksago -** 🍱  (BE)
 
 <br>
 
-### 배포 링크 🏡 [https://sicksago.herokuapp.com/](https://sicksago.herokuapp.com/)
-### API 링크 [Swagger API](https://api-sicksago.herokuapp.com/swagger-ui/index.html)
+### [Swagger API Link](https://api-sicksago.herokuapp.com/swagger-ui/index.html)
 
 <br>
 
@@ -21,7 +17,6 @@
 ## 👪 커뮤니티 기능을 통한 구인
 
 > - 게시글 업로드를 통해서 구인할 사람을 구할수 있습니다.
-> - 채팅 기능을 통해서 같이 먹을 사람을 찾을 수 있습니다 (개발 예정)
 
 <br>
 
